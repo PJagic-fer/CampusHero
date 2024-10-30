@@ -1,6 +1,6 @@
-name: "Design issue"
-description: "Report a design issue"
-title: "[Design issue]: "
+name: "Design feedback"
+description: "Report a design feedback"
+title: "[Design feedback]: "
 labels: ["design issue"]
 
 body:
