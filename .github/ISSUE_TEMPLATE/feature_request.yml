@@ -1,0 +1,37 @@
+name: "Feature request"
+description: "Request a feature."
+title: "[Feature request]: "
+labels: ["enhancement", "request"]
+
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing request for this?
+      options:
+        - label: I have searched the existing request
+          required: true
+      
+  - type: input
+    id: summary
+    attributes:
+      label: "Request Summary"
+      description: "Provide a brief description of the feature."
+      placeholder: "If this did that, it would be cool"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: explanation
+    attributes:
+      label: "Detailed description of the feature"
+      description: "Describe feature in detail"
+      placeholder: "I want this to do that in this way"
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: Have you applied the correct lables?
+      options:
+        - label: I applied the correct lables
+          required: true
