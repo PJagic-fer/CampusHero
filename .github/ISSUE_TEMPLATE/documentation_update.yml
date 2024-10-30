@@ -28,9 +28,9 @@ body:
     validations:
       required: true
   
-- type: checkboxes
-    attributes:
-      label: Have you applied the correct lables?
-      options:
-        - label: I applied the correct lables
-          required: true
+  - type: checkboxes
+      attributes:
+        label: Have you applied the correct lables?
+        options:
+          - label: I applied the correct lables
+            required: true
