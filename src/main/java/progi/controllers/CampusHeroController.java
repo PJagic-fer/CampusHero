@@ -8,7 +8,7 @@ import org.springframework.web.servlet.view.RedirectView;
 @RestController
 public class CampusHeroController {
 
-    @GetMapping("/")
+    @GetMapping("")
     public RedirectView redirectToCampusHero(){
         return  new RedirectView("/campus_hero");
     }
