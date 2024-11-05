@@ -24,6 +24,8 @@ public class Forum {
     @OneToOne
     private StudentHome studentHome;
 
+    public Forum() {}
+
     public Forum(Faculty faculty) {
         this.faculty = faculty;
     }

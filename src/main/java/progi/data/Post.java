@@ -34,6 +34,8 @@ public class Post {
 
     private String message;
 
+    public Post() {}
+
     public Post(Forum forum, ApplicationUser creator, String message) {
         this.forum = forum;
         this.creator = creator;
