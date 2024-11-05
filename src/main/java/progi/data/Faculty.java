@@ -24,6 +24,8 @@ public class Faculty {
 
     private String streetNumber;
 
+    public Faculty() {}
+
     public Faculty(String name, String street, String streetNumber) {
         this.name = name;
         this.street = street;

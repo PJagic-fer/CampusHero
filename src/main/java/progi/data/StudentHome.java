@@ -1,7 +1,6 @@
 package progi.data;
 
 import jakarta.persistence.*;
-import org.hibernate.mapping.ToOne;
 
 
 @Entity
@@ -23,6 +22,8 @@ public class StudentHome {
     private String street;
 
     private String streetNumber;
+
+    public StudentHome() {}
 
     public StudentHome(String name, String street, String streetNumber) {
         this.name = name;

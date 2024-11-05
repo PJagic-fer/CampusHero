@@ -3,9 +3,6 @@ package progi.data;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
-
 @Entity
 public class Canteen {
 
@@ -26,6 +23,8 @@ public class Canteen {
     private String street;
 
     private  String streetNumber;
+
+    public Canteen() {}
 
     public Canteen(String name, String street, String streetNumber) {
         this.name = name;

@@ -3,7 +3,6 @@ package progi.data;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
 public class City {
@@ -13,6 +12,8 @@ public class City {
     private Integer postal_code;
 
     private String name;
+
+    public City() {}
 
     public City(Integer postal_code, String name) {
         this.postal_code = postal_code;

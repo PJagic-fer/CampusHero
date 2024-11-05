@@ -35,6 +35,8 @@ public class Review {
     @ManyToOne
     private ApplicationUser creator;
 
+    public Review() {}
+
     public Review(Canteen canteen, Integer score, String message, ApplicationUser creator) {
         this.canteen = canteen;
         this.score = score;

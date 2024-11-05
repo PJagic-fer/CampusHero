@@ -45,6 +45,8 @@ public class ApplicationUser {
     @Column(unique = true, nullable = false)
     private String email;
 
+    public ApplicationUser() {}
+
     public ApplicationUser(String jmbag, String name, String surname, String password, String email) {
         this.jmbag = jmbag;
         this.name = name;

@@ -27,6 +27,8 @@ public class Busyness {
     @Column(nullable = false, updatable = false)
     private LocalDateTime time;
 
+    public Busyness() {}
+
     public Busyness(Canteen canteen, Integer score) {
         this.canteen = canteen;
         this.score = score;
