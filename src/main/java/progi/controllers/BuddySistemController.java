@@ -3,7 +3,7 @@ package progi.controllers;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/campus_hero/buddy_sistem")
+@RequestMapping("/campus-hero/buddy-sistem")
 public class BuddySistemController {
     @GetMapping("")
     public String getBuddySistem(){
@@ -41,7 +41,7 @@ public class BuddySistemController {
         return ("Dobrodošli na CampusHero-stranicu gdje studenti ocjenjuju buddyje");
     }
 
-    @PostMapping("/student/trazi_buddyja")
+    @PostMapping("/student/trazi-buddyja")
     public String postBuddySistemStudentTraziBuddyja(){
         return ("Dobrodošli na CampusHero-stranicu gdje studenti pronalaze buddyje");
     }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 import progi.data.services.ApplicationUserService;
 
 @RestController
-@RequestMapping("/campus_hero/admin")
+@RequestMapping("/campus-hero/admin")
 public class AdminController {
 
     private ApplicationUserService applicationUserService;
@@ -18,7 +18,7 @@ public class AdminController {
     }
 
     @GetMapping("")
-    public String getAmin(){
+    public String getAdmin(){
         return applicationUserService.getApplicationUsers().toString();
     }
 }

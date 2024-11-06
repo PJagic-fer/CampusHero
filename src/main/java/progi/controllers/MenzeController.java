@@ -3,7 +3,7 @@ package progi.controllers;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/campus_hero/menze")
+@RequestMapping("/campus-hero/menze")
 public class MenzeController {
 
     @GetMapping("")
@@ -24,7 +24,7 @@ public class MenzeController {
     }
 
 
-    @PostMapping("/{menza}/prijavi_guzvu")
+    @PostMapping("/{menza}/prijavi-guzvu")
     public String postMenzeFakultetPrijaviGuzvu(@PathVariable String menza){
         return "Prijavi gužvu u menzi: " + menza;
     }
