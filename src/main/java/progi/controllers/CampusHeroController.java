@@ -10,10 +10,10 @@ public class CampusHeroController {
 
     @GetMapping("")
     public RedirectView redirectToCampusHero(){
-        return  new RedirectView("/campus_hero");
+        return  new RedirectView("/campus-hero");
     }
 
-    @GetMapping("/campus_hero")
+    @GetMapping("/campus-hero")
     public String getCampusHero(){
         return ("Dobrodošli na CampusHero");
     }

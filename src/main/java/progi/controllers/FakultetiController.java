@@ -3,7 +3,7 @@ package progi.controllers;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/campus_hero/fakulteti")
+@RequestMapping("/campus-hero/fakulteti")
 public class FakultetiController {
     @GetMapping("")
     public String getFakulteti(){
@@ -28,7 +28,7 @@ public class FakultetiController {
         return "Forum za fakultet: " + fakultet;
     }
 
-    @PostMapping("/{fakultet}/forum/nova_objava")
+    @PostMapping("/{fakultet}/forum/nova-objava")
     public String postFakultetiFakultetForumNovaObjava(@PathVariable String fakultet){
         return "Napiši objavu na forumu";
     }
