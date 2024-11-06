@@ -6,7 +6,7 @@ import progi.data.ApplicationUser;
 import progi.data.services.ApplicationUserService;
 
 @RestController
-@RequestMapping("/campus_hero/prijava")
+@RequestMapping("/campus-hero/prijava")
 public class PrijavaController {
 
     private ApplicationUserService applicationUserService;

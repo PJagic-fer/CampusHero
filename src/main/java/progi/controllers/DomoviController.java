@@ -3,7 +3,7 @@ package progi.controllers;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/campus_hero/domovi")
+@RequestMapping("/campus-hero/domovi")
 public class DomoviController {
 
     @GetMapping("")
@@ -34,7 +34,7 @@ public class DomoviController {
         return "Forum za dom: " + dom;
     }
 
-    @PostMapping("/{dom}/forum/nova_objava")
+    @PostMapping("/{dom}/forum/nova-objava")
     public String postDomoviDomForumNovaObjava(@PathVariable String dom){
         return "Napiši objavu na forumu";
     }
