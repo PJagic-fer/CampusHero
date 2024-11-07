@@ -8,7 +8,11 @@ import org.springframework.web.servlet.view.RedirectView;
 @RestController
 public class CampusHeroController {
 
-    @GetMapping("")
+    @GetMapping
+    public String hello(){
+        return "Hello World";
+    }
+    /*@GetMapping("")
     public RedirectView redirectToCampusHero(){
         return  new RedirectView("/campus-hero");
     }
@@ -16,5 +20,5 @@ public class CampusHeroController {
     @GetMapping("/campus-hero")
     public String getCampusHero(){
         return ("Dobrodošli na CampusHero");
-    }
+    }*/
 }
