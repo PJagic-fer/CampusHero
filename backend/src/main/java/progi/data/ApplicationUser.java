@@ -8,16 +8,7 @@ import jakarta.persistence.*;
 public class ApplicationUser {
 
     @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
-    private Long id;
+    private String id;
 
     @Column(unique = true, length = 10)
     private String jmbag;
@@ -25,9 +16,6 @@ public class ApplicationUser {
     private String name;
 
     private String surname;
-
-    @Column(nullable = false)
-    private String password;
 
     @ManyToOne
     private City city;
@@ -47,32 +35,29 @@ public class ApplicationUser {
 
     public ApplicationUser() {}
 
-    public ApplicationUser(String jmbag, String name, String surname, String password, String email) {
+    public ApplicationUser(String jmbag, String name, String surname, String email) {
         this.jmbag = jmbag;
         this.name = name;
         this.surname = surname;
         this.isAdmin = false;
         this.isBuddy = false;
-        this.password = password;
         this.email = email;
     }
 
-    public ApplicationUser(String jmbag, String name, String surname, String password, City city, Faculty faculty, boolean isBuddy, String email) {
+    public ApplicationUser(String jmbag, String name, String surname, City city, Faculty faculty, boolean isBuddy, String email) {
         this.jmbag = jmbag;
         this.name = name;
         this.surname = surname;
-        this.password = password;
         this.city = city;
         this.faculty = faculty;
         this.isBuddy = isBuddy;
         this.email = email;
     }
 
-    public ApplicationUser(String jmbag, String name, String surname, String password, City city, StudentHome studentHome, Faculty faculty, boolean isBuddy, String email) {
+    public ApplicationUser(String jmbag, String name, String surname, City city, StudentHome studentHome, Faculty faculty, boolean isBuddy, String email) {
         this.jmbag = jmbag;
         this.name = name;
         this.surname = surname;
-        this.password = password;
         this.city = city;
         this.studentHome = studentHome;
         this.faculty = faculty;
@@ -84,7 +69,7 @@ public class ApplicationUser {
         return email;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
@@ -98,10 +83,6 @@ public class ApplicationUser {
 
     public String getSurname() {
         return surname;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public City getCity() {
@@ -140,10 +121,6 @@ public class ApplicationUser {
         isBuddy = buddy;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public void setJmbag(String jmbag) {
         this.jmbag = jmbag;
     }
@@ -158,5 +135,9 @@ public class ApplicationUser {
 
     public void setFaculty(Faculty faculty) {
         this.faculty = faculty;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

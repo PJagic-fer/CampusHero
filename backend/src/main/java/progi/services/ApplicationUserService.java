@@ -1,4 +1,4 @@
-package progi.data.services;
+package progi.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,7 @@ import progi.data.ApplicationUser;
 import progi.repositories.ApplicationUserRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -25,5 +26,9 @@ public class ApplicationUserService {
     public List<String> getApplicationUsers() {
         return applicationUserRepository.findAll().stream().map(ApplicationUser::getName).toList();
 
+    }
+
+    public Optional<ApplicationUser> getApplicationUser(String userId){
+        return applicationUserRepository.findById(userId);
     }
 }

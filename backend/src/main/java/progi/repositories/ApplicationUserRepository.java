@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository;
 import progi.data.ApplicationUser;
 
 @Repository
-public interface ApplicationUserRepository extends JpaRepository<ApplicationUser, Long> {}
+public interface ApplicationUserRepository extends JpaRepository<ApplicationUser, String> {}
