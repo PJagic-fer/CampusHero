@@ -35,35 +35,12 @@ public class ApplicationUser {
     public ApplicationUser() {
     }
 
-    public ApplicationUser(String jmbag, String name, String surname, String email) {
-        this.jmbag = jmbag;
+    public ApplicationUser(String id, String name, String surname, String email) {
+        this.id = id;
         this.name = name;
         this.surname = surname;
         this.isAdmin = false;
         this.isBuddy = false;
-        this.email = email;
-    }
-
-    public ApplicationUser(String jmbag, String name, String surname, City city, Faculty faculty, boolean isBuddy,
-            String email) {
-        this.jmbag = jmbag;
-        this.name = name;
-        this.surname = surname;
-        this.city = city;
-        this.faculty = faculty;
-        this.isBuddy = isBuddy;
-        this.email = email;
-    }
-
-    public ApplicationUser(String jmbag, String name, String surname, City city, StudentHome studentHome,
-            Faculty faculty, boolean isBuddy, String email) {
-        this.jmbag = jmbag;
-        this.name = name;
-        this.surname = surname;
-        this.city = city;
-        this.studentHome = studentHome;
-        this.faculty = faculty;
-        this.isBuddy = isBuddy;
         this.email = email;
     }
 
@@ -139,7 +116,7 @@ public class ApplicationUser {
         this.faculty = faculty;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

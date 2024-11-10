@@ -8,7 +8,6 @@ import progi.repositories.ApplicationUserRepository;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class ApplicationUserService {
 
@@ -28,7 +27,11 @@ public class ApplicationUserService {
 
     }
 
-    public Optional<ApplicationUser> getApplicationUser(String userId){
-        return applicationUserRepository.findById(userId);
+    public ApplicationUser getOrCreateApplicationUser(ApplicationUser user) {
+        Optional<ApplicationUser> foundUser = applicationUserRepository.findById(user.getId());
+        if (foundUser.isEmpty()) {
+            return applicationUserRepository.save(user);
+        }
+        return foundUser.get();
     }
 }

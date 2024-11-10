@@ -6,8 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import progi.data.ApplicationUser;
 import progi.services.ApplicationUserService;
+import progi.utils.GoogleAuthentificator;
 
 import java.util.Optional;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 
 @RestController
 @RequestMapping("/campus-hero/prijava")
@@ -17,7 +20,8 @@ public class PrijavaController {
         private String tokenId;
         private ApplicationUser user;
 
-        public RegistrationData(){}
+        public RegistrationData() {
+        }
 
         public RegistrationData(String tokenId, ApplicationUser newUser) {
             this.tokenId = tokenId;
@@ -49,31 +53,23 @@ public class PrijavaController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> postPrijava(@RequestBody String tokenId){
+    public ResponseEntity<?> postPrijava(@RequestBody String tokenId) {
         System.out.println(tokenId);
-        //TODO pošalji token na autentifikaciju
-        //autentifikacija varaća sub, što je zapravo AppUser id
-        Optional<ApplicationUser> user = applicationUserService.getApplicationUser(tokenId);
-        if (user.isEmpty())
-        {
-            return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+        Optional<GoogleIdToken.Payload> payload = GoogleAuthentificator.autentificate(tokenId);
+
+        if (payload.isEmpty()) {
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED); // 401
         }
+
+        String userId = payload.get().getSubject();
+        String userName = payload.get().get("name").toString();
+        String userSurname = payload.get().get("family_name").toString();
+        String userEmail = payload.get().getEmail();
+
+        ApplicationUser tempUser = new ApplicationUser(userId, userName, userSurname, userEmail);
+
+        ApplicationUser user = applicationUserService.getOrCreateApplicationUser(tempUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @PostMapping("/registracija")
-    public ResponseEntity<?> postPrijava(@RequestBody RegistrationData registrationData){
-        String tokenId = registrationData.tokenId;
-        //TODO pošalji token na autentifikaciju
-        //autentifikacija varaća sub, što je zapravo AppUser id
-        ApplicationUser newUser = registrationData.user;
-        newUser.setId(tokenId);
-        applicationUserService.addNewApplicationUser(newUser);
-        return new ResponseEntity<>(tokenId, HttpStatus.OK);
-    }
-
-    @GetMapping("")
-    public String getPrijava(){
-        return "prijava-get";
-    }
 }
