@@ -16,13 +16,31 @@ public class StudentHomeConfig {
     CommandLineRunner shCommandLineRunner(StudentHomeRepository repository){
         return args -> {
             StudentHome cvjetno = new StudentHome(
-                    "Studentski dom Cvjetno naselje",
+                    "SD Cvjetno naselje",
                     "Odranska ulica",
                     "8"
             );
 
+            StudentHome stjepan = new StudentHome(
+                    "SD Stjepan Radić",
+                    "Jarunska",
+                    "2"
+            );
+
+            StudentHome lascina = new StudentHome(
+                    "SD Lašćina",
+                    "lašćinska cesta",
+                    "32"
+            );
+
+            StudentHome starcevic = new StudentHome(
+                    "SD Dr. Ante Starčević",
+                    "Zagrebačka avenija",
+                    "2"
+            );
+
             repository.saveAll(
-                    List.of(cvjetno)
+                    List.of(cvjetno, stjepan, lascina, starcevic)
             );
         };
     }
