@@ -1,24 +1,12 @@
 package progi.data;
 
-
 import jakarta.persistence.*;
-
 
 @Entity
 @Table
 public class ApplicationUser {
 
     @Id
-    @SequenceGenerator(
-            name = "user_sequence",
-            sequenceName = "user_sequence",
-            allocationSize = 1
-    )
-
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "user_sequence"
-    )
     private String id;
 
     @Column(unique = true, length = 10)
@@ -44,7 +32,8 @@ public class ApplicationUser {
     @Column(unique = true, nullable = false)
     private String email;
 
-    public ApplicationUser() {}
+    public ApplicationUser() {
+    }
 
     public ApplicationUser(String jmbag, String name, String surname, String email) {
         this.jmbag = jmbag;
@@ -55,7 +44,8 @@ public class ApplicationUser {
         this.email = email;
     }
 
-    public ApplicationUser(String jmbag, String name, String surname, City city, Faculty faculty, boolean isBuddy, String email) {
+    public ApplicationUser(String jmbag, String name, String surname, City city, Faculty faculty, boolean isBuddy,
+            String email) {
         this.jmbag = jmbag;
         this.name = name;
         this.surname = surname;
@@ -65,7 +55,8 @@ public class ApplicationUser {
         this.email = email;
     }
 
-    public ApplicationUser(String jmbag, String name, String surname, City city, StudentHome studentHome, Faculty faculty, boolean isBuddy, String email) {
+    public ApplicationUser(String jmbag, String name, String surname, City city, StudentHome studentHome,
+            Faculty faculty, boolean isBuddy, String email) {
         this.jmbag = jmbag;
         this.name = name;
         this.surname = surname;
