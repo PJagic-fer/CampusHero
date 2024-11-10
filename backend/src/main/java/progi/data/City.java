@@ -1,13 +1,20 @@
 package progi.data;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class City {
 
     @Id
+    @SequenceGenerator(
+            name = "city_sequence",
+            sequenceName = "city_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "city_sequence"
+    )
     @Column(unique = true)
     private Integer postal_code;
 
