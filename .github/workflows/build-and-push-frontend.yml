@@ -40,7 +40,7 @@ jobs:
       - name: Build and push frontend image
         uses: docker/build-push-action@v6
         with:
-          context: ./frontend
+          context: ./frontend/login-signup-page 
           push: true
           tags: ghcr.io/${{ env.OWNER_LC }}/${{ env.REPO_LC }}-frontend:latest
 
