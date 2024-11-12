@@ -16,6 +16,12 @@ jobs:
       BACKEND_DEPLOY_HOOK: ${{ secrets.BACKEND_DEPLOY_HOOK }}
 
     steps:
+      - name: set lower case owner name
+        run: |
+          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
+        env: 
+          OWNER: '${{ github.repository_owner }}'
+          
       - name: Clone the repository
         uses: actions/checkout@v4
 
