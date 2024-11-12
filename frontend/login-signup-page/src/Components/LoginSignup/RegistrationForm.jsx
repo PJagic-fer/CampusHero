@@ -24,10 +24,14 @@ const RegistrationForm = ({ onClose, tokenId }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:8080/campus-hero/profil', {
-                tokenId: tokenId,
-                user: formData
-            });
+            const response = await axios.post(
+                'http://localhost:8080/campus-hero/profil',
+                formData, // This is the data being sent
+                {
+                  withCredentials: true, // This ensures cookies are sent
+                }
+              );
+              
             if (response.status === 200) {
                 console.log("Korisnik uspješno registriran!");
                 onClose();

@@ -8,10 +8,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import progi.data.City;
 import progi.data.Faculty;
 import progi.data.StudentHome;
 import progi.services.ApplicationUserService;
+import progi.utils.AuthContextUtil;
 
 @RestController
 @RequestMapping("/campus-hero/profil")
@@ -26,8 +30,8 @@ public class ProfilController {
 
     // klasa sa podacima korisnika (bez id-ja)
     public static class UserData {
-        private String name;
-        private String surname;
+        private String ime;
+        private String prezime;
         private String email;
         private String jmbag;
         private City city;
@@ -38,20 +42,20 @@ public class ProfilController {
         public UserData() {
         }
 
-        public String getName() {
-            return name;
+        public String getIme() {
+            return ime;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setIme(String name) {
+            this.ime = name;
         }
 
-        public String getSurname() {
-            return surname;
+        public String getPrezime() {
+            return prezime;
         }
 
-        public void setSurname(String surname) {
-            this.surname = surname;
+        public void setPrezime(String surname) {
+            this.prezime = surname;
         }
 
         public String getEmail() {
@@ -105,9 +109,11 @@ public class ProfilController {
     }
 
     @PostMapping("")
-    public ResponseEntity<?> postProfil(@RequestBody UserData userData) {
-
-        applicationUserService.updateApplicationUser(userData);
+    public ResponseEntity<?> postProfil(@RequestBody UserData userData, HttpSession session,
+            HttpServletRequest request) {
+        
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        applicationUserService.updateApplicationUser(contextUserId, userData);
 
         return new ResponseEntity<>(HttpStatus.OK);
     }

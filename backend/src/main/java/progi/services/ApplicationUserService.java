@@ -1,5 +1,8 @@
 package progi.services;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
@@ -7,10 +10,6 @@ import org.springframework.stereotype.Service;
 import progi.controllers.ProfilController.UserData;
 import progi.data.ApplicationUser;
 import progi.repositories.ApplicationUserRepository;
-import progi.utils.AuthContextUtil;
-
-import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ApplicationUserService {
@@ -42,18 +41,18 @@ public class ApplicationUserService {
         return Pair.of(foundUser.get(), false);
     }
 
-    public Optional<ApplicationUser> updateApplicationUser(UserData userData) {
+    public Optional<ApplicationUser> updateApplicationUser(String contextUserId, UserData userData) {
         // čitanje trenutnog korisnika
-        ApplicationUser contextUser = AuthContextUtil.getContext();
-        Optional<ApplicationUser> foundUserOptional = applicationUserRepository.findById(contextUser.getId());
+
+        Optional<ApplicationUser> foundUserOptional = applicationUserRepository.findById(contextUserId);
         if (foundUserOptional.isEmpty()) {
             return null;
         }
 
         // ažuriranje korisnikovih podataka
         ApplicationUser foundUser = foundUserOptional.get();
-        foundUser.setName(userData.getName());
-        foundUser.setSurname(userData.getSurname());
+        foundUser.setName(userData.getIme());
+        foundUser.setSurname(userData.getPrezime());
         foundUser.setBuddy(userData.isBuddy());
         foundUser.setJmbag(userData.getJmbag());
         foundUser.setCity(userData.getCity());
