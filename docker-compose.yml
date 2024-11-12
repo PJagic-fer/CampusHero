@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database service
+  postgres:
+    image: postgres:13
+    container_name: postgres-container
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "1112:5432"
+    networks:
+      - spring-network
+
+  springboot-app:
+    build: ./backend
+    container_name: springboot-app-container
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-network
+
+  react-app:
+    build: ./frontend/login-signup-page
+    container_name: react-app-container
+    depends_on:
+      - springboot-app
+    environment:
+      BACKEND_URL: http://springboot-app:8080/
+    ports:
+      - "80:80"
+    networks:
+      - spring-network
+
+networks:
+  spring-network:
+    driver: bridge
