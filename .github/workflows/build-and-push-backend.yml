@@ -48,7 +48,3 @@ jobs:
         if: ${{ env.BACKEND_DEPLOY_HOOK }}
         run: curl ${{ env.BACKEND_DEPLOY_HOOK }}
 
-
-      - name: Trigger release
-        if: ${{ env.BACKEND_DEPLOY_HOOK }}
-        run: curl ${{ env.BACKEND_DEPLOY_HOOK }}
