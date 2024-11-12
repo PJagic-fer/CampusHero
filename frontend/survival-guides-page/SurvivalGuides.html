@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Guideovi</title>
+    <link rel="stylesheet" href="SurvivalGuides.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsWBxoR7Gv0bHql8TzVisUH4pWf0XRRpI&callback=initMap" async defer></script>
+    <script>
+        function initMap() {
+          const zagrebCenter = { lat: 45.813, lng: 15.977 };
+      
+          const colleges = [
+            { name: "Sveučilište Zagreba", location: { lat: 45.806945, lng: 15.966568 } },
+            { name: "FER", location: { lat: 45.80104, lng: 15.97127 } },
+            { name: "PMF", location: { lat: 45.80817, lng: 15.96936 } },
+            { name: "Ekonomski", location: { lat: 45.798222, lng: 15.964652 } },
+            { name: "FFZG", location: { lat: 45.79673643578087, lng: 15.971808512797296 } }
+          ];
+      
+          const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 13,
+            center: zagrebCenter,
+          });
+      
+          colleges.forEach(college => {
+            const marker = new google.maps.Marker({
+              position: college.location,
+              map: map,
+              title: college.name,
+            });
+      
+            const infoWindow = new google.maps.InfoWindow({
+              content: `<h3>${college.name}</h3>`,
+            });
+      
+            marker.addListener("click", () => {
+              infoWindow.open(map, marker);
+            });
+          });
+        }
+      </script>
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <ul class="menu">
+                <li><a href="#">Forum fakulteti</a></li>
+                <li><a href="#">Forum domovi</a></li>
+                <li><a href="#">Live menza</a></li>
+                <li><a href="#">Buddies</a></li>
+            </ul>
+        </nav>
+        <div class="profile">
+            <img class="profile-image" src="profile.png">
+            <a class="profile-txt">Profil</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="sidebar">
+            <h2>Kategorije</h2>
+            <ul>
+                <li><a href="#domoviCat">Domovi</a></li>
+                <li><a href="#fakultetiCat">Fakulteti</a></li>
+                <li><a href="#prijevozCat">Prijevoz</a></li>
+                <li><a href="#upisCat">Upis</a></li>
+                <li><a href="#generalCat">General</a></li>
+            </ul>
+        </div>
+
+        <section class="main-box">
+
+            <div id="map" style="height: 400px; width: 100%;"></div>
+
+            <h1 class="menu-category" id="domoviCat">Domovi</h1>
+            <section class="category-posts">
+                <div class="post">
+                    <h3>Dom Stjepana Radića</h3>
+                    <p>Kratak opis posta.</p>
+                    <a href="#" class="read-more">Čitaj više</a>
+                </div>
+                <div class="post">
+                    <h3>Dom dr. Ante Starčević</h3>
+                    <p>Kratak opis posta.</p>
+                    <a href="#" class="read-more">Čitaj više</a>
+                </div>
+                <div class="post">
+                    <h3>Dom Cvjetno naselje</h3>
+                    <p>Kratak opis posta.</p>
+                    <a href="#" class="read-more">Čitaj više</a>
+                </div>
+            </section>
+
+            <h1 class="menu-category" id="fakultetiCat">Fakulteti</h1>
+            <section class="category-posts">
+                <div class="post">
+                    <h3>FER</h3>
+                    <p>Kako, gdje, zašto i sve vezano uz FER</p>
+                    <a href="#" class="read-more">Čitaj više</a>
+                </div>
+            </section>
+            
+            <h1 class="menu-category" id="prijevozCat">Prijevoz</h1>
+            <section class="category-posts">
+                <div class="post">
+                    <h3>ZET</h3>
+                    <p>Kako i gdje kupiti karte, isplati li se mjesečna i slično.</p>
+                    <a href="#" class="read-more">Čitaj više</a>
+                </div>
+            </section>
+            
+            <h1 class="menu-category" id="upisCat">Upis</h1>
+            <section class="category-posts">
+                <div class="post">
+                    <h3>Sample post</h3>
+                    <p>Kratak opis posta.</p>
+                    <a href="#" class="read-more">Čitaj više</a>
+                </div>
+            </section>
+            
+            <h1 class="menu-category" id="generalCat">General</h1>
+            <section class="category-posts">
+                <div class="post">
+                    <h3>Sample Post</h3>
+                    <p>Kratak opis posta.</p>
+                    <a href="#" class="read-more">Čitaj više</a>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <!-- nešto u footeru -->
+    </footer>
+
+    
+</body>
+</html>
