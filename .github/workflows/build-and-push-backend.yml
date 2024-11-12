@@ -16,11 +16,13 @@ jobs:
       BACKEND_DEPLOY_HOOK: ${{ secrets.BACKEND_DEPLOY_HOOK }}
 
     steps:
-      - name: set lower case owner name
+      - name: set lower case owner and repository names
         run: |
-          echo "OWNER_LC=${OWNER,,}" >>${GITHUB_ENV}
-        env: 
-          OWNER: '${{ github.repository_owner }}'
+          echo "OWNER_LC=${OWNER,,}" >> ${GITHUB_ENV}
+          echo "REPO_LC=${REPO,,}" >> ${GITHUB_ENV}
+        env:
+         OWNER: '${{ github.repository_owner }}'
+         REPO: '${{ github.event.repository.name }}'
           
       - name: Clone the repository
         uses: actions/checkout@v4
@@ -40,7 +42,7 @@ jobs:
         with:
           context: ./backend
           push: true
-          tags: ghcr.io/${{ env.OWNER_LC }}/backend:latest"
+          tags: ghcr.io/${{ env.OWNER_LC }}/${{ env.REPO_LC }}-backend:latest
 
       - name: Trigger release
         if: ${{ env.BACKEND_DEPLOY_HOOK }}
