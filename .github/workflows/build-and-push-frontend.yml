@@ -42,7 +42,7 @@ jobs:
         with:
           context: ./frontend
           push: true
-          tags: ghcr.io/${{ github.repository }}/frontend:latest
+          tags: ghcr.io/${{ env.OWNER_LC }}/${{ env.REPO_LC }}-frontend:latest
 
       - name: Trigger release
         if: ${{ env.FRONTEND_DEPLOY_HOOK }}
