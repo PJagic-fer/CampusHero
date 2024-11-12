@@ -61,7 +61,9 @@ public class PrijavaController {
         if (newUserCreated) {
             return new ResponseEntity<>(user, HttpStatus.CONFLICT); // 409
         }
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK).header("Location", "/survival-guides")
+                     .build();
+                
     }
 
 }
