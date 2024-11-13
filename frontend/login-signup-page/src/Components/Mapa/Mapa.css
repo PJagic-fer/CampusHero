@@ -1,0 +1,17 @@
+.mapa {
+    margin: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 90%;
+}
+.mapa-left{
+    flex-basis: 40%;
+}
+.mapa-right{
+    flex-basis: 56%;
+}
+
+.mapa-right input {
+    border-radius: 20px;
+}

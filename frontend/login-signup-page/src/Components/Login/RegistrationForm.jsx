@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './RegistrationForm.css';
 
 const RegistrationForm = ({ onClose, tokenId }) => {
