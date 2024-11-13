@@ -1,5 +1,7 @@
 # Brzinski guide kako setupati lokalno
 
+Stvari u `{}` treba zamjeniti sa vrijednostima iz paze podataka!
+
 ## Setup postgres baze
 1. skini postgres
 2. restartaj pc
@@ -11,11 +13,11 @@
 8. `exit;`
 9. `psql --username {tvoj_username} -h localhost -d {ime_baze}`
 10. `\i {put_do_projekta}/BazaCampusHero.sql`
-11. `exit`
+11. `exit;`
 
 ## Setup env varijali
 1. pokreni terminal window
-2. pisi komande (stvari u `{}` treba zamjeniti sa vrijednostima iz paze podataka, npr: `export POSTGRES_DB=campushero`)
+2. pisi komande (npr: `export POSTGRES_DB=campushero`)
 3. `export POSTGRES_USER={tvoj_username}`
 4. `export POSTGRES_PASSWORD={tvoj_password}`
 5. `export POSTGRES_DB={ime_baze}`
