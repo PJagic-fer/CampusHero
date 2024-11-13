@@ -7,7 +7,7 @@ Stvari u `{}` treba zamjeniti sa vrijednostima iz paze podataka!
 2. restartaj pc
 3. pokreni terminal window
 4. `psql --username postgres -h localhost`
-5. `createuser {tvoj_username} with encrypted password {tvoj_password};`
+5. `create user {tvoj_username} with encrypted password '{tvoj_password}';`
 6. `createdb {ime_baze};`
 7. `grant all privileges on database {ime_baze} to {tvoj_username};`
 8. `exit;`
