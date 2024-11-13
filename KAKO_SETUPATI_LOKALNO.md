@@ -19,7 +19,7 @@ Stvari u `{}` treba zamjeniti sa vrijednostima iz paze podataka!
 
 ## Setup env varijali
 1. pokreni terminal window
-2. pisi komande (npr: `export POSTGRES_DB=campushero`)
+2. pisi komande (npr: `export POSTGRES_DB=campushero`), na **WINDOWSU** umjesto `export` koristiti `set`!
 3. `export POSTGRES_USER={tvoj_username}`
 4. `export POSTGRES_PASSWORD={tvoj_password}`
 5. `export POSTGRES_DB={ime_baze}`
