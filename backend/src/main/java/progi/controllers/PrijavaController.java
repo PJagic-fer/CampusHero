@@ -30,14 +30,18 @@ public class PrijavaController {
 
    @PostMapping("")
    public ResponseEntity<?> postPrijava(@RequestBody String tokenId, HttpSession session) {
+      System.out.printf("TokenId: %s", tokenId);
       // slanje tokena na autentifikaciju
       if (tokenId.startsWith("\"") && tokenId.endsWith("\"")) {
          tokenId = tokenId.substring(1, tokenId.length() - 1);
       }
       GoogleIdToken.Payload payload = GoogleAuthentificator.autentificate(tokenId);
 
+      System.out.printf("Payload: %s", payload);
+
       if (payload == null) {
          // neuspjela autentifikacija
+         System.out.printf("Auth fail!");
          return new ResponseEntity<>("Neuspješna autentifikacija", HttpStatus.UNAUTHORIZED); // 401
       }
 
@@ -46,17 +50,20 @@ public class PrijavaController {
       String userName = payload.get("name").toString();
       String userSurname = payload.get("family_name").toString();
       String userEmail = payload.getEmail();
+      System.out.printf("UserId: %s\tName: %s\tSurname: %s\tEmail: %s", userId, userName, userSurname, userEmail);
 
       // stvaranje korisnika pomoću dohvaćenih podataka
       ApplicationUser tempUser = new ApplicationUser(userId, userName, userSurname,
             userEmail);
       // dohvaćanje korisnika iz baze, odnosno stvaranje novog ako dosad nije bio
       // zabilježen
+      System.out.printf("Made new user?: %s", tempUser != null);
 
       Pair<ApplicationUser, Boolean> userPair = applicationUserService.getOrCreateApplicationUser(tempUser);
       ApplicationUser user = userPair.getFirst();
       Boolean newUserCreated = userPair.getSecond();
       AuthContextUtil.setContextUserId(session, user.getId());
+      System.out.printf("Finished creating new user?: %s", newUserCreated);
 
       if (newUserCreated) {
          return new ResponseEntity<>(user, HttpStatus.CONFLICT); // 409
