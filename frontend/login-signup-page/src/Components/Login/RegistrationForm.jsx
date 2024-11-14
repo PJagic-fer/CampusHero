@@ -24,7 +24,7 @@ const RegistrationForm = ({ onClose, tokenId }) => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                'http://localhost:8080/campus-hero/profil',
+                'https://campus-hero.onrender.com/campus-hero/profil',
                 formData, // This is the data being sent
                 {
                   withCredentials: true, // This ensures cookies are sent
