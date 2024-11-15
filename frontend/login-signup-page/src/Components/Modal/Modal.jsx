@@ -9,14 +9,14 @@ const Modal = ({ isOpen, onClose, setUser }) => {
     if (!isOpen) return null;
     const [tokenId, setTokenId] = useState(null);
     
-
+    let response;
     const handleGoogleLoginSuccess = async (credentialResponse) => {
         try {
             const token = credentialResponse.credential;
             setTokenId(token); // Sprema tokenId u stanje
             console.log("Ovo je tokenId: " + token); //Ispisuje tokenId u konzoli
             // Pošalji token ID na backend
-            const response = await axios.post('https://campus-hero.onrender.com/campus-hero/prijava', token, {
+            response = await axios.post('https://campus-hero.onrender.com/campus-hero/prijava', token, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });
