@@ -140,34 +140,6 @@ export default function Menze() {
             <ChevronRight className="icon" />
           </button>
         </div>
-
-        <div className="dropdown-container">
-          
-
-          <button 
-            className="dropdown-button"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
-            {buddy[activeDorm].name}
-            <ChevronDown className="icon" />
-          </button>
-          {isDropdownOpen && (
-            <div className="dropdown-menu">
-              {buddy.map((faks, index) => (
-                <button
-                  key={faks.id}
-                  className={`dropdown-item ${index === activeDorm ? 'active' : ''}`}
-                  onClick={() => scrollTo(index)}
-                >
-                  {faks.name}
-                </button>
-              ))}
-            </div>
-          )}
-          
-          
-        </div>
-        
         
       </main>
     </div>
