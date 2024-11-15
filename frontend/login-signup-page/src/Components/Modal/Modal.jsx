@@ -3,6 +3,7 @@ import './Modal.css';
 import logo from '../assets/logo.png'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
+import RegistrationForm from './RegistrationForm.jsx';
 
 const Modal = ({ isOpen, onClose }) => {    
 
@@ -16,7 +17,7 @@ const Modal = ({ isOpen, onClose }) => {
             setTokenId(token); // Sprema tokenId u stanje
             console.log("Ovo je tokenId: " + token); //Ispisuje tokenId u konzoli
             // Pošalji token ID na backend
-            const response = await axios.post('http://localhost:8080/campus-hero/prijava', token, {
+            const response = await axios.post('https://campus-hero.onrender.com:8080/campus-hero/prijava', token, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });

@@ -10,7 +10,8 @@ body {
 .domovi-container {
     width: 100%;
     height: 80vh;
-    background-image: url('../../Components/assets/domovi_slika.png'), linear-gradient(to bottom, transparent 50%, #ffffff 50%);
+    /* background-image: url('../../Components/assets/domovi_slika.png'), linear-gradient(to bottom, transparent 50%, #ffffff 50%); */
+    background-color: gray;
     background-blend-mode: multiply;
     background-size: 100% 68%, 100% 100%;
     background-repeat: no-repeat;
@@ -91,7 +92,7 @@ h1 {
 }
 
 .dorm-content {
-  background-color: #dcc4a4;
+  background-color: #34db85 ;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
