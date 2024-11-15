@@ -1,75 +1,74 @@
 import React from 'react';
 import './Info.css';
 
-const ZagrebCanteensInfo = () => {
+const ZagrebBuddyInfo = () => {
   return (
-    <div className="canteens-info-container">
+    <div className="buddy-info-container">
+      <h1>Buddy sustav u Zagrebu</h1>
       <p className="introB">
-        Studentske menze u Zagrebu pružaju kvalitetnu i pristupačnu prehranu za studente. 
-        Ovi objekti ne samo da nude raznovrsne obroke po subvencioniranim cijenama, već su i 
-        važna mjesta studentskog okupljanja i socijalizacije.
+        Buddy sustav je inovativna značajka aplikacije koja povezuje nove studente s iskusnim 
+        "buddyima" koji im mogu pomoći oko svih aspekata studentskog života u Zagrebu. Ovaj 
+        sustav pruža personaliziranu podršku i olakšava prilagodbu na novi grad i akademsko okruženje.
       </p>
       
-      <h2 className="h2B">Kako koristiti studentske menze?</h2>
-      <ul>
-        <li>Potrebna je važeća studentska iskaznica (iksica)</li>
-        <li>Iksica se može nadoplatiti na blagajnama menzi ili putem e-Studenta</li>
-        <li>Svaki student ima pravo na dva subvencionirana obroka dnevno</li>
-        <li>Menze nude doručak, ručak i večeru u određenim terminima</li>
-        <li>Plaćanje se vrši isključivo iksicama, gotovina nije prihvaćena</li>
-      </ul>
-
-      <h2 className="h2B">Popularne studentske menze u Zagrebu</h2>
-      <ul>
-        <li>Savska - najveća menza, poznata po raznovrsnoj ponudi</li>
-        <li>SC - centralno smještena, često vrlo prometna</li>
-        <li>Cvjetno naselje - moderna menza s ugodnim ambijentom</li>
-        <li>FSB - popularna među studentima tehničkih fakulteta</li>
-        <li>Ekonomija - prostrana menza s brzom uslugom</li>
-      </ul>
-
-      <h2 className="h2B">Radno vrijeme i ponuda</h2>
+      <h2 className="h2B">Što je Buddy?</h2>
       <p>
-        Radno vrijeme može varirati ovisno o menzi, ali općenito:
+        Buddy je iskusni student ili lokalni stanovnik koji dobrovoljno pomaže novim studentima. 
+        Oni pružaju podršku, savjete i prijateljstvo, pomažući novim studentima da se lakše snađu 
+        u novom okruženju.
       </p>
+
+      <h2 className="h2B">Kako pronaći Buddyja?</h2>
       <ul>
-        <li>Doručak: 07:00 - 10:00</li>
-        <li>Ručak: 11:00 - 16:00</li>
-        <li>Večera: 17:00 - 20:00</li>
-      </ul>
-      <p>
-        Ponuda obično uključuje:
-      </p>
-      <ul>
-        <li>Nekoliko vrsta glavnih jela (mesna i vegetarijanska opcija)</li>
-        <li>Razne priloge (riža, krumpir, povrće)</li>
-        <li>Juhe i salate</li>
-        <li>Desert</li>
-        <li>Bezalkoholna pića</li>
+        <li>Otvorite aplikaciju i idite na sekciju "Pronađi Buddyja"</li>
+        <li>Postavite svoje preferencije (npr. područje studija, interesi, jezik)</li>
+        <li>Pregledajte profile dostupnih Buddyja</li>
+        <li>Pošaljite zahtjev za povezivanje s odabranim Buddyjem</li>
+        <li>Čekajte potvrdu i započnite razgovor!</li>
       </ul>
 
-      <h2 className="h2B">Dodatne informacije</h2>
+      <h2 className="h2B">Kako Buddy može pomoći?</h2>
       <ul>
-        <li>Cijene obroka su subvencionirane i znatno niže od tržišnih cijena</li>
-        <li>Mnoge menze nude i opciju "za van"</li>
-        <li>Jelovnici se obično mijenjaju na tjednoj bazi</li>
-        <li>Neke menze imaju posebne ponude za vegetarijance i vegane</li>
-        <li>Tijekom ispitnih rokova, neke menze imaju produženo radno vrijeme</li>
+        <li>Orijentacija po gradu i kampusu</li>
+        <li>Savjeti o studentskom životu, menzama i smještaju</li>
+        <li>Pomoć oko administrativnih procedura (npr. upis, iksica)</li>
+        <li>Informacije o javnom prijevozu i snalaženju po gradu</li>
+        <li>Preporuke za društvene i kulturne događaje</li>
+        <li>Jezična podrška za međunarodne studente</li>
+      </ul>
+
+      <h2 className="h2B">Prednosti Buddy sustava</h2>
+      <ul>
+        <li>Personalizirana podrška prilagođena vašim potrebama</li>
+        <li>Brža i lakša prilagodba na novi grad i akademsko okruženje</li>
+        <li>Mogućnost stvaranja novih prijateljstava</li>
+        <li>Pristup lokalnim znanjima i "insajderskim" informacijama</li>
+        <li>Poboljšanje jezičnih vještina (za međunarodne studente)</li>
       </ul>
       
+      <h2 className="h2B">Savjeti za uspješno Buddy iskustvo</h2>
+      <ul>
+        <li>Budite otvoreni i spremni za nova iskustva</li>
+        <li>Jasno komunicirajte svoje potrebe i očekivanja</li>
+        <li>Poštujte vrijeme i trud svog Buddyja</li>
+        <li>Budite proaktivni u postavljanju pitanja i traženju savjeta</li>
+        <li>Razmotrite mogućnost da i sami postanete Buddy u budućnosti</li>
+      </ul>
+
       <p>
-        Korištenje studentskih menzi ne samo da je ekonomično, već i pruža priliku za druženje 
-        s kolegama i stvaranje novih poznanstava. To je važan aspekt studentskog života koji 
-        doprinosi cjelokupnom iskustvu studiranja u Zagrebu.
+        Buddy sustav je više od samo praktične pomoći - to je prilika za stvaranje 
+        značajnih veza i obogaćivanje vašeg studentskog iskustva u Zagrebu. Bez obzira jeste 
+        li novi u gradu ili tražite način da se više povežete sa studentskom zajednicom, 
+        Buddy sustav vam može pomoći da se osjećate kao kod kuće.
       </p>
 
       <p className="note">
-        Napomena: Radno vrijeme, cijene i ponuda mogu se mijenjati. Za najnovije informacije, 
-        preporučuje se provjeriti službenu web stranicu Studentskog centra Zagreb ili koristiti 
-        aplikaciju za pregled jelovnika i stanja na iksici.
+        Napomena: Dostupnost Buddyja može varirati ovisno o razdoblju godine i broju 
+        volontera. Preporučuje se da započnete potragu za Buddyjem što ranije, posebno 
+        ako ste novi student ili dolazite u Zagreb na početku akademske godine.
       </p>
     </div>
   );
 };
 
-export default ZagrebCanteensInfo;
+export default ZagrebBuddyInfo;

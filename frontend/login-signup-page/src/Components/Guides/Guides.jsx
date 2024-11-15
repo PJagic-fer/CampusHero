@@ -45,7 +45,7 @@ const Guides = () => {
                     <p>Javni Prijevoz</p>
                 </div>
             </a>
-            <a className="guide" href="./Buddy" target="_blank" rel="noopener noreferrer">
+            <a className="guide" href="./Buddy">
                 <img src={guide_5}></img>
                 <div className="caption">
                     <img src={guide_icon_5} ></img>

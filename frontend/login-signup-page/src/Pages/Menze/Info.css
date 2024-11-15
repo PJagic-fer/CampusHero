@@ -1,4 +1,4 @@
-.faculties-info-container {
+.canteens-info-container {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -45,7 +45,7 @@
   }
   
   @media (max-width: 600px) {
-    .faculties-info-container {
+    .canteens-info-container {
       padding: 10px;
     }
   
