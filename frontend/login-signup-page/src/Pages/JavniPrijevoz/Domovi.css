@@ -289,4 +289,10 @@ h1 {
   .dorm-content {
     width: 60%;
   }
+  .dropdown-container {
+    display: block;
+  }
+  .dropdown-button {
+    display: none;
+  }
 }

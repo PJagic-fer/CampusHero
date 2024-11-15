@@ -106,7 +106,7 @@ export default function Prijevoz() {
   return (
     <div className="domovi-container">
       <main className="domovi-main">
-        <h1>Studentski domovi u Zagrebu</h1>
+        <h1>Javni prijevoz u Zagrebu</h1>
         
         <div className="carousel-container">
           <button 

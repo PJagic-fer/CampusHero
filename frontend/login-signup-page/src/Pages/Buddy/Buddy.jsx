@@ -110,7 +110,7 @@ export default function Menze() {
   return (
     <div className="domovi-container">
       <main className="domovi-main">
-        <h1>Studentski domovi u Zagrebu</h1>
+        <h1>Buddy u CampusHero aplikaciji</h1>
         
         <div className="carousel-container">
           <button 
