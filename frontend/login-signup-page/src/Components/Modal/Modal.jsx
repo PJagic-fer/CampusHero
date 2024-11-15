@@ -3,11 +3,13 @@ import './Modal.css';
 import logo from '../assets/logo.png'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const Modal = ({ isOpen, onClose }) => {    
+const Modal = ({ isOpen, onClose, setUser }) => {    
 
     if (!isOpen) return null;
     const [tokenId, setTokenId] = useState(null);
+    const navigate = useNavigate();
     
 
     const handleGoogleLoginSuccess = async (credentialResponse) => {
@@ -16,19 +18,21 @@ const Modal = ({ isOpen, onClose }) => {
             setTokenId(token); // Sprema tokenId u stanje
             console.log("Ovo je tokenId: " + token); //Ispisuje tokenId u konzoli
             // Pošalji token ID na backend
-            const response = await axios.post('https://campus-hero.onrender.com/campus-hero/prijava', { token }, {
+            const response = await axios.post('https://campus-hero.onrender.com/campus-hero/prijava', token, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });
 
             if (response.status === 200) {
                 console.log('Korisnik je već registriran!');
-                onLoginSuccess();
+                setUser(response.data.name);
+                navigate('/');
             }
         } catch (error) {
             if (error.response && error.response.status === 409) {
-                console.log('Korisnik nije pronađen, prikazujem registracijski formular.');
-                onLoginSuccess();
+                console.log('Korisnik nije pronađen, kreiranje novog korisnika.');
+                setUser(response.data.name);
+                navigate('/');
             } else {
                 console.error('Neuspješno slanje token ID na backend', error);
             }

@@ -9,7 +9,7 @@ const Navbar = () => {
 
   const [sticky, setSticky] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user , setUser] = useState(false);
+  const [user , setUser] = useState("");
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -21,9 +21,6 @@ const Navbar = () => {
   const toggleMenu = () => {
     mobileMenu ? setMobileMenu(false): setMobileMenu(true);
   }
-  const hasLoginSuccess = () => {
-    setUser(true);
-  };
   
   return (
     <nav className={`container ${sticky? 'dark-nav' : ''}`}>
@@ -44,7 +41,7 @@ const Navbar = () => {
             </button>
           )}</li>
         </ul>
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} setUser={setUser}/>
         <img src={menu_icon} alt='' className='menu-icon' onClick={toggleMenu}/>
     </nav>
   )
