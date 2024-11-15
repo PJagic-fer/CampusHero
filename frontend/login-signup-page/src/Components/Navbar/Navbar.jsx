@@ -9,6 +9,7 @@ const Navbar = () => {
 
   const [sticky, setSticky] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [user , setUser] = useState(false);
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -20,6 +21,9 @@ const Navbar = () => {
   const toggleMenu = () => {
     mobileMenu ? setMobileMenu(false): setMobileMenu(true);
   }
+  const handleLoginSuccess = () => {
+    setUser(true);
+  };
   
   return (
     <nav className={`container ${sticky? 'dark-nav' : ''}`}>
@@ -32,7 +36,13 @@ const Navbar = () => {
             <li><Link to="mapa" smooth={true} offset={-200} duration={500}>Mapa</Link></li>
             <li><Link to="iskustva" smooth={true} offset={-410} duration={500}>Iskustva</Link></li>
             <li><Link to="contact" smooth={true} offset={0} duration={500}>Kontaktiraj nas</Link></li>
-            <li><button className='button' onClick={() => setIsModalOpen(true)}>Prijavi se!</button></li>
+            <li> {user ? (
+            <span>Pozdrav!</span> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
+          ) : (
+            <button className='button' onClick={() => setIsModalOpen(true)}>
+              Prijavi se!
+            </button>
+          )}</li>
         </ul>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
         <img src={menu_icon} alt='' className='menu-icon' onClick={toggleMenu}/>

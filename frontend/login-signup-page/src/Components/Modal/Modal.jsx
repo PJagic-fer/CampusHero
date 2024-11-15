@@ -3,13 +3,12 @@ import './Modal.css';
 import logo from '../assets/logo.png'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
-import RegistrationForm from './RegistrationForm.jsx';
 
 const Modal = ({ isOpen, onClose }) => {    
 
     if (!isOpen) return null;
     const [tokenId, setTokenId] = useState(null);
-    const [showRegistrationForm, setShowRegistrationForm] = useState(false);
+    
 
     const handleGoogleLoginSuccess = async (credentialResponse) => {
         try {
@@ -24,12 +23,12 @@ const Modal = ({ isOpen, onClose }) => {
 
             if (response.status === 200) {
                 console.log('Korisnik je već registriran!');
-                setShowRegistrationForm(false);
+                onLoginSuccess();
             }
         } catch (error) {
             if (error.response && error.response.status === 409) {
                 console.log('Korisnik nije pronađen, prikazujem registracijski formular.');
-                setShowRegistrationForm(true);
+                onLoginSuccess();
             } else {
                 console.error('Neuspješno slanje token ID na backend', error);
             }
@@ -46,9 +45,6 @@ const Modal = ({ isOpen, onClose }) => {
                     onSuccess={handleGoogleLoginSuccess}
                     onError={() => console.log("Prijava nije uspješna!")}
                 />
-                {showRegistrationForm && tokenId && (
-                    <RegistrationForm onClose={onClose} tokenId={tokenId} />
-                )}
             </div>
         </div>
     );
