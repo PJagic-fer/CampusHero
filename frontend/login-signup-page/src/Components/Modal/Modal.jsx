@@ -29,7 +29,7 @@ const Modal = ({ isOpen, onClose, setUser }) => {
         } catch (error) {
             if (error.response && error.response.status === 409) {
                 console.log('Korisnik nije pronađen, kreiranje novog korisnika.');
-                setUser(response.data.name);
+                setUser(error.response.data.name);
                 onClose();
             } else {
                 console.error('Neuspješno slanje token ID na backend', error);
