@@ -22,13 +22,15 @@ const Guides = () => {
                     <p>Fakulteti</p>
                 </div>
             </div>
-            <div className="guide">
-                <img src={guide_1}></img>
-                <div className="caption">
-                    <img src={guide_icon_2} ></img>
-                    <p>Studentski Domovi</p>
+            <a href="./Domovi" target="_blank" rel="noopener noreferrer">
+                <div className="guide">
+                    <img src={guide_1}></img>
+                    <div className="caption">
+                        <img src={guide_icon_2} ></img>
+                        <p>Studentski Domovi</p>
+                    </div>
                 </div>
-            </div>
+            </a>
             <div className="guide">
                 <img src={guide_3}></img>
                 <div className="caption">

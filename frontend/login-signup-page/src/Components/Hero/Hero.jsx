@@ -8,7 +8,7 @@ const Hero = () => {
     <div className='hero container'>
       <div className="hero-text">
         <h1>Sve što ti treba za studentski život na jednom mjestu!</h1>
-        <h2>Postani heroj svog kampusa - otkrij nove prilike, pronađi Buddy-a i olakšaj si studentski život uz CampusHero.</h2>
+        <h2 className='h2H'>Postani heroj svog kampusa - otkrij nove prilike, pronađi Buddy-a i olakšaj si studentski život uz CampusHero.</h2>
         <Link to='guides' smooth={true} offset={-300} duration={700}><button className='button'>Istraži više<img src={strelica}></img></button></Link>
       </div>
     </div>
