@@ -1,0 +1,41 @@
+name: "Design feedback"
+description: "Give a design feedback."
+title: "[Design feedback]: "
+labels: ["design issue"]
+
+body:
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      options:
+        - label: I have searched the existing issues
+          required: true
+
+  - type: markdown
+    attributes:
+      value: "Please give info on the bug you encountered:"
+      
+  - type: input
+    id: summary
+    attributes:
+      label: "Element to change"
+      description: "What element would you change in the design?"
+      placeholder: "Something"
+    validations:
+      required: true
+      
+  - type: textarea
+    id: explanation
+    attributes:
+      label: "Detailed description of the design issue"
+      description: "Describe in detail what should be changed and how"
+      placeholder: "Something ain't lookin' good"
+    validations:
+      required: false
+
+  - type: checkboxes
+    attributes:
+      label: Have you applied the correct lables?
+      options:
+        - label: I applied the correct lables
+          required: true

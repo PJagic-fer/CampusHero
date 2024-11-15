@@ -24,5 +24,9 @@ WORKDIR /app
 COPY --from=builder /app/target/*.jar /app.jar
 
 EXPOSE 8080
+<<<<<<< HEAD
+=======
+
+>>>>>>> fee0112b888fe9cce0c9eda0fd8ec66e5c794cac
 # Run the Spring Boot application
 ENTRYPOINT ["java", "-jar", "/app.jar"]
