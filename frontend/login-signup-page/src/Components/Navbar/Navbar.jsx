@@ -21,9 +21,8 @@ const Navbar = () => {
   const toggleMenu = () => {
     mobileMenu ? setMobileMenu(false): setMobileMenu(true);
   }
-  const onLoginSuccess = () => {
+  const hasLoginSuccess = () => {
     setUser(true);
-    setIsModalOpen(false);
   };
   
   return (
