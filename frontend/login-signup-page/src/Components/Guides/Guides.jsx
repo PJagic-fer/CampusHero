@@ -15,45 +15,43 @@ const Guides = () => {
   return (
     <div className='guides'>
         <div className="grupa1">
-            <div className="guide">
+            <a className="guide" href="./Fakulteti">
                 <img src={guide_2}></img>
                 <div className="caption">
                     <img src={guide_icon_1} ></img>
                     <p>Fakulteti</p>
                 </div>
-            </div>
-            <a href="./Domovi" target="_blank" rel="noopener noreferrer">
-                <div className="guide">
-                    <img src={guide_1}></img>
-                    <div className="caption">
-                        <img src={guide_icon_2} ></img>
-                        <p>Studentski Domovi</p>
-                    </div>
+            </a>
+            <a className="guide" href="./Domovi">
+                <img src={guide_1}></img>
+                <div className="caption">
+                    <img src={guide_icon_2} ></img>
+                    <p>Studentski Domovi</p>
                 </div>
             </a>
-            <div className="guide">
+            <a className="guide" href="./Menze">
                 <img src={guide_3}></img>
                 <div className="caption">
                     <img src={guide_icon_3} ></img>
                     <p>Live Menza</p>
                 </div>
-            </div>
+            </a>
         </div>
         <div className='grupa2'>
-            <div className="guide">
+            <a className="guide" href="./JavniPrijevoz">
                 <img src={guide_4}></img>
                 <div className="caption">
                     <img src={guide_icon_4} ></img>
                     <p>Javni Prijevoz</p>
                 </div>
-            </div>
-            <div className="guide">
+            </a>
+            <a className="guide" href="./Buddy" target="_blank" rel="noopener noreferrer">
                 <img src={guide_5}></img>
                 <div className="caption">
                     <img src={guide_icon_5} ></img>
                     <p>Pronađi Buddy-a</p>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
     
