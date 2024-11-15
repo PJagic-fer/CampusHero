@@ -1,0 +1,60 @@
+.faculties-info-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  
+  .h2F {
+    color: #e74c3c;
+    font-size: 1.8em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  
+  p {
+    margin-bottom: 15px;
+  }
+  
+  .introF {
+    font-size: 1.1em;
+    font-style: italic;
+    color: #555;
+    border-left: 3px solid #e74c3c;
+    padding-left: 15px;
+  }
+  
+  ul {
+    margin-bottom: 15px;
+    padding-left: 20px;
+  }
+  
+  li {
+    margin-bottom: 10px;
+  }
+  
+  .note {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    font-size: 0.9em;
+    color: #555;
+  }
+  
+  @media (max-width: 600px) {
+    .faculties-info-container {
+      padding: 10px;
+    }
+  
+    h1 {
+      font-size: 2em;
+    }
+  
+    .h2F {
+      font-size: 1.5em;
+    }
+  }

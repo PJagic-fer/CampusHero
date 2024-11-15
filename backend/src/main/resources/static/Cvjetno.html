@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survival Guideovi</title>
+    <link rel="stylesheet" href="sgStyles.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBsWBxoR7Gv0bHql8TzVisUH4pWf0XRRpI&callback=initMap" async defer></script>
+
+    <script>
+        function initMap() {
+          const location = { lat:45.79252804539232, lng: 15.961219546248957 }
+      
+          const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 13,
+            center: location,
+          });
+      
+          new google.maps.Marker({
+            position: location,
+            map: map,
+          });
+        }
+      </script>
+
+</head>
+<body>
+    <header>
+        <nav>
+            <ul class="menu">
+                <li><a href="#">Forum fakulteti</a></li>
+                <li><a href="#">Forum domovi</a></li>
+                <li><a href="#">Live menza</a></li>
+                <li><a href="#">Buddies</a></li>
+            </ul>
+        </nav>
+        <div class="profile">
+            <img class="profile-image" src="profile.png">
+            <a class="profile-txt">Profil</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="sidebar">
+            <h2>Kategorije</h2>
+            <ul>
+                <li><a href="#domoviCat">Domovi</a></li>
+                <li><a href="#fakultetiCat">Fakulteti</a></li>
+                <li><a href="#prijevozCat">Prijevoz</a></li>
+                <li><a href="#upisCat">Upis</a></li>
+                <li><a href="#generalCat">General</a></li>
+            </ul>
+        </div>
+
+        <div class="main-box">
+            <a href="/survival-guides" class="go-back">← Go Back</a>
+
+            <div id="map" style="height: 400px; width: 100%;"></div>
+            
+            <p class="post-paragraph">
+                Studentski dom Ante Starčević, poznatiji kao Šara, mali je dom u srcu Trešnjevke. Obiluje zelenilom, različitim sportskim i zabavnim sadržajima i izuzetno je pogodan za učenje, ali i druženje i sve ostale studentske aktivnosti.
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <!-- nešto u footeru -->
+    </footer>
+
+    
+</body>
+</html>
