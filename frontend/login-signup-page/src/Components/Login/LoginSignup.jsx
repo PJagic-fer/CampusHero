@@ -14,7 +14,7 @@ const LoginSignup = () => {
             setTokenId(token); // Sprema tokenId u stanje
 
             // Pošalji token ID na backend
-            const response = await axios.post('http://localhost:8080/campus-hero/prijava', token, {
+            const response = await axios.post('https://campus-hero.onrender.com:8080/campus-hero/prijava', token, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });
