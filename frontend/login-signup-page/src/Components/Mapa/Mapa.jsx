@@ -42,7 +42,7 @@ const Mapa = () => {
     // Učitavanje Google Maps i Places API-ja
     const loadScript = () => {
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyD8Utv2upW9srdFz43xjqPmNUBYflxWV_8&libraries=places&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBsWBxoR7Gv0bHql8TzVisUH4pWf0XRRpI&libraries=places&callback=initMap`;
       script.async = true;
       script.defer = true;
       window.initMap = initMap; // Inicijalizacija mape
