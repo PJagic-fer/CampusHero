@@ -3,13 +3,11 @@ import './Modal.css';
 import logo from '../assets/logo.png'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const Modal = ({ isOpen, onClose, setUser }) => {    
 
     if (!isOpen) return null;
     const [tokenId, setTokenId] = useState(null);
-    const navigate = useNavigate();
     
 
     const handleGoogleLoginSuccess = async (credentialResponse) => {
@@ -26,13 +24,13 @@ const Modal = ({ isOpen, onClose, setUser }) => {
             if (response.status === 200) {
                 console.log('Korisnik je već registriran!');
                 setUser(response.data.name);
-                navigate('/');
+                onClose();
             }
         } catch (error) {
             if (error.response && error.response.status === 409) {
                 console.log('Korisnik nije pronađen, kreiranje novog korisnika.');
                 setUser(response.data.name);
-                navigate('/');
+                onClose();
             } else {
                 console.error('Neuspješno slanje token ID na backend', error);
             }

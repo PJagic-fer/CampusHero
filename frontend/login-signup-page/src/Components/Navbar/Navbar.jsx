@@ -34,7 +34,7 @@ const Navbar = () => {
             <li><Link to="iskustva" smooth={true} offset={-410} duration={500}>Iskustva</Link></li>
             <li><Link to="contact" smooth={true} offset={0} duration={500}>Kontaktiraj nas</Link></li>
             <li> {user ? (
-            <span>Pozdrav!</span> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
+            <span>Pozdrav, {user}</span> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
           ) : (
             <button className='button' onClick={() => setIsModalOpen(true)}>
               Prijavi se!
