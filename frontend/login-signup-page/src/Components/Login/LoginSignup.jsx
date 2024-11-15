@@ -19,10 +19,13 @@ const LoginSignup = () => {
                 withCredentials: true
             });
 
+            console.log(response);
+
             if (response.status === 200) {
                 console.log('Korisnik je već registriran!');
             }
         } catch (error) {
+            console.log(error);
             if (error.response && error.response.status === 409) {
                 console.log('Korisnik nije pronađen, prikazujem registracijski formular.');
                 setShowForm(true); // Postavimo stanje za prikaz formulara
