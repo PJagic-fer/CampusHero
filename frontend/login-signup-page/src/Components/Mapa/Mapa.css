@@ -15,3 +15,24 @@
 .mapa-right input {
     border-radius: 20px;
 }
+
+@media (max-width: 650px) {
+    .mapa {
+        flex-direction: column-reverse; /* Postavlja elemente jedan ispod drugog */
+        margin: 50px auto; /* Manji razmak oko cijele mape */
+    }
+
+    .mapa-right, .mapa-left {
+        flex-basis: 100%; /* Obje sekcije zauzimaju cijelu širinu */
+        width: 100%; /* Širina za manji ekran */
+    }
+
+    .mapa-left {
+        margin-top: 40px;
+        height: 300px; /* Manja visina za mapu na manjim ekranima */
+    }
+
+    .mapa-right {
+        margin-top: 40px; /* Razmak između mape i desnog dijela */
+    }
+}

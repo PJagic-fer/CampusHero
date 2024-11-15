@@ -40,3 +40,20 @@ a{
     width: 20px;
     margin-left: 10px;
 }
+
+.button.dark-button {
+    background: #7f84b7cd;
+    color: white;
+}
+
+/* za manje ekrane */
+@media (max-width: 1000px) {
+    .container {
+        padding-left: 5%;
+        padding-right: 5%;
+
+    }
+    .button {
+        padding: 14px 22px;
+    }
+}

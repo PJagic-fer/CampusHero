@@ -38,13 +38,50 @@ nav ul li {
     cursor: pointer;
 }
 
-nav ul li:hover {
-    text-decoration: underline;
-}
-
-
 .dark-nav {
     background: #7f84b7cd;
     transition: 0.5s;
 }
 
+.menu-icon {
+    display: none;
+}
+
+/* za manje ekrane */
+ @media (max-width: 840px) {
+    .logo-div {
+        width: 140px;
+    }
+    nav ul li {
+        margin: 10px 15px;
+    }
+}
+
+@media (max-width: 840px) {
+    nav {
+        padding: 15px 0;
+    }
+    nav ul {
+        position: fixed;
+        top: 0;
+        right: 0px;
+        bottom: 0;
+        background: #7f84b7cd;
+        z-index: -1;
+        width: 200px;
+        padding-top: 70px;
+        transition: 0.5s;
+    }
+    nav ul li {
+        display: block;
+        margin: 25px 40px;
+    }
+    .menu-icon {
+        display: block;
+        width: 30px;
+        cursor: pointer;
+    }
+    .hide-mobile-menu{
+        right: -200px;
+    }
+ }

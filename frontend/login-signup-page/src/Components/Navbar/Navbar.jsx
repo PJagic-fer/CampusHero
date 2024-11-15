@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import './Navbar.css'
 import logo from '../assets/logo.png'
 import Modal from '../Modal/Modal'
+import { Link } from 'react-scroll'
+import menu_icon from '../assets/menu-icon.png'
 
 const Navbar = () => {
 
@@ -14,38 +16,26 @@ const Navbar = () => {
     })
   }, []);
 
-  const goToTop = () => {
-    window.scrollTo({
-      top: 0,
-    })
-  }
-
-  const goToSurivivalGuide = () => {
-    window.scrollTo({
-      top: 750
-    })
-  }
-
-  const goToMap = () => {
-    window.scrollTo({
-      top: 2000
-    })
+  const [mobileMenu, setMobileMenu] = useState(false);
+  const toggleMenu = () => {
+    mobileMenu ? setMobileMenu(false): setMobileMenu(true);
   }
   
   return (
     <nav className={`container ${sticky? 'dark-nav' : ''}`}>
-        <div className='logo-div' onClick={goToTop}>
-        <img src={logo} alt="Logo" className='logo'/>
-        <span className='logo-text'>Campus Hero</span>
+        <div className='logo-div'>
+        <Link to='hero' smooth={true} offset={0} duration={500}><img src={logo} alt="Logo" className='logo'/></Link>
+        <Link to='hero' smooth={true} offset={0} duration={500}><span className='logo-text'>Campus Hero</span></Link>
         </div>
-        <ul>
-            <li onClick={goToSurivivalGuide}>Survival Guide</li>
-            <li onClick={goToMap}>Mapa</li>
-            <li>Novosti</li>
-            <li>Kontaktiraj nas</li>
+        <ul className={mobileMenu?'':'hide-mobile-menu'}>
+            <li><Link to='guides' smooth={true} offset={-110} duration={500}>Survival Guide</Link></li>
+            <li><Link to="mapa" smooth={true} offset={-200} duration={500}>Mapa</Link></li>
+            <li><Link to="iskustva" smooth={true} offset={-410} duration={500}>Iskustva</Link></li>
+            <li><Link to="contact" smooth={true} offset={0} duration={500}>Kontaktiraj nas</Link></li>
             <li><button className='button' onClick={() => setIsModalOpen(true)}>Prijavi se!</button></li>
         </ul>
         <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
+        <img src={menu_icon} alt='' className='menu-icon' onClick={toggleMenu}/>
     </nav>
   )
 }

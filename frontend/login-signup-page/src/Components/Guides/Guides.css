@@ -25,7 +25,7 @@
 
 .guide img {
     width: 100%;
-    height: 600px ;
+    height: 500px ;
     border-radius: 30px;
     display: block;
     border: 1px solid transparent; /* Postavlja transparentni okvir */
@@ -69,3 +69,39 @@
     
 }
 
+
+@media (max-width: 900px) {
+    
+    .guides, .grupa1, .grupa2{
+        flex-direction: column;
+    }
+    .guide {
+        flex-basis: 100%;
+        margin: 20px;
+    }
+    .guide img {
+        width: 400px;
+    }
+    .caption {
+        border-radius: 30px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(19, 18, 38, 0.759);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        color:#fff;
+        opacity: 0;
+        font-size: 30px;
+        padding-top: 70%;
+        transition: 0.4s;
+    }
+    .caption img{
+        width: auto;
+    }
+    
+}

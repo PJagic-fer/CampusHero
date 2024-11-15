@@ -8,6 +8,8 @@ import Title from './Components/Title/Title'
 import { GoogleLogin } from '@react-oauth/google'
 import { jwtDecode } from 'jwt-decode'
 import Expiriences from './Components/Expiriences/Expiriences'
+import Contact from './Components/Contact/Contact'
+import Footer from './Components/Footer/Footer'
 
 const App = () => {
   return (
@@ -19,6 +21,9 @@ const App = () => {
         <Mapa/>
         <Title subTitle='ISKUSTVA' title='Što kažu studenti'/>
         <Expiriences/>
+        <Title subTitle='KONTAKTIRAJ NAS' title= 'Trebaš pomoć?'/>
+        <Contact/>
+        <Footer/>
       </div>
       <Modal/>
     </div>
