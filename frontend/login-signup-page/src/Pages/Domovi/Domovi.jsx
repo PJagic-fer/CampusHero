@@ -38,36 +38,10 @@ const dorms = [
   }
 ]
 
-// Assume we have a list of comments
-const comments = Array.from({ length: 100 }, (_, i) => `Komentar ${i + 1}`)
-const commentsPerPage = 10
-
 export default function Domovi() {
   const [activeDorm, setActiveDorm] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const scrollContainerRef = useRef(null)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState('')
-
-  const totalPages = Math.ceil(comments.length / commentsPerPage)
-
-  const filteredComments = comments.filter(comment => 
-    comment.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
-  const paginatedComments = filteredComments.slice(
-    (currentPage - 1) * commentsPerPage,
-    currentPage * commentsPerPage
-  )
-
-  const pageNumbers = []
-  if (totalPages <= 10) {
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i)
-    }
-  } else {
-    pageNumbers.push(1, 2, 3, '...', totalPages - 2, totalPages - 1, totalPages)
-  }
 
   const scrollTo = (index) => {
     if (scrollContainerRef.current) {
@@ -135,35 +109,7 @@ export default function Domovi() {
           >
             <ChevronRight className="icon" />
           </button>
-        </div>
-
-        <div className="dropdown-container">
-          
-
-          <button 
-            className="dropdown-button"
-            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-          >
-            {dorms[activeDorm].name}
-            <ChevronDown className="icon" />
-          </button>
-          {isDropdownOpen && (
-            <div className="dropdown-menu">
-              {dorms.map((dorm, index) => (
-                <button
-                  key={dorm.id}
-                  className={`dropdown-item ${index === activeDorm ? 'active' : ''}`}
-                  onClick={() => scrollTo(index)}
-                >
-                  {dorm.name}
-                </button>
-              ))}
-            </div>
-          )}
-          
-          
-        </div>
-        
+        </div> 
         
       </main>
     </div>
