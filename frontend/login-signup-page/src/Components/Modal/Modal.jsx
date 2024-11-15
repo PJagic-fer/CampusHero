@@ -3,6 +3,7 @@ import './Modal.css';
 import logo from '../assets/logo.png'
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import axios from 'axios';
+import RegistrationForm from './RegistrationForm.jsx';
 
 const Modal = ({ isOpen, onClose }) => {    
 
