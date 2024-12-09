@@ -29,8 +29,8 @@ public class ProfilController {
 
    // klasa sa podacima korisnika (bez id-ja)
    public static class UserData {
-      private String ime;
-      private String prezime;
+      private String name;
+      private String surname;
       private String email;
       private String jmbag;
       private City city;
@@ -41,20 +41,20 @@ public class ProfilController {
       public UserData() {
       }
 
-      public String getIme() {
-         return ime;
+      public String getName() {
+         return name;
       }
 
-      public void setIme(String name) {
-         this.ime = name;
+      public void setName(String name) {
+         this.name = name;
       }
 
-      public String getPrezime() {
-         return prezime;
+      public String getSurname() {
+         return surname;
       }
 
-      public void setPrezime(String surname) {
-         this.prezime = surname;
+      public void setSurname(String surname) {
+         this.surname = surname;
       }
 
       public String getEmail() {

@@ -51,8 +51,8 @@ public class ApplicationUserService {
 
         // ažuriranje korisnikovih podataka
         ApplicationUser foundUser = foundUserOptional.get();
-        foundUser.setName(userData.getIme());
-        foundUser.setSurname(userData.getPrezime());
+        foundUser.setName(userData.getName());
+        foundUser.setSurname(userData.getSurname());
         foundUser.setBuddy(userData.isBuddy());
         foundUser.setJmbag(userData.getJmbag());
         foundUser.setCity(userData.getCity());
