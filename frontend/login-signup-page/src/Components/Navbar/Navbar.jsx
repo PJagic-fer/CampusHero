@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import './Navbar.css'
 import logo from '../assets/logo.png'
 import Modal from '../Modal/Modal'
 import { Link } from 'react-scroll'
 import menu_icon from '../assets/menu-icon.png'
+import { AppStateContext } from '../../context/AppStateProvider'
+
 
 const Navbar = () => {
 
   const [sticky, setSticky] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [user , setUser] = useState("");
+  const {user} = useContext(AppStateContext);
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -33,15 +35,15 @@ const Navbar = () => {
             <li><Link to="mapa" smooth={true} offset={-200} duration={500}>Mapa</Link></li>
             <li><Link to="iskustva" smooth={true} offset={-410} duration={500}>Iskustva</Link></li>
             <li><Link to="contact" smooth={true} offset={0} duration={500}>Kontaktiraj nas</Link></li>
-            <li> {user ? (
-            <span>Pozdrav, {user}</span> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
+            <li> {user.name ? (
+            <button className='button'>Pozdrav, {user.name}</button> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
           ) : (
             <button className='button' onClick={() => setIsModalOpen(true)}>
               Prijavi se!
             </button>
           )}</li>
         </ul>
-        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} setUser={setUser}/>
+        <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}/>
         <img src={menu_icon} alt='' className='menu-icon' onClick={toggleMenu}/>
     </nav>
   )

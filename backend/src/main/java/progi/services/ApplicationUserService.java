@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import progi.controllers.ProfilController.UserData;
 import progi.data.ApplicationUser;
 import progi.repositories.ApplicationUserRepository;
+import progi.utils.ApplicationUserData;
 
 @Service
 public class ApplicationUserService {
@@ -25,9 +25,13 @@ public class ApplicationUserService {
         applicationUserRepository.save(newUser);
     }
 
-    public List<String> getApplicationUsers() {
+    public List<String> getAllApplicationUsers() {
         return applicationUserRepository.findAll().stream().map(ApplicationUser::getName).toList();
+    }
 
+    public ApplicationUser getApplicationUser(String appUserId) {
+        // pronalazak korisnika prema id-ju
+        return applicationUserRepository.getReferenceById(appUserId);
     }
 
     public Pair<ApplicationUser, Boolean> getOrCreateApplicationUser(ApplicationUser user) {
@@ -41,9 +45,8 @@ public class ApplicationUserService {
         return Pair.of(foundUser.get(), false);
     }
 
-    public Optional<ApplicationUser> updateApplicationUser(String contextUserId, UserData userData) {
+    public Optional<ApplicationUser> updateApplicationUser(String contextUserId, ApplicationUserData userData) {
         // čitanje trenutnog korisnika
-
         Optional<ApplicationUser> foundUserOptional = applicationUserRepository.findById(contextUserId);
         if (foundUserOptional.isEmpty()) {
             return null;
