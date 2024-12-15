@@ -1,5 +1,5 @@
 import React from 'react'
-import CheckLogin from './Components/check_login/CheckLogin'
+import CheckLogin from './Components/Check_login/CheckLogin'
 import Navbar from './Components/Navbar/Navbar'
 import Hero from './Components/Hero/Hero'
 import Guides from './Components/Guides/Guides'
@@ -34,11 +34,6 @@ const App = () => {
           <Hero />
         </>
       )}
-      {location.pathname === '/Profil' && (
-        <>
-          <Profil />
-        </>
-      )}
       {location.pathname === '/Domovi' && (
         <>
           <Domovi />
@@ -65,7 +60,10 @@ const App = () => {
         </>
       )}
         <div className="container">
-          <Switch>
+          <Switch>  
+            <Route path="/Profil">
+              <Profil/>
+            </Route>
             <Route path="/Domovi">
               <Domovi_Info/>
             </Route>
@@ -88,9 +86,9 @@ const App = () => {
               <Expiriences/>
               <Title subTitle='KONTAKTIRAJ NAS' title= 'Trebaš pomoć?'/>
               <Contact/>
-              <Footer/>
             </Route>
           </Switch> 
+          <Footer/>
         </div>
       </div>
     </Router>

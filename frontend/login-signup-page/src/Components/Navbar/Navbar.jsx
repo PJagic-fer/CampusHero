@@ -3,6 +3,7 @@ import './Navbar.css'
 import logo from '../assets/logo.png'
 import Modal from '../Modal/Modal'
 import { Link } from 'react-scroll'
+import { Link as LinkPage} from 'react-router-dom'
 import menu_icon from '../assets/menu-icon.png'
 import { AppStateContext } from '../../context/AppStateProvider'
 
@@ -36,7 +37,7 @@ const Navbar = () => {
             <li><Link to="iskustva" smooth={true} offset={-410} duration={500}>Iskustva</Link></li>
             <li><Link to="contact" smooth={true} offset={0} duration={500}>Kontaktiraj nas</Link></li>
             <li> {user.name ? (
-            <button className='button'>Pozdrav, {user.name}</button> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
+            <button className='button'><LinkPage to='/Profil'>Pozdrav, {user.name}</LinkPage></button> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
           ) : (
             <button className='button' onClick={() => setIsModalOpen(true)}>
               Prijavi se!

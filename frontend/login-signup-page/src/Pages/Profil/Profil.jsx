@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import './RegistrationForm.css';
+import React, { useState, useContext } from 'react';
+import './Profil.css';
+import axios from 'axios';
+import { AppStateContext } from '../../context/AppStateProvider'
 
-const RegistrationForm = ({ onClose, tokenId }) => {
+
+const Profil = () => {
     const [formData, setFormData] = useState({
         ime: '',
         prezime: '',
@@ -12,6 +15,9 @@ const RegistrationForm = ({ onClose, tokenId }) => {
         fakultet: 'null',
         buddy: ''
     });
+
+    const {user, setUser} = useContext(AppStateContext);
+    
 
     const handleChange = (e) => {
         setFormData({
@@ -33,7 +39,7 @@ const RegistrationForm = ({ onClose, tokenId }) => {
               
             if (response.status === 200) {
                 console.log("Korisnik uspješno registriran!");
-                onClose();
+                //onClose();
             }
         } catch (error) {
             console.error("Greška prilikom registracije korisnika", error);
@@ -166,7 +172,7 @@ const RegistrationForm = ({ onClose, tokenId }) => {
                         />
                     </div>
                     <button type="submit">Registriraj se</button>
-                    <button type="button" onClick={onClose}>Odustani</button>
+                    <button type="button" onClick={() => console.log("bok")}>Odustani</button>
                 </form>
                 <div className="end-modal-bottom">
                 </div>
@@ -175,4 +181,4 @@ const RegistrationForm = ({ onClose, tokenId }) => {
     );
 };
 
-export default RegistrationForm;
+export default Profil;
