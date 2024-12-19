@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import progi.services.ApplicationUserService;
-import progi.utils.AuthContextUtil;
 import progi.utils.ApplicationUserData;
+import progi.utils.AuthContextUtil;
 
 @RestController
 @RequestMapping("/campus-hero/profil")
@@ -35,4 +35,9 @@ public class ProfilController {
       return new ResponseEntity<>(HttpStatus.OK);
    }
 
+   @PostMapping("/odjava")
+   public ResponseEntity<?> getPrijavaOdjava(HttpSession session) {
+      AuthContextUtil.removeContextUserId(session);
+      return new ResponseEntity<>(HttpStatus.OK);
+   }
 }

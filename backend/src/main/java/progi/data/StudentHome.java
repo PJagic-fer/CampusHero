@@ -54,4 +54,8 @@ public class StudentHome {
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
