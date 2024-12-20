@@ -1,6 +1,12 @@
 package progi.data;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 
 
 @Entity
@@ -23,6 +29,9 @@ public class Review {
 
     @ManyToOne
     private Faculty faculty;
+
+    @ManyToOne
+    private StudentHome studentHome;
 
     @ManyToOne
     private ApplicationUser buddy;
@@ -59,6 +68,19 @@ public class Review {
 
     public Review(Faculty faculty, Integer score, ApplicationUser creator) {
         this.faculty = faculty;
+        this.score = score;
+        this.creator = creator;
+    }
+
+    public Review(StudentHome studentHome, Integer score, String message, ApplicationUser creator) {
+        this.studentHome = studentHome;
+        this.score = score;
+        this.message = message;
+        this.creator = creator;
+    }
+    
+    public Review(StudentHome studentHome, Integer score, ApplicationUser creator) {
+        this.studentHome = studentHome;
         this.score = score;
         this.creator = creator;
     }
