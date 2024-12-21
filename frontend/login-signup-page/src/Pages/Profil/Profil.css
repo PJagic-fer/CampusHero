@@ -1,132 +1,183 @@
-/* Overlay koji pokriva cijeli ekran */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6); /* Tamnija, prozirna pozadina */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-/* Sadržaj modala */
-.modal-content {
-  background-color: #7f84b7cd;
+.profile-container {
+  width: 80%;
+  margin: 0 auto;
   padding: 30px;
-  border-radius: 20px;
-  width: 320px;
-  max-width: 90%; /* Maksimalna širina za manje ekrane */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  background-color: #f4f6fc;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.h2-profile {
+  font-size: 40px;
   text-align: center;
-  position: relative;
-  z-index: 1001;
-  font-family: Arial, sans-serif;
+  font-weight: 700;
+  color: #4a4a4a;
+  margin-bottom: 40px;
+  font-family: "Arial", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background-color: #7f84b7cd;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
 }
 
-/* Stil za naslov */
-.modal-content h2 {
+.h3-profile {
   font-size: 24px;
-  font-weight: 600;
-  color: #3b3f45;
+  text-align: center;
+  font-weight: 700;
+  color: #4a4a4a;
   margin-bottom: 20px;
+  font-family: "Arial", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background-color: #7f84b7cd;
+  padding: 10px;
+  border-radius: 10px;
+  color: white;
 }
 
-/* Stil za ikonu (možete dodati vlastitu ikonu) */
-.icon-container {
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 20px; /* Centriranje kontejnera */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.user-data-container {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  margin-bottom: 25px;
 }
 
-.icon-container img {
-  width: 350px; /* Povećajte ili smanjite postotak prema potrebi */
-  height: 350px;
-  margin-top: 100px;
-}
-
-/* Stil za unosne podatke */
-.registration-form {
+.user-data-form {
   display: flex;
   flex-direction: column;
 }
 
-.registration-form div {
-  margin-bottom: 15px;
-  position: relative;
+.user-data-item-container {
+  margin-bottom: 20px;
 }
 
-.registration-form label {
-  font-size: 14px;
-  color: #3b3f45;
-  display: block;
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.registration-form input {
-  width: 80%;
-  padding: 10px 15px;
-  font-size: 14px;
-  border: 1px solid #d0d5dd;
-  border-radius: 12px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-  outline: none;
-  justify-content: center;
-  align-items: center;
-}
-.registration-form select {
-  width: 90%;
-  padding: 10px 15px;
-  font-size: 14px;
-  border: 1px solid #d0d5dd;
-  border-radius: 12px;
-  background-color: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-  outline: none;
-  justify-content: center;
-  align-items: center;
-}
-
-.registration-form input:focus {
-  border-color: #e8c47c;
-  box-shadow: 0 0 0 2px #d7b68d;
-}
-
-/* Gumb za prijavu */
-button[type="submit"] {
-  background-color: #ebb56a;
-  color: #fff;
-  padding: 12px;
+.user-data-label {
   font-size: 16px;
   font-weight: 600;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-  margin-top: 10px;
+  margin-bottom: 8px;
+  color: #4a4a4a;
 }
 
-button[type="submit"]:hover {
-  background-color: #d8c4a6;
-}
-
-button[type="button"] {
-  background-color: transparent;
-  color: #3b3f45;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-  margin-top: 15px;
+.user-data-input,
+.user-data-select {
+  padding: 12px;
+  border: 2px solid #7f84b7cd;
+  border-radius: 20px;
   font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.3s;
+  background-color: #f9f9f9;
 }
 
-button[type="button"]:hover {
-  text-decoration: underline;
+.user-data-input:focus,
+.user-data-select:focus {
+  border-color: #7f84b7;
+  outline: none;
+  background-color: #ffffff;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 12px;
+  margin-top: 5px;
+}
+
+.button-profile {
+  padding: 14px 24px;
+  background-color: #7f84b7cd;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.button-profile:hover {
+  background-color: #6c72a1;
+  transform: translateY(-2px);
+}
+
+.submit-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.logout {
+  background-color: #e74c3c;
+  padding: 24px 48px;
+  margin: 20px;
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.logout:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.become-admin-container {
+  background-color: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.become-admin-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.become-admin-item-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.become-admin-textarea {
+  height: 150px;
+  resize: none;
+  border-radius: 20px;
+  padding: 8px 0px 0px 8px;
+}
+
+.become-admin-label {
+  font-size: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #4a4a4a;
+}
+
+.text-italic {
+  font-style: italic;
+  font-size: 16px;
+  text-align: center;
+  color: #7f84b7cd;
+}
+
+.user-data-select {
+  padding: 12px;
+  border: 2px solid #7f84b7cd;
+  border-radius: 20px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+.user-data-select:focus {
+  border-color: #7f84b7;
+  outline: none;
+  background-color: #ffffff;
+}
+
+@media (max-width: 768px) {
+  .profile-container {
+    width: 95%;
+  }
 }

@@ -1,4 +1,5 @@
-import React, { useContext} from 'react';
+import React, { useContext, useEffect } from 'react';
+import { useHistory } from 'react-router';
 import './Profil.css';
 import axios from 'axios';
 import { AppStateContext } from '../../context/AppStateProvider'
@@ -7,12 +8,19 @@ import BecomeAdminForm from '../../Components/Profile_forms/BecomeAdminForm';
 
 
 const Profil = () => {
+    let history = useHistory();
+
     const {user, setUser} = useContext(AppStateContext);
+
+    useEffect(() => {
+        window.scrollTo({top: 600})
+      }, []);
 
     const handleLogout = async () => {
         try {
             const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil/odjava',
             //const response = await axios.post('http://localhost:8080/campus-hero/profil/odjava',
+                {},
                 {withCredentials: true}
             );
             //brisanje informacija o prethodnom korisniku iz konteksta
@@ -28,7 +36,9 @@ const Profil = () => {
                     faculty: null,
                     isBuddy: Boolean(false)
                 })
-
+                //po uspješnoj odjavi, vraćanje na početnu stranicu
+                history.push("/");
+                window.scrollTo({top:0});
             }
         } catch (error) {
             console.error('Neuspješna odjava korisnika ', error);
@@ -36,12 +46,13 @@ const Profil = () => {
     }
 
     return (
-        <div className="profile-container">
-            <h2>{user.name} {user.sruname}</h2>
+        <div className="profile-container" id="podaci">
+            <h2 className='h2-profile'>{user.name} {user.surname}</h2>
             <UserDataForm/>
             <br/>
             <BecomeAdminForm/>
-            <button className="button" onClick={handleLogout}>Odjavi se</button>
+            <br/>
+            <button className="button-profile logout" onClick={handleLogout}>Odjavi se</button>
         </div>
     );
 };

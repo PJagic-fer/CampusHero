@@ -21,7 +21,7 @@ const UserDataForm = () => {
     const [listStudentHomes, setListStudentHomes]  = useState([]);
     const [listFaculties, setListFaculties]  = useState([]);
     const [listCities, setListCities]  = useState([]);
-   
+
     const getAttributeValues = async (attribute) => {
         let response;
         try {
@@ -70,7 +70,6 @@ const UserDataForm = () => {
 
     //slanje novih podataka o korisniku u bazu
     const onSubmitProfile = async (profileData) => {
-        console.log(profileData)
         let profileDataNoIds = {
             ...user,
             name: profileData.name,
@@ -81,7 +80,6 @@ const UserDataForm = () => {
             studentHome: getAttributeById(profileData.studentHome, listStudentHomes),
             faculty: getAttributeById(profileData.faculty, listFaculties)
         }
-        setUser(profileDataNoIds);
         try {
             const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil',
             //const response = await axios.post('http://localhost:8080/campus-hero/profil',
@@ -91,7 +89,9 @@ const UserDataForm = () => {
               
             if (response.status === 200) {
                 console.log("Korisnik uspješno registriran!");
-                //onClose();
+                //promjena podataka u kontekstu
+                setUser(profileDataNoIds);
+                console.log(user);
             }
         } catch (error) {
             console.error("Greška prilikom registracije korisnika", error);
@@ -101,45 +101,48 @@ const UserDataForm = () => {
     return(
         <div className="user-data-container">
             <form className="user-data-form" onSubmit={handleSubmit(onSubmitProfile)}>
-            <div>
-                <label>Ime:</label>
+            <div className ="user-data-item-container">
+                <label className="user-data-label">Ime:</label>
                 <input
                     {...register("name",{
                         required: "Ime je obavezno"
                     })}
+                    className="user-data-input"
                     type="text"
                 />
                 {errors.name && (<div className="error-message">{errors.name.message}</div>)}
             </div>
-            <div>
-                <label>Prezime:</label>
+            <div className ="user-data-item-container">
+                <label className="user-data-label">Prezime:</label>
                 <input
                     {...register("surname",{
-                        required: "Prezime je bavezno"
+                        required: "Prezime je obavezno"
                     })}
+                    className="user-data-input"
                     type="text"
                 />
                 {errors.surname && (<div className="error-message">{errors.surname.message}</div>)}
             </div>
-            <div>
-                <label>Email:</label>
+            <div className ="user-data-item-container">
+                <label className="user-data-label">Email:</label>
                 <input
                     {...register("email",{
                         required: "Email je obavezan",
                         validate: (val) => {
                             if (!val.includes("@")){
-                                return "email mora sdržavati @";
+                                return "Email mora sadržavati @";
                             }
                             return true;
                         }
                     })}
+                    className="user-data-input"
                     type="text"
                     placeholder="ime.prezime@gmail.com"
                 />
                 {errors.email && (<div className="error-message">{errors.email.message}</div>)}
             </div> 
-            <div>
-                <label>JMBAG:</label>
+            <div className ="user-data-item-container">
+                <label className="user-data-label">JMBAG:</label>
                 <input
                     {...register("jmbag",{
                         required: "Jmbag je obavezan",
@@ -156,39 +159,45 @@ const UserDataForm = () => {
                             message: "Jmbag mora imati 10 znamenaka"
                         }
                     })}
+                    className="user-data-input"
                     type="text"
                     placeholder="0123456789"
                 />
                 {errors.jmbag && (<div className="error-message">{errors.jmbag.message}</div>)}
             </div>
-            <div>
-                <label>Mjesto:</label>
+            <div className ="user-data-item-container">
+                <label className="user-data-label">Mjesto:</label>
                 <select
                     {...register("city")}
+                    className="user-data-select"
                 >
                     <option key="0" value="0">neispunjeno</option>
                     {optionsCities}
                 </select>
             </div>
-            <div>
-                <label>Studentski dom:</label>
+            <div className ="user-data-item-container">
+                <label className="user-data-label">Studentski dom:</label>
                 <select
                     {...register("studentHome")}
+                    className="user-data-select"
                 >
                     <option key="0" value="0">neispunjeno</option>
                     {optionsStudentHomes}
                 </select>
             </div>
-            <div>
-                <label>Fakultet:</label>
+            <div className ="user-data-item-container">
+                <label className="user-data-label">Fakultet:</label>
                 <select
                     {...register("faculty")}
+                    className="user-data-select"
                 >
                     <option key="0" value="0">neispunjeno</option>
                     {optionsFaculties}
                 </select>
             </div>
-            <button type="submit">Pohrani promjene</button>
+            <div className='submit-button-container'>
+                <button className="button-profile submit" type="submit">Pohrani promjene</button>
+            </div>
             </form>
         </div>
     );
