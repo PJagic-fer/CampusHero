@@ -7,20 +7,25 @@ const UserDataForm = () => {
 
     const {user, setUser} = useContext(AppStateContext);
 
-    const  {register, handleSubmit, formState:{errors}} = useForm({
+    const  {register, handleSubmit, formState:{errors}, watch} = useForm({
         defaultValues:{
             name: user.name,
             surname: user.surname,
             email: user.email,
             jmbag: user.jmbag,
-            city: user.city,
-            studentHome: user.studentHome,
-            faculty: user.faculty
+            city: user.city ? user.city.id : "0",
+            studentHome: user.studentHome ? user.studentHome.id : "0",
+            faculty: user.faculty ? user.faculty.id : "0"
         }});
 
     const [listStudentHomes, setListStudentHomes]  = useState([]);
     const [listFaculties, setListFaculties]  = useState([]);
     const [listCities, setListCities]  = useState([]);
+
+    //pomoć pri ispravnom prikazivanju trenutne vrijednosti selecta
+    const cityCurrent = watch("city"); 
+    const studentHomeCurrent = watch("studentHome"); 
+    const facultyCurrent = watch("faculty"); 
 
     const getAttributeValues = async (attribute) => {
         let response;
@@ -80,6 +85,7 @@ const UserDataForm = () => {
             studentHome: getAttributeById(profileData.studentHome, listStudentHomes),
             faculty: getAttributeById(profileData.faculty, listFaculties)
         }
+        
         try {
             const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil',
             //const response = await axios.post('http://localhost:8080/campus-hero/profil',
@@ -91,7 +97,7 @@ const UserDataForm = () => {
                 console.log("Korisnik uspješno registriran!");
                 //promjena podataka u kontekstu
                 setUser(profileDataNoIds);
-                console.log(user);
+                console.log(profileDataNoIds);
             }
         } catch (error) {
             console.error("Greška prilikom registracije korisnika", error);
@@ -169,6 +175,7 @@ const UserDataForm = () => {
                 <label className="user-data-label">Mjesto:</label>
                 <select
                     {...register("city")}
+                    value={cityCurrent}
                     className="user-data-select"
                 >
                     <option key="0" value="0">neispunjeno</option>
@@ -179,6 +186,7 @@ const UserDataForm = () => {
                 <label className="user-data-label">Studentski dom:</label>
                 <select
                     {...register("studentHome")}
+                    value={studentHomeCurrent}
                     className="user-data-select"
                 >
                     <option key="0" value="0">neispunjeno</option>
@@ -189,6 +197,7 @@ const UserDataForm = () => {
                 <label className="user-data-label">Fakultet:</label>
                 <select
                     {...register("faculty")}
+                    value={facultyCurrent}
                     className="user-data-select"
                 >
                     <option key="0" value="0">neispunjeno</option>

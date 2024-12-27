@@ -55,4 +55,8 @@ public class Canteen {
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
