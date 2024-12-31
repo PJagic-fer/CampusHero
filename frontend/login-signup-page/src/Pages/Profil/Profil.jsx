@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router';
+import { useNavigate } from 'react-router';
 import './Profil.css';
 import axios from 'axios';
 import { AppStateContext } from '../../context/AppStateProvider'
@@ -8,7 +8,7 @@ import BecomeAdminForm from '../../Components/Profile_forms/BecomeAdminForm';
 
 
 const Profil = () => {
-    let history = useHistory();
+    let history = useNavigate();
 
     const {user, setUser} = useContext(AppStateContext);
 
@@ -37,7 +37,7 @@ const Profil = () => {
                     isBuddy: Boolean(false)
                 })
                 //po uspješnoj odjavi, vraćanje na početnu stranicu
-                history.push("/");
+                history('/');
                 window.scrollTo({top:0});
             }
         } catch (error) {

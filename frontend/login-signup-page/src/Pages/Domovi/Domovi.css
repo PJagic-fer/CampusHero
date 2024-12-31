@@ -12,7 +12,7 @@ body {
     height: 80vh;
     background-image: url('../../Components/assets/domovi_slika.png'), linear-gradient(to bottom, transparent 50%, #ffffff 50%);
     background-blend-mode: multiply;
-    background-size: 100% 100%, 100% 100%;
+    background-size: 100% 68%, 100% 100%;
     background-repeat: no-repeat;
     background-position: top left, center;
     color: #fff;
