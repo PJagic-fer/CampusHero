@@ -28,14 +28,14 @@ const Navbar = () => {
   return (
     <nav className={`container ${sticky? 'dark-nav' : ''}`}>
         <div className='logo-div'>
-        <a href='/'><img src={logo} alt="Logo" className='logo'/></a>
-        <a href='/'><span className='logo-text'>Campus Hero</span></a>
+        <LinkPage to='/'><img src={logo} alt="Logo" className='logo'/></LinkPage>
+        <LinkPage to='/'><span className='logo-text'>Campus Hero</span></LinkPage>
         </div>
         <ul className={mobileMenu?'':'hide-mobile-menu'}>
             <li><Link to='guides' smooth={true} offset={-110} duration={500}>Survival Guide</Link></li>
-            <li><Link to="mapa" smooth={true} offset={-200} duration={500}>Mapa</Link></li>
-            <li><Link to="iskustva" smooth={true} offset={-410} duration={500}>Iskustva</Link></li>
-            <li><Link to="contact" smooth={true} offset={0} duration={500}>Kontaktiraj nas</Link></li>
+            <li><Link to='mapa' smooth={true} offset={-200} duration={500}>Mapa</Link></li>
+            <li><Link to='iskustva' smooth={true} offset={-410} duration={500}>Iskustva</Link></li>
+            <li><Link to='contact' smooth={true} offset={0} duration={500}>Kontaktiraj nas</Link></li>
             <li> {user.name ? (
             <button className='button'><LinkPage to='/Profil'>Pozdrav, {user.name}</LinkPage></button> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
           ) : (

@@ -11,9 +11,9 @@ export const AppStateContext = createContext({
 export const AppStateProvider = ({children}) => {
     const [user, setUser] = useState({
         name: null,
-        surname: String (null),
-        email: String (null),
-        jmbag: String (null),
+        surname: null,
+        email: null,
+        jmbag: null,
         city: null,
         studentHome: null,
         faculty: null,

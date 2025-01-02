@@ -15,15 +15,15 @@ public class FacultyConfig {
     CommandLineRunner fCommandLineRunner(FacultyRepository repository){
         return args -> {
             Faculty FER = new Faculty(
-                "FER",
+                "Fakultet elektrotehnike i računarstva",
                 "Unska ulica",
                 "4"
             );
 
             Faculty FSB = new Faculty(
-                "FSB",
+                "Fakultet strojastva i brodogradnje",
                 "Ulica Ivana Lučića",
-                 "5"
+                "5"
             );
 
             Faculty Agronomski = new Faculty(
@@ -198,8 +198,8 @@ public class FacultyConfig {
                 "55"
             );
             repository.saveAll(
-                    List.of(FER, FSB, Agronomski, Arhitektonski, EduRehab, Ekonomski, FiloReligZnan, HrvStudija, KemInz,
-                    OrgInf, PolitZnan, PromZnan, Sumarstvo, Biokemijski, Filozofski, Geodetski, Geotehnicki, Građevinski, 
+                    List.of(Agronomski, Arhitektonski, EduRehab, Ekonomski, FER, FiloReligZnan, HrvStudija, KemInz,
+                    OrgInf, PolitZnan, PromZnan, FSB, Sumarstvo, Biokemijski, Filozofski, Geodetski, Geotehnicki, Građevinski, 
                     Graficki, Katolicki, Kinezioloski, Medicinski, Metalurski, Pravni, PrehBioTehn, PMF, RudGeoNaft, 
                     Stomatoloski, TekstilnoTehn, Uciteljski, Veterinarski)
             );

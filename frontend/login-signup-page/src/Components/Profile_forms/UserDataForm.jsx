@@ -7,16 +7,7 @@ const UserDataForm = () => {
 
     const {user, setUser} = useContext(AppStateContext);
 
-    const  {register, handleSubmit, formState:{errors}, watch} = useForm({
-        defaultValues:{
-            name: user.name,
-            surname: user.surname,
-            email: user.email,
-            jmbag: user.jmbag,
-            city: user.city ? user.city.id : "0",
-            studentHome: user.studentHome ? user.studentHome.id : "0",
-            faculty: user.faculty ? user.faculty.id : "0"
-        }});
+    const  {register, handleSubmit, formState:{errors}, watch, reset} = useForm();
 
     const [listStudentHomes, setListStudentHomes]  = useState([]);
     const [listFaculties, setListFaculties]  = useState([]);
@@ -68,6 +59,19 @@ const UserDataForm = () => {
     }
         generateData();
     }, []);
+
+    //postavljanje difoltnih vrijednosti korisničkih podataka
+    useEffect ( () => {
+        reset({
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            jmbag: user.jmbag,
+            city: user.city ? user.city.id : "0",
+            studentHome: user.studentHome ? user.studentHome.id : "0",
+            faculty: user.faculty ? user.faculty.id : "0"
+        });
+    }, [user, reset]);
 
     let optionsStudentHomes = mapAttribtesToOptions(listStudentHomes);
     let optionsFaculties = mapAttribtesToOptions(listFaculties);

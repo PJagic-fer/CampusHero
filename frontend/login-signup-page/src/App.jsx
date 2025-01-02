@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CheckLogin from './Components/check_login/CheckLogin';
+import CheckLogin from './Components/Check_login/CheckLogin';
 import Navbar from './Components/Navbar/Navbar';
 import Hero from './Components/Hero/Hero';
 import Guides from './Components/Guides/Guides';
@@ -21,15 +21,17 @@ import Profil from './Pages/Profil/Profil';
 import Contact from './Components/Contact/Contact';
 import Footer from './Components/Footer/Footer';
 import { AppStateProvider } from './context/AppStateProvider';
+import Profil_Header from './Pages/Profil/ProfilHeader'
 
 const App = () => {
   return (
     <AppStateProvider>
       <CheckLogin />
-      <Navbar />
       <Router>
+        <Navbar />
         <Routes>
           <Route path="/" element={<Hero />} />
+          <Route path="/Profil" element={<Profil_Header />} />
           <Route path="/Domovi" element={<Domovi />} />
           <Route path="/Fakulteti" element={<Faks />} />
           <Route path="/JavniPrijevoz" element={<Prijevoz />} />

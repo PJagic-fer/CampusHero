@@ -4,15 +4,16 @@ import {useForm} from 'react-hook-form';
 
 const BecomeAdminForm = () => { 
     
-    const  {register, handleSubmit, formState:{errors}} = useForm();
+    const  {register, handleSubmit, formState:{errors}, reset} = useForm();
 
     const onSubmitAdmin = async() =>{
             console.log("prijava za admina nije još dostupna");
+            reset();
         }
 
     return(
         <div className ="become-admin-container">
-            <h3 className='h3-profile'>Postani Campus Hero administrator</h3>
+            <h3 className='h3-profile'>Postani Campus Hero admin</h3>
             <form className="become-admin-form" onSubmit={handleSubmit(onSubmitAdmin)}>
                 <div className ="become-admin-item-container">
                     <label className="become-admin-label">O meni...</label>

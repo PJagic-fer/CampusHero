@@ -8,12 +8,12 @@ import BecomeAdminForm from '../../Components/Profile_forms/BecomeAdminForm';
 
 
 const Profil = () => {
-    let history = useNavigate();
+    const navigate = useNavigate();
 
     const {user, setUser} = useContext(AppStateContext);
 
     useEffect(() => {
-        window.scrollTo({top: 600})
+        window.scrollTo({top: 0})
       }, []);
 
     const handleLogout = async () => {
@@ -37,7 +37,7 @@ const Profil = () => {
                     isBuddy: Boolean(false)
                 })
                 //po uspješnoj odjavi, vraćanje na početnu stranicu
-                history('/');
+                navigate('/');
                 window.scrollTo({top:0});
             }
         } catch (error) {
@@ -46,7 +46,7 @@ const Profil = () => {
     }
 
     return (
-        <div className="profile-container" id="podaci">
+        <div className="profile-container">
             <h2 className='h2-profile'>{user.name} {user.surname}</h2>
             <UserDataForm/>
             <br/>

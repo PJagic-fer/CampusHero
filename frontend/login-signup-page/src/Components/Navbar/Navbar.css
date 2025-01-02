@@ -52,6 +52,12 @@ nav ul li {
     .logo-div {
         width: 140px;
     }
+    .logo-text {
+        font-size: 34px;
+    }
+    .logo{
+        width: 120px;
+    }
     nav ul li {
         margin: 10px 15px;
     }
