@@ -45,4 +45,13 @@ public class Forum {
     public StudentHome getstudentHome() {
         return studentHome;
     }
+
+   public void setFaculty(Faculty faculty) {
+      this.faculty = faculty;
+   }
+
+   public void setStudentHome(StudentHome studentHome) {
+      this.studentHome = studentHome;
+   }
+    
 }

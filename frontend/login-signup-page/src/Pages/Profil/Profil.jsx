@@ -18,8 +18,8 @@ const Profil = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil/odjava',
-            //const response = await axios.post('http://localhost:8080/campus-hero/profil/odjava',
+            //const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil/odjava',
+            const response = await axios.post('http://localhost:8080/campus-hero/profil/odjava',
                 {},
                 {withCredentials: true}
             );
@@ -27,14 +27,14 @@ const Profil = () => {
             if (response.status === 200) {
                 console.log('Upješno odjavljen');
                 setUser({
-                    name: null,
-                    surname: String (null),
-                    email: String (null),
-                    jmbag: String (null),
-                    city: null,
-                    studentHome: null,
-                    faculty: null,
-                    isBuddy: Boolean(false)
+                  name: null,
+                  surname: null,
+                  email: null,
+                  jmbag: null,
+                  city: null,
+                  studentHome: null,
+                  faculty: null,
+                  isBuddy: Boolean(false)
                 })
                 //po uspješnoj odjavi, vraćanje na početnu stranicu
                 navigate('/');

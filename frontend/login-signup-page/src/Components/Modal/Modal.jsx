@@ -21,8 +21,8 @@ const Modal = ({ isOpen, onClose }) => {
             setTokenId(token); // Sprema tokenId u stanje
             console.log("Ovo je tokenId: " + token); //Ispisuje tokenId u konzoli
             // Pošalji token ID na backend
-            response = await axios.post('https://campus-hero.onrender.com/campus-hero/prijava', token, {
-            //response = await axios.post('http://localhost:8080/campus-hero/prijava', token, {
+            //response = await axios.post('https://campus-hero.onrender.com/campus-hero/prijava', token, {
+            response = await axios.post('http://localhost:8080/campus-hero/prijava', token, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });
