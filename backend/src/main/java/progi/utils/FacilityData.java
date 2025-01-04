@@ -1,8 +1,5 @@
 package progi.utils;
 
-import progi.data.Faculty;
-import progi.data.StudentHome;
-
 public class FacilityData {
 
    private Long facultyId;

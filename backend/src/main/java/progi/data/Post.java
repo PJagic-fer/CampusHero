@@ -14,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 
 @Entity
@@ -27,13 +26,13 @@ public class Post {
    @ManyToOne
    private Forum forum;
 
-   @OneToOne
+   @ManyToOne
    private ApplicationUser creator;
 
    @CreationTimestamp
    private LocalDateTime time;
 
-   @OneToOne
+   @ManyToOne
    private Post parentPost;
 
    @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
@@ -43,6 +42,12 @@ public class Post {
    private String message;
 
    public Post() {
+   }
+
+   public Post(Forum forum, Post parentPost, String message) {
+      this.forum = forum;
+      this.parentPost = parentPost;
+      this.message = message;
    }
 
    public Post(Forum forum, ApplicationUser creator, String message) {
@@ -88,5 +93,10 @@ public class Post {
 
    public void setForum(Forum forum) {
       this.forum = forum;
+   }
+
+   @Override
+   public String toString() {
+      return this.message;
    }
 }

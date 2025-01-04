@@ -48,7 +48,7 @@ public class ForumService {
          Forum foundForum = forumRepository.findByStudentHome(studentHome);
          if (foundForum == null) {
             forum.setStudentHome(studentHome);
-            createForum(foundForum);
+            createForum(forum);
             System.out.println("STVOREN NOVI FORUM za dom");
             return forum;
          }
