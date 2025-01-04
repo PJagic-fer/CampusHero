@@ -37,10 +37,9 @@ public class PostService {
       return postRepository.findByForumAndParentPostIsNull(forum);
    }
 
-   public List<Post> getChildrenPosts(Long forumId, Long parentPostId) {
-      Forum forum = forumRepository.getReferenceById(forumId);
+   public List<Post> getChildrenPosts(Long parentPostId) {
       Post parentPost = postRepository.getReferenceById(parentPostId);
-      return postRepository.findByForumAndParentPost(forum, parentPost);
+      return postRepository.findByParentPost(parentPost);
    }
 
 }

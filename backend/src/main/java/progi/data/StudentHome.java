@@ -1,20 +1,19 @@
 package progi.data;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class StudentHome {
     @Id
-    @SequenceGenerator(
-            name = "studentHome_sequence",
-            sequenceName = "studentHome_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "studentHome_sequence"
-    )
+    @SequenceGenerator(name = "studentHome_sequence", sequenceName = "studentHome_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "studentHome_sequence")
     private Long id;
 
     private String name;
@@ -23,7 +22,8 @@ public class StudentHome {
 
     private String streetNumber;
 
-    public StudentHome() {}
+    public StudentHome() {
+    }
 
     public StudentHome(String name, String street, String streetNumber) {
         this.name = name;

@@ -1,5 +1,6 @@
 package progi.controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,21 +33,19 @@ public class ObjavaController {
       this.forumService = forumService;
    }
 
-   @GetMapping("/{forumId}/{parentId}")
-   public List<Post> getAnswers(@PathVariable String forumId, @PathVariable String parentId) {
-      return postService.getChildrenPosts(Long.parseLong(forumId), Long.parseLong(parentId));
-   }
-
+   // dohvaćanje pitanja za određenu instituciju
    @GetMapping("")
-   public List<Post> postForum(@RequestParam String facultyId, @RequestParam String studentHomeId) {
+   public List<Post> getQuestions(@RequestParam String facultyId, @RequestParam String studentHomeId) {
       FacilityData facilityData = new FacilityData();
       if (!(facultyId.equals("null"))) {
          facilityData.setFacultyId(Long.parseLong(facultyId));
          facilityData.setStudentHomeId(null);
-      }
-      if (!(studentHomeId.equals("null"))) {
+      } else if (!(studentHomeId.equals("null"))) {
          facilityData.setStudentHomeId(Long.parseLong(studentHomeId));
          facilityData.setFacultyId(null);
+      } else {
+         System.out.println("neispravni parametri");
+         return new ArrayList<Post>();
       }
       Forum forum = forumService.getForumByFacility(facilityData);
       if (forum != null) {
@@ -55,12 +54,17 @@ public class ObjavaController {
       } else {
          System.out.println("nema foruma");
       }
-      // List<Post> parentPosts = postService.getParentPosts(forum);
       return postService.getParentPosts(forum);
    }
 
+   // dohvaćanje odgovora za pitanje
+   @GetMapping("/{parentId}")
+   public List<Post> getAnswers(@PathVariable String parentId) {
+      return postService.getChildrenPosts(Long.parseLong(parentId));
+   }
+
    // pitanje na forumu
-   @PostMapping("pitanje")
+   @PostMapping("")
    public ResponseEntity<?> postQuestion(@RequestBody FacilityDataWithPost facilityDataWithPost) {
       FacilityData facilityData = facilityDataWithPost.getFacilityData();
       Post post = facilityDataWithPost.getPost();

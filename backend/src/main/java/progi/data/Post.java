@@ -6,6 +6,9 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,6 +20,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Post {
    @Id
    @SequenceGenerator(name = "post_sequence", sequenceName = "post_sequence", allocationSize = 1)
@@ -36,6 +40,7 @@ public class Post {
    private Post parentPost;
 
    @OneToMany(mappedBy = "parentPost", cascade = CascadeType.ALL)
+   @JsonIgnore
    private List<Post> childrenPosts = new ArrayList<>();
 
    @Column(length = 5000)
@@ -83,6 +88,7 @@ public class Post {
       return parentPost;
    }
 
+   @JsonIgnore
    public List<Post> getChildrenPosts() {
       return childrenPosts;
    }

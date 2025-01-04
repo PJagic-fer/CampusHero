@@ -12,5 +12,5 @@ import progi.data.Post;
 public interface PostRepository extends JpaRepository<Post, Long> {
    public List<Post> findByForumAndParentPostIsNull(Forum forum);
 
-   public List<Post> findByForumAndParentPost(Forum forum, Post parentPost);
+   public List<Post> findByParentPost(Post parentPost);
 }
