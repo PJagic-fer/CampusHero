@@ -21,4 +21,8 @@ public class CanteenService {
         return canteenRepository.findAll();
 
     }
+
+    public Canteen getCanteenById(Long canteenId){
+        return canteenRepository.getReferenceById(canteenId);
+    }
 }
