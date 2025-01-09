@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import progi.data.ApplicationUser;
 import progi.data.Canteen;
 import progi.data.Faculty;
 import progi.data.Review;
@@ -23,6 +24,10 @@ public class ReviewService {
         return reviewRepository.save(review);
     }
 
+    public void deleteReview(Long reviewId){
+        reviewRepository.deleteById(reviewId);
+    }
+
     public Review getReviewById(Long reviewId){
         return reviewRepository.getReferenceById(reviewId);
     }
@@ -36,4 +41,7 @@ public class ReviewService {
     public List<Review> getStudentHomeReviews(StudentHome studentHome){
         return reviewRepository.findByStudentHome(studentHome);
     } 
+    public List<Review> getReviewsOnBuddy(ApplicationUser applicationUser){
+        return reviewRepository.findByBuddy(applicationUser);
+    }
 }

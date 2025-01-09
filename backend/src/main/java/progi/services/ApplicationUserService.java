@@ -45,6 +45,10 @@ public class ApplicationUserService {
         return Pair.of(foundUser.get(), false);
     }
 
+    public void setBuddy(ApplicationUser applicationUser){
+        applicationUserRepository.save(applicationUser);
+    }
+
     public Optional<ApplicationUser> updateApplicationUser(String contextUserId, ApplicationUserData userData) {
         // čitanje trenutnog korisnika
         Optional<ApplicationUser> foundUserOptional = applicationUserRepository.findById(contextUserId);
