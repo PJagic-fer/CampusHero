@@ -9,10 +9,11 @@ const Mapa = () => {
       const map = new window.google.maps.Map(document.getElementById("map"), {
         center: location,
         zoom: 12,
+        mapId: "8ff5638c959da6bd",
       });
 
       // Dodavanje markera na početnu poziciju
-      const marker = new window.google.maps.Marker({
+      const marker = new window.google.maps.marker.AdvancedMarkerElement({
         map: map,
         position: location,
       });
@@ -35,14 +36,19 @@ const Mapa = () => {
         map.setZoom(15);
 
         // Premjesti marker na novo mjesto
-        marker.setPosition(place.geometry.location);
+        marker.position = place.geometry.location;
       });
     };
 
     // Učitavanje Google Maps i Places API-ja
     const loadScript = () => {
+
+      if (document.getElementById("google-maps-script") || window.google.maps) {
+        return;
+      }
+
       const script = document.createElement("script");
-      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBsWBxoR7Gv0bHql8TzVisUH4pWf0XRRpI&libraries=places&callback=initMap`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBsWBxoR7Gv0bHql8TzVisUH4pWf0XRRpI&loading=async&libraries=places,marker&callback=initMap`;
       script.async = true;
       script.defer = true;
       window.initMap = initMap; // Inicijalizacija mape
