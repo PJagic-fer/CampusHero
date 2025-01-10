@@ -14,10 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpSession;
+import progi.data.ApplicationUser;
 import progi.data.Forum;
 import progi.data.Post;
+import progi.services.ApplicationUserService;
 import progi.services.ForumService;
 import progi.services.PostService;
+import progi.utils.AuthContextUtil;
 import progi.utils.FacilityData;
 import progi.utils.FacilityDataWithPost;
 
@@ -26,11 +30,13 @@ import progi.utils.FacilityDataWithPost;
 public class ObjavaController {
    private PostService postService;
    private ForumService forumService;
+   private ApplicationUserService applicationUserService;
 
    @Autowired
-   public ObjavaController(PostService postService, ForumService forumService) {
+   public ObjavaController(PostService postService, ForumService forumService, ApplicationUserService applicationUserService) {
       this.postService = postService;
       this.forumService = forumService;
+      this.applicationUserService = applicationUserService;
    }
 
    // dohvaćanje pitanja za određenu instituciju
@@ -65,10 +71,16 @@ public class ObjavaController {
 
    // pitanje na forumu
    @PostMapping("")
-   public ResponseEntity<?> postQuestion(@RequestBody FacilityDataWithPost facilityDataWithPost) {
+   public ResponseEntity<?> postQuestion(@RequestBody FacilityDataWithPost facilityDataWithPost, HttpSession session) {
       FacilityData facilityData = facilityDataWithPost.getFacilityData();
       Post post = facilityDataWithPost.getPost();
       Forum forum = forumService.getForumByFacility(facilityData);
+
+      //dodavanje autora objave
+      String contextUserId = AuthContextUtil.getContextUserId(session);
+      ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+      post.setCreator(applicationUser);
+
       if (post.getForum() == null) {
          post.setForum(forum);
       }
@@ -81,7 +93,12 @@ public class ObjavaController {
 
    // odgovor na pitanje (pitanjeid) na forumu sa forumid
    @PostMapping("/odgovor")
-   public ResponseEntity<?> postAnswer(@RequestBody Post post) {
+   public ResponseEntity<?> postAnswer(@RequestBody Post post, HttpSession session) {
+      // dodavanje autora objave
+      String contextUserId = AuthContextUtil.getContextUserId(session);
+      ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+      post.setCreator(applicationUser);  
+      
       postService.addPost(post);
       return new ResponseEntity<>(HttpStatus.OK);
    }

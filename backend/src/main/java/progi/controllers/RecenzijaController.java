@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpSession;
 import progi.data.ApplicationUser;
 import progi.data.Canteen;
 import progi.data.Faculty;
@@ -23,10 +24,11 @@ import progi.services.CanteenService;
 import progi.services.FacultyService;
 import progi.services.ReviewService;
 import progi.services.StudentHomeService;
+import progi.utils.AuthContextUtil;
 
 @RestController
 @RequestMapping("/campus-hero/recenzije")
-public class RecenzijaController{
+public class RecenzijaController {
     private ReviewService reviewService;
     private FacultyService facultyService;
     private CanteenService canteenService;
@@ -35,7 +37,8 @@ public class RecenzijaController{
 
     @Autowired
     public RecenzijaController(ReviewService reviewService, FacultyService facultyService,
-    CanteenService canteenService, StudentHomeService studentHomeService, ApplicationUserService applicationUserService) {
+            CanteenService canteenService, StudentHomeService studentHomeService,
+            ApplicationUserService applicationUserService) {
         this.reviewService = reviewService;
         this.facultyService = facultyService;
         this.canteenService = canteenService;
@@ -45,33 +48,38 @@ public class RecenzijaController{
 
     @GetMapping("")
     public List<Review> getReviews(@RequestParam String facultyId, @RequestParam String studentHomeId,
-    @RequestParam String canteenId, @RequestParam String userId) {
-        if(!(facultyId.equals("null"))){
+            @RequestParam String canteenId, @RequestParam String userId) {
+        if (!(facultyId.equals("null"))) {
             Faculty faculty = new Faculty();
             faculty = facultyService.getFacultyById(Long.parseLong(facultyId));
-            return reviewService.getFacultyReviews(faculty);  
-        }else if (!(studentHomeId.equals("null"))) {
+            return reviewService.getFacultyReviews(faculty);
+        } else if (!(studentHomeId.equals("null"))) {
             StudentHome studentHome = new StudentHome();
             studentHome = studentHomeService.getStudentHomeById(Long.parseLong(studentHomeId));
             return reviewService.getStudentHomeReviews(studentHome);
-        }else if (!(canteenId.equals("null"))) {
+        } else if (!(canteenId.equals("null"))) {
             Canteen canteen = new Canteen();
             canteen = canteenService.getCanteenById(Long.parseLong(canteenId));
             return reviewService.getCanteenReviews(canteen);
-        }else if (!(userId.equals("null"))) {
+        } else if (!(userId.equals("null"))) {
             ApplicationUser applicationUser = new ApplicationUser();
-            applicationUser = applicationUserService.getApplicationUser(userId);
+            applicationUser = applicationUserService.getApplicationUser(Long.parseLong(userId));
             return reviewService.getReviewsOnBuddy(applicationUser);
-        }else{
+        } else {
             System.out.println("SVI PARAMETRI SU NULL, NOT ALLOWED");
             return new ArrayList<Review>();
-        }  
+        }
     }
-    
+
     @PostMapping("")
-    public ResponseEntity<?> postReviews(@RequestBody Review review) {
+    public ResponseEntity<?> postReview(@RequestBody Review review, HttpSession session) {
+        // dodavanje autora objave
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+        review.setCreator(applicationUser);
+
         reviewService.addReview(review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    
+
 }

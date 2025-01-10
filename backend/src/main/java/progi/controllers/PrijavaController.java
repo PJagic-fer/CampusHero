@@ -58,7 +58,7 @@ public class PrijavaController {
       ApplicationUser user = userPair.getFirst();
       ApplicationUserData userData = ApplicationUserData.parseApplicationUserData(user);
       Boolean newUserCreated = userPair.getSecond();
-      AuthContextUtil.setContextUserId(session, user.getId());
+      AuthContextUtil.setContextUserId(session, user.getGoogleId());
 
       if (newUserCreated) {
          return new ResponseEntity<>(userData, HttpStatus.CONFLICT); // 409
@@ -74,7 +74,7 @@ public class PrijavaController {
       if (contextUserId == null) {
          return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204
       }
-      ApplicationUser user = applicationUserService.getApplicationUser(contextUserId);
+      ApplicationUser user = applicationUserService.getApplicationUserByGoogleId(contextUserId);
       ApplicationUserData userData = ApplicationUserData.parseApplicationUserData(user);
       // povratna vrijednost su korisnikovi atributi
       return new ResponseEntity<>(userData, HttpStatus.OK);

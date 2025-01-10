@@ -1,14 +1,27 @@
 package progi.controllers;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import progi.data.Canteen;
+import progi.services.CanteenService;
 
 @RestController
 @RequestMapping("/campus-hero/menze")
 public class MenzeController {
 
+    private CanteenService canteenService;
+
+    @Autowired
+    public MenzeController(CanteenService canteenService) {
+        this.canteenService = canteenService;
+    }
+
     @GetMapping("")
-    public String getMenze(){
-        return ("Općenito o menzama");
+    public List<Canteen> getMenze() {
+        return canteenService.getCanteenes();
     }
 
 

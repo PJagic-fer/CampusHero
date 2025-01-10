@@ -15,12 +15,16 @@ public class ApplicationUserData {
     private StudentHome studentHome;
     private Faculty faculty;
     private boolean isBuddy;
+    private ApplicationUser buddy;
+    private Long id;
+    private Boolean isAdmin;
 
     public ApplicationUserData() {
     }
 
     public ApplicationUserData(String name, String surname, String email, String jmbag, City city,
-            StudentHome studentHome, Faculty faculty, boolean isBuddy) {
+            StudentHome studentHome, Faculty faculty, boolean isBuddy, ApplicationUser buddy, Long id,
+            Boolean isAdmin) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -29,6 +33,9 @@ public class ApplicationUserData {
         this.studentHome = studentHome;
         this.faculty = faculty;
         this.isBuddy = isBuddy;
+        this.buddy = buddy;
+        this.id = id;
+        this.isAdmin = isAdmin;
     }
 
     public String getName() {
@@ -87,12 +94,36 @@ public class ApplicationUserData {
         this.faculty = faculty;
     }
 
-    public boolean isBuddy() {
+    public boolean getIsBuddy() {
         return isBuddy;
     }
 
-    public void setBuddy(boolean buddy) {
-        isBuddy = buddy;
+    public void setIsBuddy(boolean isBuddy) {
+        this.isBuddy = isBuddy;
+    }
+
+    public ApplicationUser getBuddy() {
+        return buddy;
+    }
+
+    public void setBuddy(ApplicationUser buddy) {
+        this.buddy = buddy;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     // pretvorba objekta korisnika u objekt koji sadrži njegove atribute (bez id)
@@ -105,6 +136,18 @@ public class ApplicationUserData {
                 applicationUser.getCity(),
                 applicationUser.getStudentHome(),
                 applicationUser.getFaculty(),
-                applicationUser.isBuddy());
+                applicationUser.getIsBuddy(),
+                applicationUser.getBuddy(),
+                applicationUser.getId(),
+                applicationUser.getIsAdmin());
+
     }
+
+    @Override
+    public String toString() {
+        return "ApplicationUserData [name=" + name + ", surname=" + surname + ", email=" + email + ", jmbag=" + jmbag
+                + ", city=" + city + ", studentHome=" + studentHome + ", faculty=" + faculty + ", isBuddy=" + isBuddy
+                + ", buddy=" + buddy + ", id=" + id + ", isAdmin=" + isAdmin + "]";
+    }
+
 }

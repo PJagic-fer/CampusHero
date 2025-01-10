@@ -4,8 +4,11 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,7 +17,12 @@ import jakarta.persistence.Table;
 public class ApplicationUser {
 
     @Id
-    private String id;
+    @SequenceGenerator(name = "app_user_sequence", sequenceName = "app_user_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_sequence")
+    private Long id;
+
+    @Column(unique = true)
+    private String googleId;
 
     @Column(unique = true, length = 10)
     private String jmbag;
@@ -36,14 +44,17 @@ public class ApplicationUser {
 
     private boolean isBuddy;
 
+    @ManyToOne
+    private ApplicationUser buddy;
+
     @Column(unique = true, nullable = false)
     private String email;
 
     public ApplicationUser() {
     }
 
-    public ApplicationUser(String id, String name, String surname, String email) {
-        this.id = id;
+    public ApplicationUser(String googleId, String name, String surname, String email) {
+        this.googleId = googleId;
         this.name = name;
         this.surname = surname;
         this.isAdmin = false;
@@ -55,7 +66,11 @@ public class ApplicationUser {
         return email;
     }
 
-    public String getId() {
+    public String getGoogleId() {
+        return googleId;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -83,12 +98,16 @@ public class ApplicationUser {
         return faculty;
     }
 
-    public boolean isAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public boolean isBuddy() {
+    public boolean getIsBuddy() {
         return isBuddy;
+    }
+
+    public ApplicationUser getBuddy() {
+        return buddy;
     }
 
     public void setName(String name) {
@@ -99,13 +118,13 @@ public class ApplicationUser {
         this.surname = surname;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
-    public void setBuddy(boolean buddy) {
+    public void setIsBuddy(boolean isBuddy) {
         System.out.println("Postao buddy");
-        isBuddy = buddy;
+        this.isBuddy = isBuddy;
     }
 
     public void setJmbag(String jmbag) {
@@ -127,4 +146,13 @@ public class ApplicationUser {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public void setBuddy(ApplicationUser buddy) {
+        this.buddy = buddy;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
 }

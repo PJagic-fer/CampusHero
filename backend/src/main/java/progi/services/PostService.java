@@ -7,18 +7,15 @@ import org.springframework.stereotype.Service;
 
 import progi.data.Forum;
 import progi.data.Post;
-import progi.repositories.ForumRepository;
 import progi.repositories.PostRepository;
 
 @Service
 public class PostService {
    private PostRepository postRepository;
-   private ForumRepository forumRepository;
 
    @Autowired
-   public PostService(PostRepository postRepository, ForumRepository forumRepository) {
+   public PostService(PostRepository postRepository) {
       this.postRepository = postRepository;
-      this.forumRepository = forumRepository;
    }
 
    public Post addPost(Post post) {
@@ -27,6 +24,10 @@ public class PostService {
          parentPost.getChildrenPosts().add(post);
       }
       return postRepository.save(post);
+   }
+
+   public void deletePost(Long postId){
+      postRepository.deleteById(postId);
    }
 
    public Post getPostById(Long postId) {

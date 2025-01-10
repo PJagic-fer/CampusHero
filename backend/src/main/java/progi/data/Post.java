@@ -101,6 +101,10 @@ public class Post {
       this.forum = forum;
    }
 
+   public void setCreator(ApplicationUser creator){
+    this.creator = creator;
+   }
+
    @Override
    public String toString() {
       return this.message;

@@ -34,7 +34,9 @@ const Profil = () => {
                   city: null,
                   studentHome: null,
                   faculty: null,
-                  isBuddy: Boolean(false)
+                  isBuddy: false,
+                  buddy: null,
+                  isAdmin: false
                 })
                 //po uspješnoj odjavi, vraćanje na početnu stranicu
                 navigate('/');
