@@ -23,6 +23,7 @@ import Contact from './Components/Contact/Contact';
 import Footer from './Components/Footer/Footer';
 import { AppStateProvider } from './context/AppStateProvider';
 import Profil_Header from './Pages/Profil/ProfilHeader'
+import Admin from './Pages/Admin/Admin';
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/Menze" element={<Menze />} />
           <Route path="/Buddy" element={<Buddy />} />
           <Route path="/Forum" element={<Forum />} />
+          <Route path="/Admin" element={<Admin />} />
           </Routes>
           <div className="container">
             <Routes>

@@ -43,27 +43,32 @@ public class Post {
    @JsonIgnore
    private List<Post> childrenPosts = new ArrayList<>();
 
+   private String title;
+
    @Column(length = 5000)
    private String message;
 
    public Post() {
    }
 
-   public Post(Forum forum, Post parentPost, String message) {
+   public Post(Forum forum, Post parentPost, String title, String message) {
       this.forum = forum;
       this.parentPost = parentPost;
+      this.title = title;
       this.message = message;
    }
 
-   public Post(Forum forum, ApplicationUser creator, String message) {
+   public Post(Forum forum, ApplicationUser creator, String title, String message) {
       this.forum = forum;
       this.creator = creator;
+      this.title = title;
       this.message = message;
    }
 
-   public Post(Forum forum, ApplicationUser creator, String message, Post parentPost) {
+   public Post(Forum forum, ApplicationUser creator, String title, String message, Post parentPost) {
       this.forum = forum;
       this.creator = creator;
+      this.title = title;
       this.message = message;
       this.parentPost = parentPost;
    }
@@ -93,6 +98,10 @@ public class Post {
       return childrenPosts;
    }
 
+   public String getTitle() {
+      return title;
+   }
+
    public String getMessage() {
       return message;
    }
@@ -101,12 +110,37 @@ public class Post {
       this.forum = forum;
    }
 
-   public void setCreator(ApplicationUser creator){
-    this.creator = creator;
+   public void setCreator(ApplicationUser creator) {
+      this.creator = creator;
    }
 
    @Override
    public String toString() {
       return this.message;
    }
+
+   public void setId(Long id) {
+      this.id = id;
+   }
+
+   public void setTime(LocalDateTime time) {
+      this.time = time;
+   }
+
+   public void setParentPost(Post parentPost) {
+      this.parentPost = parentPost;
+   }
+
+   public void setChildrenPosts(List<Post> childrenPosts) {
+      this.childrenPosts = childrenPosts;
+   }
+
+   public void setTitle(String title) {
+      this.title = title;
+   }
+
+   public void setMessage(String message) {
+      this.message = message;
+   }
+
 }

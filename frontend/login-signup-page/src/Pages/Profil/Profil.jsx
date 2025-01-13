@@ -16,6 +16,11 @@ const Profil = () => {
         window.scrollTo({top: 0})
       }, []);
 
+    const handleAdmin = () => {
+        navigate('/admin');
+        window.scrollTo({top:0});
+    }
+
     const handleLogout = async () => {
         try {
             //const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil/odjava',
@@ -52,9 +57,12 @@ const Profil = () => {
             <h2 className='h2-profile'>{user.name} {user.surname}</h2>
             <UserDataForm/>
             <br/>
-            <BecomeAdminForm/>
+            {!user.isAdmin && <BecomeAdminForm/>}
             <br/>
-            <button className="button-profile logout" onClick={handleLogout}>Odjavi se</button>
+            <div className="profile-container-button-logoutadmin">
+                <button className="button-profile button-logout" onClick={handleLogout}>Odjavi se</button>
+                {user.isAdmin && <button className="button-profile button-admin" onClick={handleAdmin}>Admin</button>}
+            </div>
         </div>
     );
 };

@@ -23,13 +23,18 @@ public class AdminService {
     }
 
     public List<ApplicationUser> getAdmins() {
-        return applicationUserRepository.findByIsAdminIsNotNull();
+        return applicationUserRepository.findByIsAdminTrue();
+    }
+
+    public Integer getNumOfAdmins() {
+        List<ApplicationUser> admins = getAdmins();
+        return admins.size();
     }
 
     // korisnik postaje admin
     public ApplicationUser giveAdminPrivileges(Long adminRequestId, ApplicationUser user) {
         user.setIsAdmin(true);
-        deleteRequest(adminRequestId);
+        deleteAdminRequest(adminRequestId);
 
         return applicationUserRepository.save(user);
     }
@@ -37,7 +42,30 @@ public class AdminService {
     // korisnik prestaje biti admin
     public ApplicationUser depriveAdminPrivileges(ApplicationUser user) {
         user.setIsAdmin(false);
-        return applicationUserRepository.save(user);
+        user = applicationUserRepository.save(user);
+
+        if (getNumOfAdmins() == 0) {
+            List<AdminRequest> adminRequests = getAdminRequests();
+
+            if (adminRequests.size() > 0) {
+                AdminRequest oldestRequest = adminRequests.get(0);
+                if (adminRequests.size() > 1) {
+                    oldestRequest = adminRequests.stream()
+                            .min((r1, r2) -> (r1.getTime().compareTo(r2.getTime()))).get();
+                }
+
+                ApplicationUser newAdmin = applicationUserRepository
+                        .getReferenceById(oldestRequest
+                                .getApplicant()
+                                .getId());
+                giveAdminPrivileges(oldestRequest.getId(), newAdmin);
+            }
+        }
+        return user;
+    }
+
+    public AdminRequest getAdminRequest(Long adminRequestId) {
+        return adminRequestRepository.getReferenceById(adminRequestId);
     }
 
     public List<AdminRequest> getAdminRequests() {
@@ -49,39 +77,34 @@ public class AdminService {
         return getAdminRequests().stream().map((r) -> {
             ApplicationUser applicant = r.getApplicant();
             applicant.setGoogleId(null);
-            return new AdminRequest(applicant, r.geApplication());
+            return new AdminRequest(r.getId(), applicant, r.geApplication(), r.getTime());
         }).toList();
     }
 
     // nova prijava za admina
-    public AdminRequest addAdminRequest(AdminRequest request) {
+    public Boolean addAdminRequest(AdminRequest request) {
         ApplicationUser applicationUser = request.getApplicant();
 
-        // korisnik ne može podnijeti prijavu ako već je admin
-        if (applicationUser.getIsAdmin()) {
-            System.out.println("korisnik već je administrator");
-            return null;
-        }
-
-        // korisnik može podnijeti samo jednu prijavu
         AdminRequest foundRequest = adminRequestRepository.findByApplicant(applicationUser);
         if (foundRequest != null) {
-            System.out.println("korisnik već je poslao zahtjev za admina");
-            return null;
+            // staru prijavu zamijeni novom
+            foundRequest.setApplication(request.geApplication());
+            foundRequest = adminRequestRepository.save(foundRequest);
+            return false;
         }
 
-        AdminRequest adminRequest = adminRequestRepository.save(request);
-        List<ApplicationUser> admins = getAdmins();
-        if (admins.size() == 0) {
-            // prvi korisnik koji želi postati administrator automatskije odobren
-            ApplicationUser firstAdmin = request.getApplicant();
-            giveAdminPrivileges(adminRequest.getId(), firstAdmin);
+        request = adminRequestRepository.save(request);
+        Integer numOfAdmins = getNumOfAdmins();
+        if (numOfAdmins == 0) {
+            // prvi korisnik koji želi postati administrator je automatskije odobren
+            giveAdminPrivileges(request.getId(), applicationUser);
+            return true;
         }
-        return adminRequest;
+        return false;
     }
 
     // brisanje prijave iz baze
-    public void deleteRequest(Long requestId) {
+    public void deleteAdminRequest(Long requestId) {
         if (requestId == null) {
             System.out.println("nema requesta");
         } else {

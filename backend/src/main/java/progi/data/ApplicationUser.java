@@ -155,4 +155,11 @@ public class ApplicationUser {
         this.googleId = googleId;
     }
 
+    @Override
+    public String toString() {
+        return "ApplicationUser [id=" + id + ", googleId=" + googleId + ", jmbag=" + jmbag + ", name=" + name
+                + ", surname=" + surname + ", city=" + city + ", studentHome=" + studentHome + ", faculty=" + faculty
+                + ", isAdmin=" + isAdmin + ", isBuddy=" + isBuddy + ", buddy=" + buddy + ", email=" + email + "]";
+    }
+
 }

@@ -33,7 +33,8 @@ public class ObjavaController {
    private ApplicationUserService applicationUserService;
 
    @Autowired
-   public ObjavaController(PostService postService, ForumService forumService, ApplicationUserService applicationUserService) {
+   public ObjavaController(PostService postService, ForumService forumService,
+         ApplicationUserService applicationUserService) {
       this.postService = postService;
       this.forumService = forumService;
       this.applicationUserService = applicationUserService;
@@ -76,7 +77,7 @@ public class ObjavaController {
       Post post = facilityDataWithPost.getPost();
       Forum forum = forumService.getForumByFacility(facilityData);
 
-      //dodavanje autora objave
+      // dodavanje autora objave
       String contextUserId = AuthContextUtil.getContextUserId(session);
       ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
       post.setCreator(applicationUser);
@@ -97,8 +98,14 @@ public class ObjavaController {
       // dodavanje autora objave
       String contextUserId = AuthContextUtil.getContextUserId(session);
       ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
-      post.setCreator(applicationUser);  
-      
+      post.setCreator(applicationUser);
+
+      Post parentPost = postService.getPostById(post.getParentPost().getId());
+      post.setParentPost(parentPost);
+
+      Forum forum = parentPost.getForum();
+      post.setForum(forum);
+
       postService.addPost(post);
       return new ResponseEntity<>(HttpStatus.OK);
    }

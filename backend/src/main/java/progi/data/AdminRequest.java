@@ -50,6 +50,15 @@ public class AdminRequest {
         this.competencies = application.getCompetencies();
     }
 
+    public AdminRequest(Long id, ApplicationUser applicant, AdminApplication application, LocalDateTime time) {
+        this.id = id;
+        this.applicant = applicant;
+        this.personalInfo = application.getPersonalInfo();
+        this.experiences = application.getExperiences();
+        this.competencies = application.getCompetencies();
+        this.time = time;
+    }
+
     public Long getId() {
         return id;
     }
@@ -100,6 +109,12 @@ public class AdminRequest {
 
     public AdminApplication geApplication() {
         return new AdminApplication(this.personalInfo, this.experiences, this.competencies);
+    }
+
+    public void setApplication(AdminApplication application) {
+        this.personalInfo = application.getPersonalInfo();
+        this.experiences = application.getExperiences();
+        this.competencies = application.getCompetencies();
     }
 
 }

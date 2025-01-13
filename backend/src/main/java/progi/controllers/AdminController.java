@@ -41,7 +41,7 @@ public class AdminController {
     }
 
     // dohavćanje svih korisničkih podataka
-    @GetMapping("/users")
+    @GetMapping("/korisnici")
     public ResponseEntity<?> getUsers(HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
@@ -59,11 +59,17 @@ public class AdminController {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
-        AdminRequest adminRequest = new AdminRequest(contextUser, application);
-        adminRequest = adminService.addAdminRequest(adminRequest);
+        // korisnik ne može podnijeti prijavu ako već je admin
+        if (contextUser.getIsAdmin()) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
 
-        if (adminRequest == null) {
-            return new ResponseEntity<>(HttpStatus.TOO_MANY_REQUESTS);
+        AdminRequest adminRequest = new AdminRequest(contextUser, application);
+        Boolean gotAdmin = adminService.addAdminRequest(adminRequest);
+
+        // ako je korisnik postao administrator, odgovor je 202
+        if (gotAdmin) {
+            return new ResponseEntity<>(HttpStatus.ACCEPTED); // 202
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
@@ -83,7 +89,7 @@ public class AdminController {
     }
 
     // administrator dohvaća sve prijavljene korisnike
-    @GetMapping("/kandidati")
+    @GetMapping("/admin-kandidati")
     public ResponseEntity<?> getAdminApplicants(HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
@@ -96,27 +102,30 @@ public class AdminController {
     }
 
     // administrator odobrava tuđu admin prijavu
-    @PostMapping("kandidati/odobri")
-    public ResponseEntity<?> postAdminPrivileges(AdminRequest adminRequest, HttpSession session) {
+    @PostMapping("admin-kandidati/odobri")
+    public ResponseEntity<?> postAdminPrivileges(@RequestBody AdminRequest adminRequest, HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
         if (contextUser.getIsAdmin()) {
-            adminService.giveAdminPrivileges(adminRequest.getId(),
-                    adminRequest.getApplicant());
+            ApplicationUser approvedUser = applicationUserService
+                    .getApplicationUser(adminRequest
+                            .getApplicant()
+                            .getId());
+            adminService.giveAdminPrivileges(adminRequest.getId(), approvedUser);
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     // administrator odobrava tuđu admin prijavu
-    @PostMapping("kandidati/odbi")
-    public ResponseEntity<?> postAdminDeny(AdminRequest adminRequest, HttpSession session) {
+    @PostMapping("admin-kandidati/odbij")
+    public ResponseEntity<?> postAdminDeny(@RequestBody AdminRequest adminRequest, HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
         if (contextUser.getIsAdmin()) {
-            adminService.deleteRequest(adminRequest.getId());
+            adminService.deleteAdminRequest(adminRequest.getId());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
