@@ -14,6 +14,7 @@ import Faks_Info from './Pages/Fakulteti/Info';
 import Prijevoz from './Pages/JavniPrijevoz/JavniPrijevoz';
 import Prijevoz_Info from './Pages/JavniPrijevoz/Info';
 import Menze from './Pages/Menze/Menze';
+import Forum from './Pages/Forum/forum';
 import Menze_Info from './Pages/Menze/Info';
 import Buddy from './Pages/Buddy/Buddy';
 import Buddy_Info from './Pages/Buddy/Info';
@@ -37,6 +38,7 @@ const App = () => {
           <Route path="/JavniPrijevoz" element={<Prijevoz />} />
           <Route path="/Menze" element={<Menze />} />
           <Route path="/Buddy" element={<Buddy />} />
+          <Route path="/Forum" element={<Forum />} />
           </Routes>
           <div className="container">
             <Routes>

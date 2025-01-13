@@ -1,117 +1,82 @@
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, ChevronDown, Search } from 'lucide-react'
-import image from '../../Components/assets/home_background.jpeg';
+import React, { useRef } from 'react'
+import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import './Domovi.css'
 
-const dorms = [
+
+export const dorms = [
   {
     id: 'stjepan-radic',
     name: 'Stjepan Radić',
-    image: '/placeholder.svg?height=200&width=300',
+    image: 'https://th.bing.com/th/id/R.e493b98324d72a801abbf14aa0c87ab7?rik=CkQZIRGArFwtRw&riu=http%3a%2f%2fwww.zagreb.in%2fwp-content%2fuploads%2f2015%2f10%2fStudentski-dom-stjepan-radi%c4%87-1440x1080.jpg&ehk=7F5EpRQ0FIpAjD2mWnpS9%2f6KrZQh8V%2bGVs3%2f1wMdhJQ%3d&risl=&pid=ImgRaw&r=0',
     description: 'Najveći studentski dom u Zagrebu, poznat po svojoj živahnoj atmosferi i brojnim sadržajima.'
   },
   {
     id: 'cvjetno-naselje',
     name: 'Cvjetno naselje',
-    image: '/placeholder.svg?height=200&width=300',
+    image: 'https://i.ibb.co/jrRb11q/img2.jpg',
     description: 'Moderan dom smješten u mirnom dijelu grada, idealan za studente koji cijene mir i tišinu.'
   },
   {
     id: 'lascina',
     name: 'Lašćina',
-    image: '/placeholder.svg?height=200&width=300',
+    image: 'https://i.ibb.co/NSwVv8D/img3.jpg',
     description: 'Mali dom s obiteljskom atmosferom, savršen za studente koji traže intimniji smještaj.'
   },
   {
     id: 'ante-starcevic',
     name: 'Ante Starčević',
-    image: '/placeholder.svg?height=200&width=300',
+    image: '/Components/assets/sdAnte%281%29.jpg',
     description: 'Dom u srcu Trešnjevke, poznat po svojim sportskim terenima i blizini gradskih sadržaja.'
   },
   {
     id: 'ivan-mestrovic',
     name: 'Ivan Meštrović',
-    image: '/placeholder.svg?height=200&width=300',
+    image: 'https://i.ibb.co/jTQfmTq/img5.jpg',
     description: 'Umjetnički orijentiran dom, često domaćin kulturnih događanja i izložbi.'
   }
 ]
 
 export default function Domovi() {
-  const [activeDorm, setActiveDorm] = useState(0)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const scrollContainerRef = useRef(null)
+  const slideRef = useRef(null)
 
-  const scrollTo = (index) => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      const child = container.children[index]
-      container.scrollTo({
-        left: child.offsetLeft - container.offsetWidth / 2 + child.offsetWidth / 2,
-        behavior: 'smooth'
-      })
-    }
-    setActiveDorm(index)
-    setIsDropdownOpen(false)
-  }
-
-  const handleScroll = () => {
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current
-      const scrollPosition = container.scrollLeft + container.offsetWidth / 2
-      const newActiveDorm = Array.from(container.children).findIndex((child) => {
-        return child.offsetLeft <= scrollPosition && scrollPosition <= child.offsetLeft + child.offsetWidth
-      })
-      if (newActiveDorm !== -1 && newActiveDorm !== activeDorm) {
-        setActiveDorm(newActiveDorm)
-      }
+  const handleNext = () => {
+    if (slideRef.current) {
+      const items = slideRef.current.children
+      slideRef.current.appendChild(items[0].cloneNode(true))
+      slideRef.current.removeChild(items[0])
     }
   }
 
-  useEffect(() => {
-    const container = scrollContainerRef.current
-    if (container) {
-      container.addEventListener('scroll', handleScroll)
-      return () => container.removeEventListener('scroll', handleScroll)
+  const handlePrev = () => {
+    if (slideRef.current) {
+      const items = slideRef.current.children
+      const lastItem = items[items.length - 1].cloneNode(true)
+      slideRef.current.insertBefore(lastItem, items[0])
+      slideRef.current.removeChild(items[items.length - 1])
     }
-  }, [])
+  }
 
   return (
     <div className="domovi-container">
-      <main className="domovi-main">
-        <h1>Studentski domovi u Zagrebu</h1>
-        
-        <div className="carousel-container">
-          <button 
-            onClick={() => scrollTo((activeDorm - 1 + dorms.length) % dorms.length)}
-            className="carousel-button left"
-          >
-            <ChevronLeft className="icon" />
-          </button>
-          <div 
-            ref={scrollContainerRef}
-            className="carousel"
-          >
-            {dorms.map((dorm) => (
-              <div key={dorm.id} className="dorm-card">
-                <div className="dorm-content">
-                  
-                  <h2 className="h2D1">{dorm.name}</h2>
-                  <p>{dorm.description}</p>
-                </div>
+      <div className="carousel">
+        <div className="slide" ref={slideRef}>
+          {dorms.map((dorm) => (
+            <div key={dorm.id} className="item" style={{backgroundImage: `url(${dorm.image})`}}>
+              <div className="content">
+                <div className="name">{dorm.name}</div>
+                <div className="des">{dorm.description}</div>
+                <button>Forum</button>
               </div>
-            ))}
-          </div>
-          <button 
-            onClick={() => scrollTo((activeDorm + 1) % dorms.length)}
-            className="carousel-button right"
-          >
-            <ChevronRight className="icon" />
-          </button>
-        </div> 
-        
-      </main>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="gumb">
+        <ChevronRight className="prev" onClick={handlePrev}></ChevronRight>
+      </div>
     </div>
   )
 }
+
