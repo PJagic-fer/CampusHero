@@ -110,19 +110,50 @@ public class Review {
         return creator;
     }
 
-    public Canteen getcanteen() {
-        return canteen;
-    }
-
-    public Faculty getfaculty() {
-        return faculty;
-    }
-
-    public ApplicationUser getbuddy() {
-        return buddy;
-    }
-
     public void setCreator(ApplicationUser creator) {
         this.creator = creator;
     }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Canteen getCanteen() {
+        return canteen;
+    }
+
+    public void setCanteen(Canteen canteen) {
+        this.canteen = canteen;
+    }
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
+    public StudentHome getStudentHome() {
+        return studentHome;
+    }
+
+    public void setStudentHome(StudentHome studentHome) {
+        this.studentHome = studentHome;
+    }
+
+    public ApplicationUser getBuddy() {
+        return buddy;
+    }
+
+    public void setBuddy(ApplicationUser buddy) {
+        this.buddy = buddy;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+}
 }

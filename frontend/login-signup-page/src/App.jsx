@@ -39,7 +39,7 @@ const App = () => {
           <Route path="/JavniPrijevoz" element={<Prijevoz />} />
           <Route path="/Menze" element={<Menze />} />
           <Route path="/Buddy" element={<Buddy />} />
-          <Route path="/Forum" element={<Forum />} />
+          <Route path="/Domovi/Forum" element={<Forum />} />
           <Route path="/Admin" element={<Admin />} />
           </Routes>
           <div className="container">

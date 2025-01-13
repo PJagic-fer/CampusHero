@@ -1,5 +1,5 @@
 'use client'
-
+import { useNavigate } from 'react-router-dom';
 import React, { useRef } from 'react'
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
 import './Domovi.css'
@@ -7,31 +7,31 @@ import './Domovi.css'
 
 export const dorms = [
   {
-    id: 'stjepan-radic',
+    id: '2',
     name: 'Stjepan Radić',
     image: 'https://th.bing.com/th/id/R.e493b98324d72a801abbf14aa0c87ab7?rik=CkQZIRGArFwtRw&riu=http%3a%2f%2fwww.zagreb.in%2fwp-content%2fuploads%2f2015%2f10%2fStudentski-dom-stjepan-radi%c4%87-1440x1080.jpg&ehk=7F5EpRQ0FIpAjD2mWnpS9%2f6KrZQh8V%2bGVs3%2f1wMdhJQ%3d&risl=&pid=ImgRaw&r=0',
     description: 'Najveći studentski dom u Zagrebu, poznat po svojoj živahnoj atmosferi i brojnim sadržajima.'
   },
   {
-    id: 'cvjetno-naselje',
+    id: '1',
     name: 'Cvjetno naselje',
     image: 'https://i.ibb.co/jrRb11q/img2.jpg',
     description: 'Moderan dom smješten u mirnom dijelu grada, idealan za studente koji cijene mir i tišinu.'
   },
   {
-    id: 'lascina',
+    id: '3',
     name: 'Lašćina',
     image: 'https://i.ibb.co/NSwVv8D/img3.jpg',
     description: 'Mali dom s obiteljskom atmosferom, savršen za studente koji traže intimniji smještaj.'
   },
   {
-    id: 'ante-starcevic',
+    id: '4',
     name: 'Ante Starčević',
     image: '/Components/assets/sdAnte%281%29.jpg',
     description: 'Dom u srcu Trešnjevke, poznat po svojim sportskim terenima i blizini gradskih sadržaja.'
   },
   {
-    id: 'ivan-mestrovic',
+    id: '5',
     name: 'Ivan Meštrović',
     image: 'https://i.ibb.co/jTQfmTq/img5.jpg',
     description: 'Umjetnički orijentiran dom, često domaćin kulturnih događanja i izložbi.'
@@ -40,6 +40,7 @@ export const dorms = [
 
 export default function Domovi() {
   const slideRef = useRef(null)
+  const navigate = useNavigate();
 
   const handleNext = () => {
     if (slideRef.current) {
@@ -67,7 +68,7 @@ export default function Domovi() {
               <div className="content">
                 <div className="name">{dorm.name}</div>
                 <div className="des">{dorm.description}</div>
-                <button>Forum</button>
+                <button onClick={() => navigate("./Forum")}>Forum</button>
               </div>
             </div>
           ))}
