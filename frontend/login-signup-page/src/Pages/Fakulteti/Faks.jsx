@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, ChevronDown, Search } from 'lucide-react'
-import './Domovi.css'
+import './Faks.css'
 
 const faculties = [
   {

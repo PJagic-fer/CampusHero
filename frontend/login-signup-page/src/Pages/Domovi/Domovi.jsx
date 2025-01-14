@@ -60,7 +60,7 @@ export default function Domovi() {
   }
 
   return (
-    <div className="domovi-container">
+    <div className="domovi-containe">
       <div className="carousel">
         <div className="slide" ref={slideRef}>
           {dorms.map((dorm) => (
