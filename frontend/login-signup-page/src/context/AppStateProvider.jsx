@@ -17,7 +17,9 @@ export const AppStateProvider = ({children}) => {
         city: null,
         studentHome: null,
         faculty: null,
-        isBuddy: Boolean(false)
+        isBuddy: Boolean(false),
+        buddy: null,
+        isAdmin: Boolean(false)
     });
 
     //AppState provider se omotava oko djece i predaje im korisnika u kontekstu

@@ -1,0 +1,55 @@
+.nav-placeholder {
+  height: 140px;
+  background: #7f84b7cd;
+}
+
+.admin-buttons-container {
+  display: flex;
+  justify-content: center;
+}
+
+.admin-appuser-container {
+  background-color: #f4f6fc;
+  margin: 10px;
+  padding: 15px 10px 0px 15px;
+  border-radius: 30px;
+  width: 40%;
+}
+
+.admin-appuser-data-container {
+  padding: 10px 40px;
+}
+
+.admin-appuser-button-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.admin-appuser-button {
+  background-color: #7f84b7cd;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.admin-appuser-button:hover {
+  background-color: #6c72a1;
+  transform: translateY(-2px);
+}
+
+.admin-appuser-button-deny {
+  background-color: #e74c3c;
+}
+
+.admin-appuser-button-deny:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+}
+
+.padding-bottom-exists {
+  padding-bottom: 1px;
+}

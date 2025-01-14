@@ -1,15 +1,48 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import axios from 'axios';
+import { AppStateContext } from '../../context/AppStateProvider'
 import {useForm} from 'react-hook-form';
 
 const BecomeAdminForm = () => { 
     
+    const {user, setUser} = useContext(AppStateContext);
+
     const  {register, handleSubmit, formState:{errors}, reset} = useForm();
 
-    const onSubmitAdmin = async() =>{
-            console.log("prijava za admina nije još dostupna");
-            reset();
+    const onSubmitAdmin = async (applicationData) => {
+        let adminApplication = {
+            personalInfo : applicationData.personal_info,
+            experiences : applicationData.experiences,
+            competencies : applicationData.competencies
         }
+        
+        console.log(adminApplication);
+
+        try {
+            //const response = await axios.post('http://campus-hero.onrender.com/campus-hero/admin/prijava',
+            const response = await axios.post('http://localhost:8080/campus-hero/admin/prijava',
+                adminApplication,
+                {withCredentials: true}
+              );
+              
+            if (response.status === 200) {
+                console.log("Prijava je pohranjena!");                
+            }
+            else if (response.status === 202) {
+                //promjena podataka u kontekstu
+                setUser({...user, isAdmin: true});
+                console.log("user set to admin:  ");
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                console.log('Korisnik je već administrator.');
+            } else {
+                console.error('Nedruga greška na admin pijavi', error);
+            }
+        }
+
+        reset();
+    };
 
     return(
         <div className ="become-admin-container">

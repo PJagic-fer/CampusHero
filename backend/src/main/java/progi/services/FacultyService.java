@@ -21,4 +21,8 @@ public class FacultyService {
         return facultyRepository.findAll();
 
     }
+
+    public Faculty getFacultyById(Long id){
+      return facultyRepository.getReferenceById(id);
+    }
 }

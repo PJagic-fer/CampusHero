@@ -18,26 +18,26 @@ import progi.utils.AuthContextUtil;
 @RequestMapping("/campus-hero/profil")
 public class ProfilController {
 
-   private ApplicationUserService applicationUserService;
+    private ApplicationUserService applicationUserService;
 
-   @Autowired
-   public ProfilController(ApplicationUserService applicationUserService) {
-      this.applicationUserService = applicationUserService;
-   }
+    @Autowired
+    public ProfilController(ApplicationUserService applicationUserService) {
+        this.applicationUserService = applicationUserService;
+    }
 
-   @PostMapping("")
-   public ResponseEntity<?> postProfil(@RequestBody ApplicationUserData ApplicationUserData, HttpSession session,
-         HttpServletRequest request) {
+    @PostMapping("")
+    public ResponseEntity<?> postProfil(@RequestBody ApplicationUserData ApplicationUserData, HttpSession session,
+            HttpServletRequest request) {
 
-      String contextUserId = AuthContextUtil.getContextUserId(session);
-      applicationUserService.updateApplicationUser(contextUserId, ApplicationUserData);
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        applicationUserService.updateApplicationUserData(contextUserId, ApplicationUserData);
 
-      return new ResponseEntity<>(HttpStatus.OK);
-   }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
-   @PostMapping("/odjava")
-   public ResponseEntity<?> getPrijavaOdjava(HttpSession session) {
-      AuthContextUtil.removeContextUserId(session);
-      return new ResponseEntity<>(HttpStatus.OK);
-   }
+    @PostMapping("/odjava")
+    public ResponseEntity<?> getPrijavaOdjava(HttpSession session) {
+        AuthContextUtil.removeContextUserId(session);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

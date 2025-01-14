@@ -25,38 +25,48 @@ public class ApplicationUserService {
         applicationUserRepository.save(newUser);
     }
 
-    public List<String> getAllApplicationUsers() {
-        return applicationUserRepository.findAll().stream().map(ApplicationUser::getName).toList();
+    public List<ApplicationUser> getAllApplicationUsers() {
+        return applicationUserRepository.findAll();
     }
 
-    public ApplicationUser getApplicationUser(String appUserId) {
+    public List<ApplicationUserData> getAllApplicationUsersData() {
+        return getAllApplicationUsers().stream().map((u) -> ApplicationUserData.parseApplicationUserData(u)).toList();
+    }
+
+    public ApplicationUser getApplicationUser(Long appUserId) {
         // pronalazak korisnika prema id-ju
         return applicationUserRepository.getReferenceById(appUserId);
     }
 
+    public ApplicationUser getApplicationUserByGoogleId(String googleId) {
+        // pronalazak korisnika prema custom id-ju
+        return applicationUserRepository.findByGoogleId(googleId);
+    }
+
     public Pair<ApplicationUser, Boolean> getOrCreateApplicationUser(ApplicationUser user) {
         // provjera postoji li user u bazi
-        Optional<ApplicationUser> foundUser = applicationUserRepository.findById(user.getId());
-        if (foundUser.isEmpty()) {
+        ApplicationUser foundUser = applicationUserRepository.findByGoogleId(user.getGoogleId());
+        if (foundUser == null) {
             // stvaranje novog ako ne postoji
             return Pair.of(applicationUserRepository.save(user), true);
         }
         // vraćanje pronađenog
-        return Pair.of(foundUser.get(), false);
+        return Pair.of(foundUser, false);
     }
 
-    public Optional<ApplicationUser> updateApplicationUser(String contextUserId, ApplicationUserData userData) {
+    public void setIsBuddy(ApplicationUser applicationUser) {
+        applicationUserRepository.save(applicationUser);
+    }
+
+    public Optional<ApplicationUser> updateApplicationUserData(String contextUserId, ApplicationUserData userData) {
         // čitanje trenutnog korisnika
-        Optional<ApplicationUser> foundUserOptional = applicationUserRepository.findById(contextUserId);
-        if (foundUserOptional.isEmpty()) {
+        ApplicationUser foundUser = applicationUserRepository.findByGoogleId(contextUserId);
+        if (foundUser == null) {
             return null;
         }
-
         // ažuriranje korisnikovih podataka
-        ApplicationUser foundUser = foundUserOptional.get();
         foundUser.setName(userData.getName());
         foundUser.setSurname(userData.getSurname());
-        foundUser.setBuddy(userData.isBuddy());
         foundUser.setJmbag(userData.getJmbag());
         foundUser.setCity(userData.getCity());
         foundUser.setStudentHome(userData.getStudentHome());

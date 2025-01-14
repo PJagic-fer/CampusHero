@@ -16,10 +16,15 @@ const Profil = () => {
         window.scrollTo({top: 0})
       }, []);
 
+    const handleAdmin = () => {
+        navigate('/admin');
+        window.scrollTo({top:0});
+    }
+
     const handleLogout = async () => {
         try {
-            const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil/odjava',
-            //const response = await axios.post('http://localhost:8080/campus-hero/profil/odjava',
+            //const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil/odjava',
+            const response = await axios.post('http://localhost:8080/campus-hero/profil/odjava',
                 {},
                 {withCredentials: true}
             );
@@ -27,14 +32,16 @@ const Profil = () => {
             if (response.status === 200) {
                 console.log('Upješno odjavljen');
                 setUser({
-                    name: null,
-                    surname: String (null),
-                    email: String (null),
-                    jmbag: String (null),
-                    city: null,
-                    studentHome: null,
-                    faculty: null,
-                    isBuddy: Boolean(false)
+                  name: null,
+                  surname: null,
+                  email: null,
+                  jmbag: null,
+                  city: null,
+                  studentHome: null,
+                  faculty: null,
+                  isBuddy: false,
+                  buddy: null,
+                  isAdmin: false
                 })
                 //po uspješnoj odjavi, vraćanje na početnu stranicu
                 navigate('/');
@@ -50,9 +57,12 @@ const Profil = () => {
             <h2 className='h2-profile'>{user.name} {user.surname}</h2>
             <UserDataForm/>
             <br/>
-            <BecomeAdminForm/>
+            {!user.isAdmin && <BecomeAdminForm/>}
             <br/>
-            <button className="button-profile logout" onClick={handleLogout}>Odjavi se</button>
+            <div className="profile-container-button-logoutadmin">
+                <button className="button-profile button-logout" onClick={handleLogout}>Odjavi se</button>
+                {user.isAdmin && <button className="button-profile button-admin" onClick={handleAdmin}>Admin</button>}
+            </div>
         </div>
     );
 };
