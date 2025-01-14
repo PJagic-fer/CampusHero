@@ -1,6 +1,7 @@
 package progi.services;
 
 import java.util.List;
+import java.util.ArrayList; 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,11 @@ public class ApplicationUserService {
 
     public void setIsBuddy(ApplicationUser applicationUser) {
         applicationUserRepository.save(applicationUser);
+    }
+
+    public Optional<ApplicationUser> getUserById(Long userId) {
+        Optional<ApplicationUser> foundUser = applicationUserRepository.findById(userId);
+        return foundUser;
     }
 
     public Optional<ApplicationUser> updateApplicationUserData(String contextUserId, ApplicationUserData userData) {
