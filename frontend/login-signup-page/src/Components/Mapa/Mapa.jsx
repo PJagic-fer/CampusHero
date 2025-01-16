@@ -68,7 +68,7 @@ const Mapa = () => {
   }
 
   return (
-    <div className='mapa'>
+    <div className='mapa' id='mapa'>
       <div className="mapa-left">
         <GoogleMap
           mapContainerStyle={containerStyle}
