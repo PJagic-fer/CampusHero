@@ -1,0 +1,107 @@
+---ISPITIVANJE KOMPONENTI---
+
+1. redovni slučaj - Prijava putem Googlea 
+- Ulazni podaci:
+- Mail: "campushero802@gmail.com"
+- Lozinka: "campusherofer"
+- Očekivani rezultat: Korisnik je uspješno prijavljen i njegovo ime je vidljivo na stranici.
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Pokrenuti aplikaciju.
+    - Odabrati Prijavi se
+    - Odabrati Prijava putem Googlea
+    - Upis maila i lozinke
+
+2. redovni slučaj - Promjena podataka
+- Ulazni podaci:
+- Ime: "Campus"
+- Prezime: "Hero"
+- email: "campushero802@gmail.com"
+- Fakultet: "FER"
+- JMBAG: "0036512345"
+- Očekivani rezultat: Korisniku su podaci promijenjeni i vidljivi su novi podaci pri ponovnom učitavanju
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Pokrenuti aplikaciju.
+    - Prijaviti se kao student.
+    - Navigirati do buddy sistema.
+    - Popuniti formu i poslati zahtjev.
+    - Verificirati prikaz poruke o uspješnoj prijavi.
+
+3. Izazivanje pogreške – unos neispravnog JMBAGa (neispravni podaci)
+- Ulazni podaci: Korisnik unosi neispravan JMBAG
+- Očekivani rezultat: Prikazuje se poruka: "Pogrešno korisničko ime ili lozinka."
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Navigirati do stranice za prijavu.
+    - Unijeti neispravne podatke i kliknuti na "Prijava."
+    - Provjeriti je li prikazana odgovarajuća poruka.
+
+4. Poziv nepostojeće funkcionalnosti – brisanje pitanja.
+- Ulazni podaci: Korisnik pokušava obrisati pitanje s foruma (neimplementirana funkcionalnost).
+- Očekivani rezultat: Nema gumba za brisanje
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Pokušati obrisati recenziju.
+    - Provjeriti je li prikazana odgovarajuća poruka.
+
+5. Rubni uvjeti – ekstremna duljina teksta u forumu
+- Ulazni podaci: Korisnik pokušava postaviti pitanje u forumu sa 10,000 znakova.
+- Očekivani rezultat: Pitanje nije prihvaćeno, prikazuje se poruka: "Tekst je predugačak."
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Navigirati do foruma.
+    - Unijeti pitanje od 10,000 znakova i poslati.
+    - Provjeriti odgovarajuću poruku.
+
+6. Izazivanje pogreške – unos "kontaktiraj nas" formsa, ali bez imena (ime je potrebno)
+- Ulazni podaci: Korisnik unosi tekst u input "Ostavi svoj upit ovdje"
+- Očekivani rezultat: Prikazuje se poruka: "Potrebno je upisati ime"
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Navigirati do početne stranice
+    - Upis upita i slanje
+    - Provjeriti odgovarajuću poruku.
+
+
+
+---ISPITIVANJE SUSTAVA---
+1. Prijava korisnika i navigacija (redovni slučaj)
+- Ulazni podaci:
+- Korisničko ime: "campushero802@gmail.com"
+- Lozinka: "campusherofer"
+- Očekivani rezultat: Korisnik je prijavljen, preusmjeren na početnu stranicu i ima pristup survival guideovima.
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Otvoriti aplikaciju.
+    - Prijava putem Googlea
+    - Provjeriti preusmjerenje na početnu stranicu.
+    - Pristupiti survival guideovima
+
+2. Neispravan login (rubni uvjet)
+- Ulazni podaci:
+- Korisničko ime: "pogresan@user.com"
+- Lozinka: "pogresno"
+- Očekivani rezultat: Prikazuje se poruka o grešci: "Pogrešno korisničko ime ili lozinka."
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Unijeti neispravne podatke.
+    - Kliknuti na "Prijava."
+    - Provjeriti prikaz poruke o grešci.
+
+3. Interakcija sa survival guide-om (redovni slučaj)
+- Ulazni podaci: Korisnik pristupa vodiču o javnom prijevozu.
+- Očekivani rezultat: Prikazuje se vodič sa svim potrebnim informacijama.
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Navigirati do survival guide-a.
+    - Odabrati vodič o javnom prijevozu.
+    - Provjeriti prikaz sadržaja vodiča.
+
+4. Poziv nepostojeće funkcionalnosti – izmjena survival guide-a
+- Ulazni podaci: Korisnik pokušava izmijeniti survival guide (neimplementirana funkcionalnost).
+- Očekivani rezultat: Prikazuje se poruka: "Funkcionalnost nije implementirana."
+- Dobiveni rezultat: Prolaz/Pad.
+- Postupak:
+    - Pokušati izmijeniti survival guide.
+    - Provjeriti prikaz odgovarajuće poruke.
