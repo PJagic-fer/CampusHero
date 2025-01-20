@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext } from "react"
+import React, { useState, useEffect, useContext, useRef } from "react"
 import axios from "axios"
 import "./forum.css"
+import "./FForum.css"
 import { Star } from "lucide-react"
 import { AppStateContext } from "../../context/AppStateProvider"
 
-export default function Forum() {
+export default function FacultyForum() {
   const { user } = useContext(AppStateContext)
-  const [currentDormIndex, setCurrentDormIndex] = useState(0)
+  const [currentFacultyIndex, setCurrentFacultyIndex] = useState(0)
   const [questions, setQuestions] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
@@ -27,34 +28,37 @@ export default function Forum() {
   const [hoveredRating, setHoveredRating] = useState(0)
   const [reviews, setReviews] = useState([])
   const [isReviewFormVisible, setIsReviewFormVisible] = useState(false)
-  const [dorms, setDorms] = useState([])
+  const [faculties, setFaculties] = useState([])
+  const [isFacultySelectorOpen, setIsFacultySelectorOpen] = useState(false)
 
   useEffect(() => {
     getAttributeValues()
   }, [])
 
   useEffect(() => {
-    if (dorms.length > 0) {
-      fetchQuestions(dorms[currentDormIndex].id)
-      fetchReviews(dorms[currentDormIndex].id)
+    if (faculties.length > 0) {
+      fetchQuestions(faculties[currentFacultyIndex].id)
+      fetchReviews(faculties[currentFacultyIndex].id)
       fetchAllAnswers()
     }
-  }, [currentDormIndex, dorms])
+  }, [currentFacultyIndex, faculties])
 
   const getAttributeValues = async () => {
     let response
     try {
-      response = await axios.get("http://localhost:8080/campus-hero/domovi")
-      setDorms(response.data)
+      response = await axios.get("http://localhost:8080/campus-hero/fakulteti")
+      setFaculties(response.data)
       console.log(response.data)
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
     }
   }
 
-  const fetchQuestions = async (dormId) => {
+  const fetchQuestions = async (facultyId) => {
     try {
-      const response = await axios.get(`http://localhost:8080/campus-hero/forum?facultyId=null&studentHomeId=${dormId}`)
+      const response = await axios.get(
+        `http://localhost:8080/campus-hero/forum?facultyId=${facultyId}&studentHomeId=null`,
+      )
       setQuestions(response.data)
     } catch (error) {
       console.error("Error fetching questions:", error)
@@ -71,10 +75,10 @@ export default function Forum() {
     }
   }
 
-  const fetchReviews = async (dormId) => {
+  const fetchReviews = async (facultyId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
+        `http://localhost:8080/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -89,8 +93,8 @@ export default function Forum() {
         "http://localhost:8080/campus-hero/forum",
         {
           facilityData: {
-            facultyId: null,
-            studentHomeId: dorms[currentDormIndex].id,
+            facultyId: faculties[currentFacultyIndex].id,
+            studentHomeId: null,
           },
           post: {
             title: newQuestion.title,
@@ -100,7 +104,7 @@ export default function Forum() {
         { withCredentials: true },
       )
       setIsModalOpen(false)
-      fetchQuestions(dorms[currentDormIndex].id)
+      fetchQuestions(faculties[currentFacultyIndex].id)
       fetchAllAnswers()
       setNewQuestion({ title: "", body: "" })
     } catch (error) {
@@ -114,8 +118,8 @@ export default function Forum() {
       await axios.post(
         `http://localhost:8080/campus-hero/recenzije`,
         {
-          studentHome: {
-            id: dorms[currentDormIndex].id,
+          faculty: {
+            id: faculties[currentFacultyIndex].id,
           },
           score: review.rating,
           message: review.description,
@@ -123,7 +127,7 @@ export default function Forum() {
         { withCredentials: true },
       )
       setIsReviewFormVisible(false)
-      fetchReviews(dorms[currentDormIndex].id)
+      fetchReviews(faculties[currentFacultyIndex].id)
       setReview({ rating: 0, description: "" })
     } catch (error) {
       console.error("Error posting review:", error)
@@ -157,7 +161,7 @@ export default function Forum() {
   const fetchAllAnswers = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/campus-hero/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`,
+        `http://localhost:8080/campus-hero/forum?facultyId=${faculties[currentFacultyIndex].id}&studentHomeId=null`,
       )
       const questions = response.data
       const allAnswersPromises = questions.map((question) => {
@@ -173,12 +177,9 @@ export default function Forum() {
     }
   }
 
-  const nextDorm = () => {
-    setCurrentDormIndex((prevIndex) => (prevIndex + 1) % dorms.length)
-  }
-
-  const prevDorm = () => {
-    setCurrentDormIndex((prevIndex) => (prevIndex - 1 + dorms.length) % dorms.length)
+  const handleFacultySelect = (index) => {
+    setCurrentFacultyIndex(index)
+    setIsFacultySelectorOpen(false)
   }
 
   useEffect(() => {
@@ -187,17 +188,18 @@ export default function Forum() {
         setIsModalOpen(false)
         setIsReviewModalOpen(false)
         setIsQuestionPopupOpen(false)
+        setIsFacultySelectorOpen(false)
       }
     }
 
-    if (isModalOpen || isReviewModalOpen || isQuestionPopupOpen) {
+    if (isModalOpen || isReviewModalOpen || isQuestionPopupOpen || isFacultySelectorOpen) {
       window.addEventListener("keydown", handleEsc)
     }
 
     return () => {
       window.removeEventListener("keydown", handleEsc)
     }
-  }, [isModalOpen, isReviewModalOpen, isQuestionPopupOpen])
+  }, [isModalOpen, isReviewModalOpen, isQuestionPopupOpen, isFacultySelectorOpen])
 
   const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
     return (
@@ -227,26 +229,7 @@ export default function Forum() {
   return (
     <div className="forum-page">
       <header className="forum-header">
-        <h1>{dorms.length > 0 ? dorms[currentDormIndex].name : "Loading..."}</h1>
-        <div className="carousel-nav">
-          <button onClick={prevDorm} aria-label="Previous dorm">
-            &#10094;
-          </button>
-          <button onClick={nextDorm} aria-label="Next dorm">
-            &#10095;
-          </button>
-        </div>
-        <div className="carousel-dots">
-          {dorms.map((_, index) => (
-            <span
-              key={index}
-              className={`carousel-dot ${index === currentDormIndex ? "active" : ""}`}
-              onClick={() => setCurrentDormIndex(index)}
-              role="button"
-              aria-label={`Go to dorm ${index + 1}`}
-            />
-          ))}
-        </div>
+        <h1>{faculties.length > 0 ? faculties[currentFacultyIndex].name : "Loading..."}</h1>
         <div className="carousel-rating">
           <StarRating
             rating={review.rating}
@@ -258,7 +241,26 @@ export default function Forum() {
             onHover={setHoveredRating}
           />
         </div>
+        <button className="faculty-selector-button" onClick={() => setIsFacultySelectorOpen(true)}>
+          Odaberi Fakultet
+        </button>
+        
       </header>
+      {isFacultySelectorOpen && (
+        <div className="faculty-selector-container" onClick={() => setIsFacultySelectorOpen(false)}>
+          <div className="faculty-list" onClick={(e) => e.stopPropagation()}>
+            {faculties.map((faculty, index) => (
+              <div
+                key={faculty.id}
+                className={`faculty-item ${index === currentFacultyIndex ? "active" : ""}`}
+                onClick={() => handleFacultySelect(index)}
+              >
+                {faculty.name}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       {user.id && (
         <div className="post-button-container">
           <button className="post-button" onClick={() => setIsModalOpen(true)}>
@@ -308,7 +310,7 @@ export default function Forum() {
       {isReviewModalOpen && (
         <div className="modal-overlays">
           <div className="modal review-popup">
-            <h2>Recenzije za {dorms[currentDormIndex]?.name || "Loading..."}</h2>
+            <h2>Recenzije za {faculties[currentFacultyIndex]?.name || "Loading..."}</h2>
             <div className="review-summary">
               <StarRating
                 rating={review.rating}
@@ -410,12 +412,12 @@ export default function Forum() {
             {isAnswerFormVisible && (
               <form onSubmit={handlePostAnswer} className="answer-form">
                 <div className="form-group">
-                  <label htmlFor="answerBody">Vaš Odgobor</label>
+                  <label htmlFor="answerBody">Vaš Odgovor</label>
                   <textarea
                     id="answerBody"
                     value={newAnswer}
                     onChange={(e) => setNewAnswer(e.target.value)}
-                    placeholder="Type your answer here"
+                    placeholder="Unesite svoj odgovor ovdje"
                     required
                   />
                 </div>

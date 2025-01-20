@@ -1,59 +1,10 @@
-'use client'
+"use client"
 
-import React, { useState, useRef, useEffect, useContext } from 'react'
-import { ChevronLeft, ChevronRight, ChevronDown, Search, Star } from 'lucide-react'
-import './Menze.css'
-import axios from 'axios';
-import { AppStateContext } from '../../context/AppStateProvider';
-
-const cafeterias = [
-  {
-    id: '1',
-    name: 'Studentski centar',
-    description: 'Jedna od najpopularnijih menzi u Zagrebu, smještena u Savskoj ulici, poznata po raznovrsnim jelima i povoljnim cijenama.'
-  },
-  {
-    id: '2',
-    name: 'Stjepan Radić',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Menza unutar studentskog doma Stjepan Radić, nudi širok izbor jela i radno vrijeme prilagođeno studentima.'
-  },
-  {
-    id: '3',
-    name: 'Cvjetno naselje',
-    description: 'Menza u sklopu doma Cvjetno naselje, poznata po mirnom ambijentu i zdravim opcijama.'
-  },
-  {
-    id: '4',
-    name: 'Ekonomski fakultet',
-    description: 'Menza na Ekonomskom fakultetu, omiljena među studentima zbog centralne lokacije i kvalitetnih obroka.'
-  },
-  {
-    id: '5',
-    name: 'FER',
-    description: 'Menza na Fakultetu elektrotehnike i računarstva, popularna među studentima tehničkih smjerova.'
-  },
-  {
-    id: '6',
-    name: 'Građevinski fakultet',
-    description: 'Menza u sklopu Građevinskog fakulteta, nudi razne vrste jela i povoljne cijene za studente.'
-  },
-  {
-    id: '7',
-    name: 'Laščina',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Mala menza u sklopu doma Laščina, poznata po intimnijoj atmosferi i ljubaznom osoblju.'
-  },
-  {
-    id: '8',
-    name: 'PMF',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Menza na Prirodoslovno-matematičkom fakultetu, omiljena među studentima znanstvenih smjerova.'
-  }
-];
-
-const comments = Array.from({ length: 100 }, (_, i) => `Komentar ${i + 1}`)
-const commentsPerPage = 10
+import React, { useState, useRef, useEffect, useContext } from "react"
+import { ChevronLeft, ChevronRight, Star } from "lucide-react"
+import "./Menze.css"
+import axios from "axios"
+import { AppStateContext } from "../../context/AppStateProvider"
 
 const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
   return (
@@ -61,52 +12,45 @@ const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
       {[1, 2, 3, 4, 5].map((star) => (
         <span
           key={star}
-          className={`star ${star <= (hoveredRating || rating) ? 'active' : ''}`}
+          className={`star ${star <= (hoveredRating || rating) ? "active" : ""}`}
           onClick={() => onRate(star)}
           onMouseEnter={() => onHover(star)}
           onMouseLeave={() => onHover(0)}
         >
-          <Star size={25} fill={star <= (hoveredRating || rating) ? 'gold' : 'none'} />
+          <Star size={25} fill={star <= (hoveredRating || rating) ? "gold" : "none"} />
         </span>
       ))}
     </div>
-  );
-};
-
+  )
+}
 
 export default function Menze() {
   const { user } = useContext(AppStateContext);
+  const [activeCafeteria, setActiveCafeteria] = useState(0)
+  const [cafeterias, setCafeterias] = useState([])
   const [activeDorm, setActiveDorm] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const scrollContainerRef = useRef(null)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [reviews, setReviews] = useState([]);
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviews, setReviews] = useState([])
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
   const [review, setReview] = useState({
     rating: 0,
-    description: ''
-  });
-  const [hoveredRating, setHoveredRating] = useState(0);
+    description: "",
+  })
+  const [hoveredRating, setHoveredRating] = useState(0)
 
-  const totalPages = Math.ceil(comments.length / commentsPerPage)
+  useEffect(() => {
+    getAttributeValues()
+  }, [])
 
-  const filteredComments = comments.filter(comment => 
-    comment.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
-  const paginatedComments = filteredComments.slice(
-    (currentPage - 1) * commentsPerPage,
-    currentPage * commentsPerPage
-  )
-
-  const pageNumbers = []
-  if (totalPages <= 10) {
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i)
+  const getAttributeValues = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/campus-hero/menze")
+      setCafeterias(response.data)
+      console.log(response.data)
+    } catch (error) {
+      console.error("Neuspješno dohvaćanje elemenata", error)
     }
-  } else {
-    pageNumbers.push(1, 2, 3, '...', totalPages - 2, totalPages - 1, totalPages)
   }
 
   const scrollTo = (index) => {
@@ -115,67 +59,71 @@ export default function Menze() {
       const child = container.children[index]
       container.scrollTo({
         left: child.offsetLeft - container.offsetWidth / 2 + child.offsetWidth / 2,
-        behavior: 'smooth'
+        behavior: "smooth",
       })
     }
-    setActiveDorm(index)
-    setIsDropdownOpen(false)
+    setActiveCafeteria(index)
   }
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current
       const scrollPosition = container.scrollLeft + container.offsetWidth / 2
-      const newActiveDorm = Array.from(container.children).findIndex((child) => {
+      const newActiveCafeteria = Array.from(container.children).findIndex((child) => {
         return child.offsetLeft <= scrollPosition && scrollPosition <= child.offsetLeft + child.offsetWidth
       })
-      if (newActiveDorm !== -1 && newActiveDorm !== activeDorm) {
-        setActiveDorm(newActiveDorm)
+      if (newActiveCafeteria !== -1 && newActiveCafeteria !== activeCafeteria) {
+        setActiveCafeteria(newActiveCafeteria)
       }
     }
   }
 
   const fetchReviews = async (cafeteriaId) => {
     try {
-      const response = await axios.get(`http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=null&canteenId=${cafeteriaId}&userId=null`);
-      setReviews(response.data);
+      const response = await axios.get(
+        `http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=null&canteenId=${cafeteriaId}&userId=null`,
+      )
+      setReviews(response.data)
     } catch (error) {
-      console.error('Error fetching reviews:', error);
+      console.error("Error fetching reviews:", error)
     }
-  };
+  }
 
   const handleSubmitReview = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      await axios.post(`http://localhost:8080/campus-hero/recenzije`,
+      await axios.post(
+        `http://localhost:8080/campus-hero/recenzije`,
         {
-          "canteen": {   
-            "id": cafeterias[activeDorm].id
+          canteen: {
+            id: cafeterias[activeCafeteria].id,
           },
-          "score": review.rating,
-          "message": review.description
+          score: review.rating,
+          message: review.description,
         },
-        { withCredentials: true }
-      );
-      setIsReviewModalOpen(false);
-      fetchReviews(cafeterias[activeDorm].id);
-      setReview({ rating: 0, description: '' });
+        { withCredentials: true },
+      )
+      setIsReviewModalOpen(false)
+      fetchReviews(cafeterias[activeCafeteria].id)
+      setReview({ rating: 0, description: "" })
     } catch (error) {
-      console.error('Error posting review:', error);
+      console.error("Error posting review:", error)
     }
-  };
+  }
 
   useEffect(() => {
     const container = scrollContainerRef.current
     if (container) {
-      container.addEventListener('scroll', handleScroll)
-      return () => container.removeEventListener('scroll', handleScroll)
+      container.addEventListener("scroll", handleScroll)
+      return () => container.removeEventListener("scroll", handleScroll)
     }
   }, [])
 
   useEffect(() => {
-    fetchReviews(cafeterias[activeDorm].id);
-  }, [activeDorm]);
+    if (cafeterias.length > 0) {
+      fetchReviews(cafeterias[activeCafeteria].id)
+    }
+  }, [activeCafeteria, cafeterias])
 
   return (
     <div className="menze-container">
@@ -185,7 +133,7 @@ export default function Menze() {
 
         <div className="carousel-container1">
           <button 
-            onClick={() => scrollTo((activeDorm - 1 + cafeterias.length) % cafeterias.length)}
+            onClick={() => scrollTo((activeCafeteria - 1 + cafeterias.length) % cafeterias.length)}
             className="menze-button left"
           >
             <ChevronLeft className="icon" />
@@ -194,12 +142,12 @@ export default function Menze() {
             ref={scrollContainerRef}
             className="carousel"
           >
-            {cafeterias.map((dorm) => (
-              <div key={dorm.id} className="dorm-card">
+            {cafeterias.map((cafeteria) => (
+              <div key={cafeteria.id} className="dorm-card">
                 <div className="menze-content">
                   
-                  <h2 className="h2M1">{dorm.name}</h2>
-                  <p>{dorm.description}</p>
+                  <h2 className="h2M1">{cafeteria.name}</h2>
+                  <p>{cafeteria.description}</p>
                   <div className="rating-container">
                     <StarRating
                       rating={review.rating}
@@ -217,42 +165,36 @@ export default function Menze() {
             ))}
           </div>
           <button 
-            onClick={() => scrollTo((activeDorm + 1) % cafeterias.length)}
+            onClick={() => scrollTo((activeCafeteria + 1) % cafeterias.length)}
             className="menze-button right"
           >
             <ChevronRight className="icon" />
           </button>
         </div>
-        
       </main>
-      {isReviewModalOpen && (
-        <div className="modal-overlay">
+      {isReviewModalOpen && cafeterias.length > 0 && (
+        <div className="modal-overlays">
           <div className="modal review-popup">
-            <h2>Reviews for {cafeterias[activeDorm].name}</h2>
+            <h2>Recenzije za {cafeterias[activeCafeteria].name}</h2>
             <div className="review-summary">
               <StarRating
                 rating={review.rating}
                 hoveredRating={hoveredRating}
-                onRate={(rating) => setReview(prev => ({ ...prev, rating }))}
+                onRate={(rating) => setReview((prev) => ({ ...prev, rating }))}
                 onHover={setHoveredRating}
               />
             </div>
             {user.id && (
               <form onSubmit={handleSubmitReview}>
                 <div className="form-group">
-                  <label htmlFor="reviewDescription">Your Review</label>
+                  <label htmlFor="reviewDescription">Recenzija</label>
                   <textarea
                     id="reviewDescription"
                     value={review.description}
-                    onChange={(e) => setReview(prev => ({ ...prev, description: e.target.value }))}
-                    placeholder="Tell us more about your experience"
+                    onChange={(e) => setReview((prev) => ({ ...prev, description: e.target.value }))}
+                    placeholder="Reci nam više o svome iskustvu..."
                     required
                   />
-                </div>
-                <div className="modal-buttons">
-                  <button type="submit" className="submit-button" onClick={handleSubmitReview}>
-                    Submit Review
-                  </button>
                 </div>
               </form>
             )}
@@ -264,17 +206,26 @@ export default function Menze() {
                   </div>
                   <p>{review.message}</p>
                   <div className="review-meta">
-                    <span>Reviewed by {review.creator.name + " " + review.creator.surname || 'Anonymous'}</span>
+                    <span>Reviewed by {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
                   </div>
                 </div>
               ))}
             </div>
+            
+            
+            <div className="modal-buttons">
             <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
-              Close
+              Zatvori
             </button>
+              <button type="submit" className="submit-button">
+                Objavi Recenziju
+              </button>
+            </div>
+     
           </div>
         </div>
       )}
     </div>
   )
 }
+

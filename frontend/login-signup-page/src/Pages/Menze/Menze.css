@@ -67,6 +67,10 @@ body {
   transition: background-color 0.2s;
 }
 
+.star-rating {
+ 
+  z-index: 1;
+}
 
 .menze-button:hover {
   background-color: #ed81c0;
@@ -119,9 +123,32 @@ body {
 .h2M1 {
   font-size: 2rem;
   font-weight: bold;
-  color: #ffffff;
+  color: #fff;
   margin-bottom: 0.5rem;
   text-align: center;
+}
+
+.canteens-info-container {
+  padding: 20px;
+}
+
+.rating-container button{
+  padding: 5px;
+  width: fit-content;
+  border-radius: 20px;
+  background-color: #cfb593;
+}
+
+.rating-container button:hover{
+  background-color: #f0e6d8;
+  cursor: pointer;
+}
+
+.rating-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .dorm-content p {

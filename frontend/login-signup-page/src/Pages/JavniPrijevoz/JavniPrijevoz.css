@@ -30,6 +30,10 @@ body {
   padding: 0px 2rem;
 }
 
+.public-transport-info-container {
+  padding: 20px;
+}
+
 .prijevoz-naslov {
   font-size: 3rem;
   font-weight: bold;

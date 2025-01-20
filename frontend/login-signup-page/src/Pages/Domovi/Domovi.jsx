@@ -1,82 +1,217 @@
-'use client'
+"use client"
 import { useNavigate } from 'react-router-dom';
-import React, { useRef } from 'react'
-import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react'
-import './Domovi.css'
+import React, { useState, useRef, useEffect, useContext } from "react"
+import { ChevronLeft, ChevronRight, Star } from "lucide-react"
+import "./Domovi.css"
+import axios from "axios"
+import { AppStateContext } from "../../context/AppStateProvider"
 
-
-export const dorms = [
-  {
-    id: '2',
-    name: 'Stjepan Radić',
-    image: 'https://th.bing.com/th/id/R.e493b98324d72a801abbf14aa0c87ab7?rik=CkQZIRGArFwtRw&riu=http%3a%2f%2fwww.zagreb.in%2fwp-content%2fuploads%2f2015%2f10%2fStudentski-dom-stjepan-radi%c4%87-1440x1080.jpg&ehk=7F5EpRQ0FIpAjD2mWnpS9%2f6KrZQh8V%2bGVs3%2f1wMdhJQ%3d&risl=&pid=ImgRaw&r=0',
-    description: 'Najveći studentski dom u Zagrebu, poznat po svojoj živahnoj atmosferi i brojnim sadržajima.'
-  },
-  {
-    id: '1',
-    name: 'Cvjetno naselje',
-    image: 'https://i.ibb.co/jrRb11q/img2.jpg',
-    description: 'Moderan dom smješten u mirnom dijelu grada, idealan za studente koji cijene mir i tišinu.'
-  },
-  {
-    id: '3',
-    name: 'Lašćina',
-    image: 'https://i.ibb.co/NSwVv8D/img3.jpg',
-    description: 'Mali dom s obiteljskom atmosferom, savršen za studente koji traže intimniji smještaj.'
-  },
-  {
-    id: '4',
-    name: 'Ante Starčević',
-    image: '/Components/assets/sdAnte%281%29.jpg',
-    description: 'Dom u srcu Trešnjevke, poznat po svojim sportskim terenima i blizini gradskih sadržaja.'
-  },
-  {
-    id: '5',
-    name: 'Ivan Meštrović',
-    image: 'https://i.ibb.co/jTQfmTq/img5.jpg',
-    description: 'Umjetnički orijentiran dom, često domaćin kulturnih događanja i izložbi.'
-  }
-]
+const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
+  return (
+    <div className="star-rating">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          className={`star ${star <= (hoveredRating || rating) ? "active" : ""}`}
+          onClick={() => onRate(star)}
+          onMouseEnter={() => onHover(star)}
+          onMouseLeave={() => onHover(0)}
+        >
+          <Star size={25} fill={star <= (hoveredRating || rating) ? "gold" : "none"} />
+        </span>
+      ))}
+    </div>
+  )
+}
 
 export default function Domovi() {
-  const slideRef = useRef(null)
   const navigate = useNavigate();
+  const { user } = useContext(AppStateContext)
+  const [activeDorm, setActiveDorm] = useState(0)
+  const [dorms, setDorms] = useState([])
+  const scrollContainerRef = useRef(null)
+  const [reviews, setReviews] = useState([])
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+  const [review, setReview] = useState({
+    rating: 0,
+    description: "",
+  })
+  const [hoveredRating, setHoveredRating] = useState(0)
 
-  const handleNext = () => {
-    if (slideRef.current) {
-      const items = slideRef.current.children
-      slideRef.current.appendChild(items[0].cloneNode(true))
-      slideRef.current.removeChild(items[0])
+  useEffect(() => {
+    getAttributeValues()
+  }, [])
+
+  const getAttributeValues = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/campus-hero/domovi")
+      setDorms(response.data)
+      console.log(response.data)
+    } catch (error) {
+      console.error("Neuspješno dohvaćanje elemenata", error)
     }
   }
 
-  const handlePrev = () => {
-    if (slideRef.current) {
-      const items = slideRef.current.children
-      const lastItem = items[items.length - 1].cloneNode(true)
-      slideRef.current.insertBefore(lastItem, items[0])
-      slideRef.current.removeChild(items[items.length - 1])
+  const scrollTo = (index) => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current
+      const child = container.children[index]
+      container.scrollTo({
+        left: child.offsetLeft - container.offsetWidth / 2 + child.offsetWidth / 2,
+        behavior: "smooth",
+      })
+    }
+    setActiveDorm(index)
+  }
+
+  const handleScroll = () => {
+    if (scrollContainerRef.current) {
+      const container = scrollContainerRef.current
+      const scrollPosition = container.scrollLeft + container.offsetWidth / 2
+      const newActiveDorm = Array.from(container.children).findIndex((child) => {
+        return child.offsetLeft <= scrollPosition && scrollPosition <= child.offsetLeft + child.offsetWidth
+      })
+      if (newActiveDorm !== -1 && newActiveDorm !== activeDorm) {
+        setActiveDorm(newActiveDorm)
+      }
     }
   }
+
+  const fetchReviews = async (dormId) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
+      )
+      setReviews(response.data)
+    } catch (error) {
+      console.error("Error fetching reviews:", error)
+    }
+  }
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.post(
+        `http://localhost:8080/campus-hero/recenzije`,
+        {
+          studentHome: {
+            id: dorms[activeDorm].id,
+          },
+          score: review.rating,
+          message: review.description,
+        },
+        { withCredentials: true },
+      )
+      setIsReviewModalOpen(false)
+      fetchReviews(dorms[activeDorm].id)
+      setReview({ rating: 0, description: "" })
+    } catch (error) {
+      console.error("Error posting review:", error)
+    }
+  }
+
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (container) {
+      container.addEventListener("scroll", handleScroll)
+      return () => container.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (dorms.length > 0) {
+      fetchReviews(dorms[activeDorm].id)
+    }
+  }, [activeDorm, dorms])
 
   return (
-    <div className="domovi-containe">
-      <div className="carousel">
-        <div className="slide" ref={slideRef}>
-          {dorms.map((dorm) => (
-            <div key={dorm.id} className="item" style={{backgroundImage: `url(${dorm.image})`}}>
-              <div className="content">
-                <div className="name">{dorm.name}</div>
-                <div className="des">{dorm.description}</div>
-                <button onClick={() => navigate("./Forum")}>Forum</button>
+    <div className="domovi-container">
+      <main className="domovi-main">
+        <h1>Studentski domovi u Zagrebu</h1>
+
+        <div className="carousel-container">
+          <button
+            onClick={() => scrollTo((activeDorm - 1 + dorms.length) % dorms.length)}
+            className="carousel-button left"
+          >
+            <ChevronLeft className="icon" />
+          </button>
+          <div ref={scrollContainerRef} className="carousel">
+            {dorms.map((dorm) => (
+              <div key={dorm.id} className="dorm-card">
+                <div className="dorm-content">
+                  <h2 className="h2D1">{dorm.name}</h2>
+                  <div className="rating-container">
+                    <StarRating
+                      rating={review.rating}
+                      hoveredRating={hoveredRating}
+                      onRate={(rating) => {
+                        setReview((prev) => ({ ...prev, rating }))
+                        setIsReviewModalOpen(true)
+                      }}
+                      onHover={setHoveredRating}
+                    />
+                    <button onClick={() => navigate("./Forum")}>Forum</button>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <button onClick={() => scrollTo((activeDorm + 1) % dorms.length)} className="carousel-button right">
+            <ChevronRight className="icon" />
+          </button>
         </div>
-      </div>
-      <div className="gumb">
-        <ChevronRight className="prev" onClick={handlePrev}></ChevronRight>
-      </div>
+      </main>
+      {isReviewModalOpen && dorms.length > 0 && (
+        <div className="modal-overlays">
+          <div className="modal review-popup">
+            <h2>Reviews for {dorms[activeDorm].name}</h2>
+            <div className="review-summary">
+              <StarRating
+                rating={review.rating}
+                hoveredRating={hoveredRating}
+                onRate={(rating) => setReview((prev) => ({ ...prev, rating }))}
+                onHover={setHoveredRating}
+              />
+            </div>
+            {user.id && (
+              <form onSubmit={handleSubmitReview}>
+                <div className="form-group">
+                  <label htmlFor="reviewDescription">Your Review</label>
+                  <textarea
+                    id="reviewDescription"
+                    value={review.description}
+                    onChange={(e) => setReview((prev) => ({ ...prev, description: e.target.value }))}
+                    placeholder="Tell us more about your experience"
+                    required
+                  />
+                </div>
+                <div className="modal-buttons">
+                  <button type="submit" className="submit-button">
+                    Submit Review
+                  </button>
+                </div>
+              </form>
+            )}
+            <div className="reviews-list">
+              {reviews.map((review, index) => (
+                <div key={index} className="review-item">
+                  <div className="review-rating">
+                    <StarRating rating={review.score} hoveredRating={0} onRate={() => {}} onHover={() => {}} />
+                  </div>
+                  <p>{review.message}</p>
+                  <div className="review-meta">
+                    <span>Reviewed by {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

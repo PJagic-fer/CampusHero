@@ -1,0 +1,75 @@
+.faculty-selector-button {
+    background-color: #cfb593;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1em;
+    cursor: pointer;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+  }
+  
+  .faculty-selector-button:hover {
+    background-color: #fff;
+    color: #cfb593;
+    border: 2px solid #cfb593;
+  }
+  
+  .faculty-selector-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .faculty-list {
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    max-height: 80vh;
+    overflow-y: auto;
+    width: 90%;
+    max-width: 600px;
+  }
+  
+  .faculty-item {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .faculty-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .faculty-item.active {
+    background-color: #e0e0e0;
+    font-weight: bold;
+  }
+  
+  .carousel-rating {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+  }
+
+  @media only screen and (max-width: 815px) {
+    .carousel-rating {
+      bottom: 70px;
+    }
+    
+  }
+  
