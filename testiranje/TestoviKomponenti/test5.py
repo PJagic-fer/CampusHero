@@ -118,7 +118,7 @@ try:
     print("Question title added")
 
     try:
-        with open(r"C:\Faks\Progi\testiranje\TestoviKomponenti\longText.txt", "r", encoding="utf-8") as file:
+        with open({LongtextPath}, "r", encoding="utf-8") as file:
             long_text = file.read()
 
         body_input = WebDriverWait(driver, 30).until(
