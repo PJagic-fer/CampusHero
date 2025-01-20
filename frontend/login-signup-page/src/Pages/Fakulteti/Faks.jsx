@@ -134,14 +134,14 @@ export default function Faksevi() {
   }, [])
 
   return (
-    <div className="domovi-container">
+    <div className="faks-container">
       <main className="domovi-main">
-        <h1>Fakulteti u Zagrebu</h1>
+        <h1 className='faks-naslov'>Otkrij sve što trebaš znati o fakultetima, tvoje obrazovanje počinje ovdje</h1>
         
         <div className="carousel-container">
           <button 
             onClick={() => scrollTo((activeDorm - 1 + faculties.length) % faculties.length)}
-            className="carousel-button left"
+            className="faks-button left"
           >
             <ChevronLeft className="icon" />
           </button>
@@ -151,7 +151,7 @@ export default function Faksevi() {
           >
             {faculties.map((dorm) => (
               <div key={dorm.id} className="dorm-card">
-                <div className="dorm-content">
+                <div className="dorm-content4">
                   
                   <h2 className="h2F1">{dorm.name}</h2>
                   <p>{dorm.description}</p>
@@ -161,7 +161,7 @@ export default function Faksevi() {
           </div>
           <button 
             onClick={() => scrollTo((activeDorm + 1) % faculties.length)}
-            className="carousel-button right"
+            className="faks-button right"
           >
             <ChevronRight className="icon" />
           </button>
