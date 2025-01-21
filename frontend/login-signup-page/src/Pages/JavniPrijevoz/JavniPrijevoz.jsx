@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, ChevronDown, Search } from 'lucide-react'
-import './Domovi.css'
+import './JavniPrijevoz.css'
 
 const publicTransport = [
   {
@@ -104,14 +104,14 @@ export default function Prijevoz() {
   }, [])
 
   return (
-    <div className="domovi-container">
+    <div className="prijevoz-container">
       <main className="domovi-main">
-        <h1>Javni prijevoz u Zagrebu</h1>
+        <h1 className='prijevoz-naslov'>Kreći se brže, lakše i povoljnije do kampusa </h1>
         
         <div className="carousel-container">
           <button 
             onClick={() => scrollTo((activeDorm - 1 + publicTransport.length) % publicTransport.length)}
-            className="carousel-button left"
+            className="prijevoz-button left"
           >
             <ChevronLeft className="icon" />
           </button>
@@ -121,9 +121,9 @@ export default function Prijevoz() {
           >
             {publicTransport.map((dorm) => (
               <div key={dorm.id} className="dorm-card">
-                <div className="dorm-content">
+                <div className="prijevoz-content">
                   
-                  <h2 className="h2P1">{dorm.name}</h2>
+                  <h2 className="h2Prijevoz">{dorm.name}</h2>
                   <p>{dorm.description}</p>
                 </div>
               </div>
@@ -131,7 +131,7 @@ export default function Prijevoz() {
           </div>
           <button 
             onClick={() => scrollTo((activeDorm + 1) % publicTransport.length)}
-            className="carousel-button right"
+            className="prijevoz-button right"
           >
             <ChevronRight className="icon" />
           </button>

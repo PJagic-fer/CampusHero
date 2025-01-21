@@ -1,19 +1,18 @@
 .forum-page {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 10px;
-  padding-left: 50px;
-  padding-right: 50px;
   font-family: 'Inter', sans-serif;
 }
 
 .forum-header {
-  height: 400px;
-  margin-bottom: 20px;
+  background: linear-gradient(rgba(232, 213, 149, 0.073),rgba(8,0,58,0.7)), url('../../Components/assets/dom-forum2.jpg');
+  background-size: cover; /* Prekriva cijeli prostor */
+  background-position: center; /* Centrirano */
+  background-repeat: no-repeat; /* Bez ponavljanja slike */
+  width: 100vw; /* Puna širina prikaza */
+  height: 65vh; /* Puna visina prikaza */
   position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Sakrivanje preljeva */
+  z-index: 0; /* Osigurava da je u pozadini */
 }
 
 .carousel {
@@ -79,9 +78,17 @@
 
 .carousel-dots {
   position: absolute;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  width: 94px;
+  height:20px;
   bottom: 20px;
   left: 50%;
+  background-color: rgba(100, 100, 100, 0.75);
+  border-radius: 20px;
   transform: translateX(-50%);
+  overflow: hidden;
   display: flex;
   gap: 12px;
   z-index: 2;
@@ -107,10 +114,10 @@
 
 .carousel-rating {
   position: absolute;
-  bottom: 50px;
+  bottom: 120px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10;
+  z-index: 1;
 }
 
 .star-rating {
@@ -120,7 +127,7 @@
 
 .star {
   font-size: 36px;
-  color: rgba(128, 128, 128, 0.5);
+  color: rgb(255, 255, 255);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -165,6 +172,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-top: 20px;
 }
 
 .post-button:hover, .post-answer-button:hover {
@@ -182,6 +190,8 @@
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-right: 150px;
+  margin-left: 150px;
 }
 
 .question-item {
@@ -220,7 +230,7 @@
   font-size: 0.9em;
 }
 
-.modal-overlay {
+.modal-overlays {
   position: fixed;
   top: 0;
   left: 0;
@@ -230,7 +240,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000;
+  z-index: 10000;
 }
 
 .modal {
@@ -281,7 +291,7 @@
 }
 
 .form-group textarea {
-  height: 150px;
+  height: 120px;
   resize: vertical;
 }
 
@@ -420,6 +430,12 @@
 .review-meta {
   font-size: 0.9em;
   color: #64748b;
+}
+
+@media only screen and (max-width: 815px) {
+  .carousel-rating {
+    bottom: 100px;
+  }
 }
 
 

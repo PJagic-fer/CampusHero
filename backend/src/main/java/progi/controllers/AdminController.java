@@ -133,12 +133,12 @@ public class AdminController {
 
     // administrator briše recenziju
     @PostMapping("/review")
-    public ResponseEntity<?> deleteReview(@RequestBody Long reviewId, HttpSession session) {
+    public ResponseEntity<?> deleteReview(@RequestBody String reviewId, HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
         if (contextUser.getIsAdmin()) {
-            reviewService.deleteReview(reviewId);
+            reviewService.deleteReview(Long.parseLong(reviewId));
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -146,12 +146,15 @@ public class AdminController {
 
     // administrator briše recenziju
     @PostMapping("/post")
-    public ResponseEntity<?> deletePost(@RequestBody Long postId, HttpSession session) {
+    public ResponseEntity<?> deletePost(@RequestBody String postId, HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
+        System.out.println(contextUserId);
+        System.out.println(postId);
+
         if (contextUser.getIsAdmin()) {
-            postService.deletePost(postId);
+            postService.deletePost(Long.parseLong(postId));
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

@@ -1,75 +1,126 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Info.css';
+import axios from 'axios';
+import { AppStateContext } from '../../context/AppStateProvider';
 
-const ZagrebCanteensInfo = () => {
+const BuddyInfo = () => {
+  const navigate = useNavigate();
+  const { user } = useContext(AppStateContext); // Dohvaćamo korisnika iz konteksta
+  const [isBuddy, setIsBuddy] = useState(false); // Praćenje stanja checkboxa
+  const [loading, setLoading] = useState(true); // Praćenje učitavanja stanja
+  const [showModal, setShowModal] = useState(false); // Prikazivanje modala
+
+  // Dohvat trenutnog Buddy statusa s backenda prilikom učitavanja komponente
+  useEffect(() => {
+    const fetchBuddyStatus = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8080/campus-hero/buddy-status/${user.id}`, {
+          withCredentials: true,
+        });
+        if (response.status === 200) {
+          setIsBuddy(response.data.isBuddy); // Postavljanje trenutnog stanja
+        }
+      } catch (error) {
+        console.error('Greška prilikom dohvaćanja Buddy statusa:', error);
+      } finally {
+        setLoading(false); // Učitavanje završeno
+      }
+    };
+
+    if (user.id) {
+      fetchBuddyStatus();
+    }
+  }, [user.id]);
+
+  const handleCheckboxChange = async () => {
+    const newBuddyStatus = !isBuddy;
+    setIsBuddy(newBuddyStatus); // Ažuriramo lokalno stanje
+
+    try {
+      // Slanje zahtjeva na backend
+      const response = await axios.post(
+        'http://localhost:8080/campus-hero/buddy-status',
+        { userId: user.id, isBuddy: newBuddyStatus }, // Prosljeđujemo ID korisnika i stanje checkboxa
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        console.log('Uspješno poslano na backend:', response.data);
+      }
+    } catch (error) {
+      console.error('Greška prilikom slanja statusa na backend:', error);
+      alert('Došlo je do greške prilikom ažuriranja Buddy statusa.');
+    }
+  };
+
+  const handleClick = () => {
+    if (!user.name) {
+      // Ako korisnik nije prijavljen, prikaži modal
+      setShowModal(true);
+      return;
+    }
+    // Ako je prijavljen, navigiramo na BuddyWorld
+    navigate('/BuddyWorld');
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
-    <div className="canteens-info-container">
+    <div className="canteens-info-container1">
       <p className="introB">
-        Studentske menze u Zagrebu pružaju kvalitetnu i pristupačnu prehranu za studente. 
-        Ovi objekti ne samo da nude raznovrsne obroke po subvencioniranim cijenama, već su i 
-        važna mjesta studentskog okupljanja i socijalizacije.
+        Buddy svijet povezuje studente kako bi olakšao prilagodbu na kampus, potaknuo nova prijateljstva i pružio podršku kroz zajedničko iskustvo studiranja.
       </p>
-      
-      <h2 className="h2B">Kako koristiti studentske menze?</h2>
-      <ul>
-        <li>Potrebna je važeća studentska iskaznica (iksica)</li>
-        <li>Iksica se može nadoplatiti na blagajnama menzi ili putem e-Studenta</li>
-        <li>Svaki student ima pravo na dva subvencionirana obroka dnevno</li>
-        <li>Menze nude doručak, ručak i večeru u određenim terminima</li>
-        <li>Plaćanje se vrši isključivo iksicama, gotovina nije prihvaćena</li>
-      </ul>
 
-      <h2 className="h2B">Popularne studentske menze u Zagrebu</h2>
+      <h2 className="h2B">Tvoji prvi koraci u stvaranju nezaboravnih prijateljstava!</h2>
       <ul>
-        <li>Savska - najveća menza, poznata po raznovrsnoj ponudi</li>
-        <li>SC - centralno smještena, često vrlo prometna</li>
-        <li>Cvjetno naselje - moderna menza s ugodnim ambijentom</li>
-        <li>FSB - popularna među studentima tehničkih fakulteta</li>
-        <li>Ekonomija - prostrana menza s brzom uslugom</li>
+        Zamisli da imaš prijatelja koji je uvijek tu za tebe – vodič kroz kampus, mentor i podrška kad ti zatreba. Buddy svijet nudi ti priliku da brzo pronađeš svoje mjesto u novom okruženju, upoznaš ljude i uživaš u studentskom životu.
+        Klikni i otkrij kako Buddy svijet može učiniti tvoje studiranje jednostavnijim, zabavnijim i punim novih prilika. Tvoj savršeni početak čeka – zaronimo zajedno u Buddy World!
       </ul>
+      <div className="soft-container">
+        <div className="spacer"></div>
+        <div className="soft btn" onClick={handleClick}>
+          <div className="btn-txt soft-txt">BuddyWorld!</div>
+          <div></div>
+          <div></div>
+        </div>
+        <div style={{ margin: '20px 0' }}></div>
+      </div>
 
-      <h2 className="h2B">Radno vrijeme i ponuda</h2>
-      <p>
-        Radno vrijeme može varirati ovisno o menzi, ali općenito:
-      </p>
-      <ul>
-        <li>Doručak: 07:00 - 10:00</li>
-        <li>Ručak: 11:00 - 16:00</li>
-        <li>Večera: 17:00 - 20:00</li>
-      </ul>
-      <p>
-        Ponuda obično uključuje:
-      </p>
-      <ul>
-        <li>Nekoliko vrsta glavnih jela (mesna i vegetarijanska opcija)</li>
-        <li>Razne priloge (riža, krumpir, povrće)</li>
-        <li>Juhe i salate</li>
-        <li>Desert</li>
-        <li>Bezalkoholna pića</li>
-      </ul>
-
-      <h2 className="h2B">Dodatne informacije</h2>
-      <ul>
-        <li>Cijene obroka su subvencionirane i znatno niže od tržišnih cijena</li>
-        <li>Mnoge menze nude i opciju "za van"</li>
-        <li>Jelovnici se obično mijenjaju na tjednoj bazi</li>
-        <li>Neke menze imaju posebne ponude za vegetarijance i vegane</li>
-        <li>Tijekom ispitnih rokova, neke menze imaju produženo radno vrijeme</li>
-      </ul>
-      
-      <p>
-        Korištenje studentskih menzi ne samo da je ekonomično, već i pruža priliku za druženje 
-        s kolegama i stvaranje novih poznanstava. To je važan aspekt studentskog života koji 
-        doprinosi cjelokupnom iskustvu studiranja u Zagrebu.
-      </p>
+      {/* Prikaži checkbox samo ako je korisnik prijavljen */}
+      {user.name && (
+        <div className="checkbox">
+          <h1 className="buddy-upit">Želiš postati Buddy?</h1>
+          <div className="styled-checkbox">
+            <input
+              type="checkbox"
+              id="buddy-checkbox"
+              checked={isBuddy}
+              onChange={handleCheckboxChange} // Povezujemo funkciju za slanje podataka
+            />
+            <label htmlFor="buddy-checkbox"></label>
+          </div>
+        </div>
+      )}
 
       <p className="note">
-        Napomena: Radno vrijeme, cijene i ponuda mogu se mijenjati. Za najnovije informacije, 
-        preporučuje se provjeriti službenu web stranicu Studentskog centra Zagreb ili koristiti 
-        aplikaciju za pregled jelovnika i stanja na iksici.
+        Napomena: Ako naiđeš na poteškoće ili imaš bilo kakvih pitanja tijekom korištenja Buddy svijeta, naš support tim je uvijek tu da ti pomogne. Slobodno nas kontaktiraj, tu smo da osiguramo da tvoje iskustvo bude glatko, ugodno i bez stresa!
       </p>
+
+      {/* Modal za korisnika koji nije prijavljen */}
+      {showModal && (
+        <div className="modal1">
+          <div className="modal-content-buddy">
+            <h2 className='modal-naslov'>Prijava potrebna</h2>
+            <p className='modal-tekst'>Morate se prijaviti da biste pristupili Buddy svijetu!</p>
+            <button onClick={closeModal} className="close-modal-btn">Zatvori</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ZagrebCanteensInfo;
+export default BuddyInfo;

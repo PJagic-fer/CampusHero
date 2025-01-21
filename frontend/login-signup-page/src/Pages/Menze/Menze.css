@@ -7,10 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }	
 
-.domovi-container {
+.menze-container { /*css za hero pozadinu*/
     width: 100%;
     height: 80vh;
-    background-image: url('../../Components/assets/domovi_slika.png'), linear-gradient(to bottom, transparent 50%, #ffffff 50%);
+    background: linear-gradient(rgba(232, 212, 149, 0.7),rgba(8,0,58,0.7)), url('../../Components/assets/menza-studenti.jpg');
     background-blend-mode: multiply;
     background-size: 100% 100%, 100% 100%;
     background-repeat: no-repeat;
@@ -21,35 +21,44 @@ body {
     justify-content: center;
 }
 
-.domovi-main {
+.h2H1 {
+  max-width: 700px;
+  margin: 10px auto 20px;
+  font-weight: lighter;
+  font-size: 30px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.domovi-main1 {
   flex-grow: 1;
   border-radius: 15px;
   width:100%;
   margin-left: auto;
-  margin-top: 150px;
+  margin-top: 100px;
   padding: 0px 2rem;
 }
 
-h1 {
-  font-size: 3.8rem;
+.menze-naslov {
+  font-size: 3rem;
   font-weight: bold;
-  color: #ffffff;
+  color: #c7547e;
   margin-bottom: 1.5rem;
   text-align: center;
-  text-shadow: 3px 5px 5px rgba(0, 0, 0, 0.9);
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
 }
 
-.carousel-container {
+.carousel-container1 {
   position: relative;
 }
 
-.carousel-button {
+.menze-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background-color: #dcc4a4;
-  color: #333;
+  background-color: #c7547e;
+  color: #ffffff;
   padding: 0.5rem;
   border-radius: 50%;
   border: none;
@@ -58,15 +67,20 @@ h1 {
   transition: background-color 0.2s;
 }
 
-.carousel-button:hover {
-  background-color: #c0a88f;
+.star-rating {
+ 
+  z-index: 1;
 }
 
-.carousel-button.left {
+.menze-button:hover {
+  background-color: #ed81c0;
+}
+
+.menze-button.left {
   left: 0;
 }
 
-.carousel-button.right {
+.menze-button.right {
   right: 0;
 }
 
@@ -90,8 +104,8 @@ h1 {
   scroll-snap-align: center;
 }
 
-.dorm-content {
-  background-color: #dcc4a4;
+.menze-content {
+  background-color: #c7547e;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
@@ -101,26 +115,46 @@ h1 {
   margin-right: auto;
 }
 
-.dorm-content img {
-  width: 100%;
-  position:sticky; 
-  z-index: 0;
-  height: 12rem;
-  object-fit: cover;
-  border-radius: 0.5rem;
-  margin-bottom: 1rem;
+.menze-content p {
+  font-size: 20px;
+  margin-top: -10px;
 }
 
-.h2B1 {
-  font-size: 1.5rem;
+.h2M1 {
+  font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.canteens-info-container {
+  padding: 20px;
+}
+
+.rating-container button{
+  padding: 5px;
+  width: fit-content;
+  border-radius: 20px;
+  background-color: #cfb593;
+}
+
+.rating-container button:hover{
+  background-color: #f0e6d8;
+  cursor: pointer;
+}
+
+.rating-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .dorm-content p {
   color: #333;
   line-height: 1.5;
+  margin-bottom: 0;
 }
 
 .carousel-indicators {
@@ -282,11 +316,60 @@ h1 {
   height: 1.5rem;
 }
 
+.ocijeni-gumb {
+  padding: 12px 24px;
+  background-color: #6c63ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  margin-top: -0.3rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.ocijeni-gumb:hover {
+  background-color: #5148d1;
+  transform: scale(1.05);
+}
+
+.ocijeni-gumb:active {
+  background-color: #3e36a1;
+  transform: scale(0.95);
+}
+
+.rating-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  margin-top: -2.8rem;
+}
+
+.star-rating {
+  margin-top: 28px; 
+}
+
+.average-rating {
+  font-size: 1rem;
+  font-weight: normal;
+  color: #fff;
+  margin-left: 0.5rem;
+  background-color: #6c63ff;
+  padding: 0.2rem 0.5rem;
+  border-radius: 5px;
+}
+
 @media only screen and (max-width: 768px) {
   h1 {
     font-size: 2.5rem;
   }
   .dorm-content {
     width: 60%;
+  }
+  .dropdown-container {
+    display: none !important;
   }
 }

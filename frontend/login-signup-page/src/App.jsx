@@ -15,6 +15,7 @@ import Prijevoz from './Pages/JavniPrijevoz/JavniPrijevoz';
 import Prijevoz_Info from './Pages/JavniPrijevoz/Info';
 import Menze from './Pages/Menze/Menze';
 import Forum from './Pages/Forum/forum';
+import FForum from './Pages/Forum/FForum';
 import Menze_Info from './Pages/Menze/Info';
 import Buddy from './Pages/Buddy/Buddy';
 import Buddy_Info from './Pages/Buddy/Info';
@@ -24,6 +25,7 @@ import Footer from './Components/Footer/Footer';
 import { AppStateProvider } from './context/AppStateProvider';
 import Profil_Header from './Pages/Profil/ProfilHeader'
 import Admin from './Pages/Admin/Admin';
+import BuddyWorld from './Pages/Buddy/BuddyWorld'
 
 const App = () => {
   return (
@@ -40,7 +42,9 @@ const App = () => {
           <Route path="/Menze" element={<Menze />} />
           <Route path="/Buddy" element={<Buddy />} />
           <Route path="/Domovi/Forum" element={<Forum />} />
+          <Route path="/Fakulteti/Forum" element={<FForum />} />
           <Route path="/Admin" element={<Admin />} />
+          <Route path="/BuddyWorld" element={<BuddyWorld />} />
           </Routes>
           <div className="container">
             <Routes>

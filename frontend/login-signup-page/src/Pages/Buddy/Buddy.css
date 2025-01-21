@@ -7,11 +7,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }	
 
-.domovi-container {
+.buddy-container {
     width: 100%;
     height: 80vh;
-    background-image: url('../../Components/assets/domovi_slika.png'), linear-gradient(to bottom, transparent 50%, #ffffff 50%);
+    background-image: url('../../Components/assets/buddies2.jpg'), linear-gradient(to bottom, transparent 50%, #ffffff 50%);
     background-blend-mode: multiply;
+    background-size: 100% 100%, 100% 100%;
     background-repeat: no-repeat;
     background-position: top left, center;
     color: #fff;
@@ -29,26 +30,26 @@ body {
   padding: 0px 2rem;
 }
 
-h1 {
-  font-size: 3rem;
+.buddy-naslov{
+  font-size: 3.8rem;
   font-weight: bold;
-  color: #ffffff;
+  color: #38b283;
   margin-bottom: 1.5rem;
   text-align: center;
-  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+  text-shadow: 3px 5px 5px rgba(0, 0, 0, 0.9);
 }
 
 .carousel-container {
   position: relative;
 }
 
-.carousel-button {
+.buddy1-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background-color: #dcc4a4;
-  color: #333;
+  background-color: #e75e0f;
+  color: #ffffff;
   padding: 0.5rem;
   border-radius: 50%;
   border: none;
@@ -57,15 +58,15 @@ h1 {
   transition: background-color 0.2s;
 }
 
-.carousel-button:hover {
-  background-color: #c0a88f;
+.buddy1-button:hover {
+  background-color: #e39c50;
 }
 
-.carousel-button.left {
+.buddy1-button.left {
   left: 0;
 }
 
-.carousel-button.right {
+.buddy1-button.right {
   right: 0;
 }
 
@@ -89,8 +90,8 @@ h1 {
   scroll-snap-align: center;
 }
 
-.dorm-content {
-  background-color: #dcc4a4;
+.buddy1-content {
+  background-color: #e75e0f;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
@@ -110,16 +111,18 @@ h1 {
   margin-bottom: 1rem;
 }
 
-.h2F1 {
-  font-size: 1.5rem;
+.h2Buddy {
+  font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: #ffffff;
   margin-bottom: 0.5rem;
+  text-align: center;
+  
 }
 
-.dorm-content p {
-  color: #333;
-  line-height: 1.5;
+.buddy1-content p {
+  color: #ffffff;
+  font-size: 1.2rem;
 }
 
 .carousel-indicators {
@@ -155,7 +158,7 @@ h1 {
 }
 
 .dropdown-button {
-  width: 33%;
+  width: 35%;
   padding: 0.75rem 1rem;
   background-color: #dcc4a4;
   color: #333;
@@ -288,7 +291,5 @@ h1 {
   .dorm-content {
     width: 60%;
   }
-  .dropdown-container {
-    display: none;
-  }
 }
+

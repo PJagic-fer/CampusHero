@@ -7,10 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }	
 
-.domovi-container {
+.prijevoz-container {
     width: 100%;
     height: 80vh;
-    background-image: url('../../Components/assets/domovi_slika.png'), linear-gradient(to bottom, transparent 50%, #ffffff 50%);
+    background: linear-gradient(rgba(232, 212, 149, 0.7),rgba(8,0,58,0.7)), url('../../Components/assets/prijevoz.jpg');
     background-blend-mode: multiply;
     background-size: 100% 100%, 100% 100%;
     background-repeat: no-repeat;
@@ -30,10 +30,14 @@ body {
   padding: 0px 2rem;
 }
 
-h1 {
+.public-transport-info-container {
+  padding: 20px;
+}
+
+.prijevoz-naslov {
   font-size: 3rem;
   font-weight: bold;
-  color: #ffffff;
+  color: #27c3af;
   margin-bottom: 1.5rem;
   text-align: center;
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
@@ -43,13 +47,13 @@ h1 {
   position: relative;
 }
 
-.carousel-button {
+.prijevoz-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 10;
-  background-color: #dcc4a4;
-  color: #333;
+  background-color: #27c3af;
+  color: #ffffff;
   padding: 0.5rem;
   border-radius: 50%;
   border: none;
@@ -58,15 +62,15 @@ h1 {
   transition: background-color 0.2s;
 }
 
-.carousel-button:hover {
+.prijevoz-button:hover {
   background-color: #c0a88f;
 }
 
-.carousel-button.left {
+.prijevoz-button.left {
   left: 0;
 }
 
-.carousel-button.right {
+.prijevoz-button.right {
   right: 0;
 }
 
@@ -90,8 +94,8 @@ h1 {
   scroll-snap-align: center;
 }
 
-.dorm-content {
-  background-color: #dcc4a4;
+.prijevoz-content {
+  background-color: #27c3af;
   border-radius: 0.5rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
@@ -111,11 +115,17 @@ h1 {
   margin-bottom: 1rem;
 }
 
-.h2P1 {
-  font-size: 1.5rem;
+.h2Prijevoz {
+  font-size: 2rem;
   font-weight: bold;
-  color: #333;
+  color: #ffffff;
   margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.prijevoz-content p {
+  color: #ffffff;
+  font-size: 1.4rem;
 }
 
 .dorm-content p {
