@@ -70,7 +70,7 @@ public class BuddySistemController {
 
     // Makni se iz registra buddyja
     @DeleteMapping("/buddy/prijava")
-    public String postBuddySistemBuddyPrijava(HttpSession session){
+    public String deleteBuddySistemBuddyPrijava(HttpSession session){
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
