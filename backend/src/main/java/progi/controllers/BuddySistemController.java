@@ -14,6 +14,7 @@ import progi.data.ApplicationUser;
 import progi.utils.AuthContextUtil;
 import java.util.Optional;
 import java.util.List;
+import java.util.ArrayList;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -97,12 +98,28 @@ public class BuddySistemController {
         return ("Ocjenili ste svoga buddyja");
     }
 
-    // Nesto ala tinder? Ponudi ti popis aktivnih buddyja i mozes odabrati jednog od njih
     @GetMapping("/student/trazi-buddyja")
-    public String getBuddySistemStudentTraziBuddyja(){
-        return ("Dobrodošli na CampusHero-stranicu gdje studenti pronalaze buddyje");
-        // vraca nazad info o par usera koji su odabrani kao validni mentori
-        // filtritat ljude po necemu, idk
+    public List<ApplicationUser> getBuddySistemStudentTraziBuddyja(){
+        // Vraca sve buddyje
+        List<ApplicationUser> users = applicationUserService.getAllApplicationUsers();
+        List<ApplicationUser> buddies = new ArrayList<>();        
+        for (ApplicationUser user : users)
+        {
+            if(user.getIsBuddy() == true)
+            {
+                buddies.add(user);
+            }
+        }
+
+        for (ApplicationUser buddy : buddies)
+        {
+            buddy.setJmbag("0"); // Ubij sve privatno
+            buddy.setIsAdmin(false);
+            buddy.setSurname("Prezimenovic");
+            buddy.setGoogleId("0");
+        }
+
+        return buddies;
     }
 
 }
