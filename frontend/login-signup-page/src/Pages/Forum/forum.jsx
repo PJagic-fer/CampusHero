@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react"
 import axios from "axios"
-import "./forum.css"
+import "./Forum.css"
 import { Star } from "lucide-react"
 import { AppStateContext } from "../../context/AppStateProvider"
 
