@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import CheckLogin from './Components/Check_login/CheckLogin';
+import CheckLogin from './Components/check_login/CheckLogin';
 import Navbar from './Components/Navbar/Navbar';
 import Hero from './Components/Hero/Hero';
 import Guides from './Components/Guides/Guides';
