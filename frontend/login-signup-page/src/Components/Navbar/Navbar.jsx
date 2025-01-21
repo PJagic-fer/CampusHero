@@ -2,10 +2,10 @@ import React, { useEffect, useState, useContext } from 'react'
 import './Navbar.css'
 import logo from '../assets/logo.png'
 import Modal from '../Modal/Modal'
-import { Link } from 'react-scroll'
-import { Link as LinkPage} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import menu_icon from '../assets/menu-icon.png'
 import { AppStateContext } from '../../context/AppStateProvider'
+import { HashLink } from 'react-router-hash-link';
 
 
 const Navbar = () => {
@@ -24,20 +24,38 @@ const Navbar = () => {
   const toggleMenu = () => {
     mobileMenu ? setMobileMenu(false): setMobileMenu(true);
   }
+
+  const scrollWithOffset= (el, id) => {
+    let yOffset;
+    if (id == "g"){
+      yOffset = -100;
+    }
+    else if (id == "m"){
+      yOffset = -200;
+    }
+    else if (id == "e"){
+      yOffset = -400;
+    }
+    else{
+      yOffset = 0;
+    }
+     
+    setTimeout( () => window.scrollTo({ top: el.offsetTop + yOffset, behavior: 'smooth' }), 50);
+}
   
   return (
     <nav className={`container ${sticky? 'dark-nav' : ''}`}>
         <div className='logo-div'>
-        <LinkPage to='/'><img src={logo} alt="Logo" className='logo'/></LinkPage>
-        <LinkPage to='/'><span className='logo-text'>Campus Hero</span></LinkPage>
+        <Link to='/'><img src={logo} alt="Logo" className='logo'/></Link>
+        <Link to='/'><span className='logo-text'>Campus Hero</span></Link>
         </div>
         <ul className={mobileMenu?'':'hide-mobile-menu'}>
-            <li><Link to='guides' smooth={true} offset={-110} duration={500}>Survival Guide</Link></li>
-            <li><Link to='mapa' smooth={true} offset={-200} duration={500}>Mapa</Link></li>
-            <li><Link to='iskustva' smooth={true} offset={-410} duration={500}>Iskustva</Link></li>
-            <li><Link to='contact' smooth={true} offset={0} duration={500}>Kontaktiraj nas</Link></li>
+            <li><HashLink to='/#guides' scroll={el => scrollWithOffset(el, "g")} >Survival Guide</HashLink></li>
+            <li><HashLink to='/#mapa'  scroll={el => scrollWithOffset(el, "m")} >Mapa</HashLink></li>
+            <li><HashLink to='/#experiences'  scroll={el => scrollWithOffset(el, "e")} >Iskustva</HashLink></li>
+            <li><HashLink to='/#contact' scroll={el => scrollWithOffset(el, "c")} >Kontaktiraj nas</HashLink></li>
             <li> {user.name ? (
-            <button className='button'><LinkPage to='/Profil'>Pozdrav, {user.name}</LinkPage></button> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
+            <button className='button'><Link to='/Profil'>Pozdrav, {user.name}</Link></button> // Prikazujemo "Pozdrav!" ako je korisnik prijavljen
           ) : (
             <button className='button' onClick={() => setIsModalOpen(true)}>
               Prijavi se!

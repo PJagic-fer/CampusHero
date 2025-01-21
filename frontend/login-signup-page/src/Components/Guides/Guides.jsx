@@ -16,7 +16,7 @@ import guide_icon_5 from '../assets/buddy_icon.png'
 const Guides = () => {
     const navigate = useNavigate();
     return (
-        <div className='guides'>
+        <div className='guides' id='guides'>
             <div className="grupa1">
                 <button className="guide" onClick={() => navigate("./Fakulteti")} >
                     <img src={guide_2}></img>
