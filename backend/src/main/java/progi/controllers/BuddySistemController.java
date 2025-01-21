@@ -68,6 +68,17 @@ public class BuddySistemController {
         return ("Postao buddy!");
     }
 
+    // Makni se iz registra buddyja
+    @DeleteMapping("/buddy/prijava")
+    public String postBuddySistemBuddyPrijava(HttpSession session){
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        contextUser.setIsBuddy(false);
+
+        return ("Vise nisi buddy!");
+    }
+
     // Stranica sa svim zahtjevima za pojedinog buddyja
     @GetMapping("/buddy/zahtjevi")
     public List<BuddyRequest> getBuddySistemBuddyZahtjevi(HttpSession session){
