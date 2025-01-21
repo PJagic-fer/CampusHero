@@ -16,7 +16,7 @@ const libraries = ['places'];
 
 const Mapa = () => {
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyBsWBxoR7Gv0bHql8TzVisUH4pWf0XRRpI',
+    googleMapsApiKey: 'AIzaSyCcoADX99NnzkEk8scoulYCsi22yAAdi0Y',
     // @ts-ignore
     libraries: libraries,
   });
