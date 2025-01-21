@@ -6,7 +6,7 @@ import mail2 from '../assets/mail2.png'
 
 const Contact = () => {
   return (
-    <div className='contact'>
+    <div className='contact' id='contact'>
       <div className="contact-col">
         <h3>Pošalji nam poruku <img src={mail}/></h3>
         <p>Slobodno nam šaljite sve upite i probleme, jer naša je misija olakšati vam boravak na kampusu! Bilo da se radi o pitanjima vezanim uz menze, prijevoz, smještaj ili bilo kojim drugim potrebama, tu smo da vam pomognemo.Zajedno gradimo bolji kampus za studente!</p>

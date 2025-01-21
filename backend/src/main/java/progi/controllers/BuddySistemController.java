@@ -1,48 +1,136 @@
 package progi.controllers;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import progi.services.ApplicationUserService;
+import progi.services.BuddyRequestService;
+import progi.services.ReviewService;
+import progi.data.BuddyRequest;
+import progi.data.Review;
+import progi.data.ApplicationUser;
+import progi.utils.AuthContextUtil;
+import java.util.Optional;
+import java.util.List;
+import java.util.ArrayList;
+
+import jakarta.servlet.http.HttpSession;
+
 
 @RestController
-@RequestMapping("/campus-hero/buddy-sistem")
+@RequestMapping("/campus-hero/buddy-sustav")
 public class BuddySistemController {
+
+    private ApplicationUserService applicationUserService;
+    private BuddyRequestService buddyRequestService;
+    private ReviewService reviewService;
+
+    // setup userdata
+    @Autowired
+    public BuddySistemController(ApplicationUserService applicationUserService, BuddyRequestService buddyRequestService, ReviewService reviewService) {
+        this.applicationUserService = applicationUserService;
+        this.buddyRequestService = buddyRequestService;
+        this.reviewService = reviewService;
+    }
+
+    // Buddy main page, generic info o programu
     @GetMapping("")
     public String getBuddySistem(){
-        return ("Dobrodošli na CampusHero sustav za buddy program");
+        return ("Dobrodošli na CampusHero buddy sustav");
     }
 
-    @GetMapping("/buddy")
-    public String getBuddySistemBuddy(){
-        return ("Dobrodošli na CampusHero-stranicu za prijaveljne buddyje");
+    // Info o specificnom buddyju - tipa raiting, kolko jos ima slobodnih mjesta, koja je godina/dom/kaj vec ne
+    // Vjv bi bilo pozeljno sakriti ime da se nezna bas tocno ko je
+    @GetMapping("/buddy/{buddyID}")
+    public ApplicationUser getBuddySistemBuddy(@PathVariable Long buddyID){
+        ApplicationUser buddy = applicationUserService.getUserById(buddyID).orElse(null);
+        if (buddy == null)
+        {
+            return null;
+        }
+        buddy.setJmbag("0"); // Ubij sve privatno
+        buddy.setIsAdmin(false);
+        buddy.setSurname("Prezimenovic");
+        buddy.setGoogleId("0");
+        return buddy;
     }
 
+    // Stranica za prijavu na buddy sustav (zelim biti buddy)
     @PostMapping("/buddy/prijava")
-    public String postBuddySistemBuddyPrijava(){
-        return ("Dobrodošli na CampusHero-stranicu gdje se buddyji prijavljuju za mentorstvo");
+    public String postBuddySistemBuddyPrijava(HttpSession session){
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        contextUser.setIsBuddy(true);
+
+        return ("Postao buddy!");
     }
 
+    // Makni se iz registra buddyja
+    @DeleteMapping("/buddy/prijava")
+    public String deleteBuddySistemBuddyPrijava(HttpSession session){
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        contextUser.setIsBuddy(false);
+
+        return ("Vise nisi buddy!");
+    }
+
+    // Stranica sa svim zahtjevima za pojedinog buddyja
     @GetMapping("/buddy/zahtjevi")
-    public String getBuddySistemBuddyZahtjevi(){
-        return ("Dobrodošli na CampusHero-stranicu gdje buddyji mogu pregledavati svoje zahtjeve za mentorstvo");
+    public List<BuddyRequest> getBuddySistemBuddyZahtjevi(HttpSession session){
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        return buddyRequestService.getAllRequestsForId(contextUser.getId());
     }
 
-    @GetMapping("/buddy/zahtjevi/{student}")
-    public String getBuddySistemBuddyZahtjeviStudent(@PathVariable String student){
-        return "Dobrodošli na CampusHero-stranicu gdje buddyji mogu pregledati određenog (jednog iz liste zahtjeva) studenta: " + student;
+    // Detaljniji podatci za pojedinog studenta koji zeli korisnika kao buddyja
+    @GetMapping("/buddy/zahtjevi/{studentID}")
+    public List<Review> getBuddySistemBuddyZahtjeviStudent(@PathVariable Long studentID){
+        ApplicationUser buddy = applicationUserService.getUserById(studentID).orElse(null);
+        if (buddy != null)
+        {
+            return reviewService.getReviewsOnBuddy(buddy);
+        }
+        else
+        { 
+            return null;
+        }
     }
 
-
-    @GetMapping("/student")
-    public String getBuddySistemStudent(){
-        return ("Dobrodošli na CampusHero-stranicu za prijaveljne studente");
-    }
-
+    // Salje ocjenu za trenutnog buddyja
     @PostMapping("/student/ocijeni")
-    public String postBuddySistemStudentOcijeni(){
-        return ("Dobrodošli na CampusHero-stranicu gdje studenti ocjenjuju buddyje");
+    public String postBuddySistemStudentOcijeni(@RequestHeader("ocjena") Review ocjena){
+        reviewService.addReview(ocjena);
+        return ("Ocjenili ste svoga buddyja");
     }
 
-    @PostMapping("/student/trazi-buddyja")
-    public String postBuddySistemStudentTraziBuddyja(){
-        return ("Dobrodošli na CampusHero-stranicu gdje studenti pronalaze buddyje");
+    @GetMapping("/student/trazi-buddyja")
+    public List<ApplicationUser> getBuddySistemStudentTraziBuddyja(){
+        // Vraca sve buddyje
+        List<ApplicationUser> users = applicationUserService.getAllApplicationUsers();
+        List<ApplicationUser> buddies = new ArrayList<>();        
+        for (ApplicationUser user : users)
+        {
+            if(user.getIsBuddy() == true)
+            {
+                buddies.add(user);
+            }
+        }
+
+        for (ApplicationUser buddy : buddies)
+        {
+            buddy.setJmbag("0"); // Ubij sve privatno
+            buddy.setIsAdmin(false);
+            buddy.setSurname("Prezimenovic");
+            buddy.setGoogleId("0");
+        }
+
+        return buddies;
     }
+
 }
