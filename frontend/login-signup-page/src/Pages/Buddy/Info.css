@@ -231,6 +231,124 @@
     background: #a00d7d;
   }
   
+  /* Stilovi za overlay modala */
+.modal-apply-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Glavni sadržaj modala */
+.modal-apply-content {
+  background: #ffffff;
+  color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Naslov modala */
+.modal-apply-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #bd1095;
+}
+
+/* Tekst u modalu */
+.modal-apply-text {
+  font-size: 1em;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+/* Stilovi za gumbe unutar modala */
+.modal-apply-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cancel-apply-btn,
+.confirm-apply-btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cancel-apply-btn {
+  background-color: #ff6f6f;
+  color: white;
+  border: none;
+}
+
+.cancel-apply-btn:hover {
+  background-color: #e65a5a;
+  transform: scale(1.05);
+}
+
+.confirm-apply-btn {
+  background-color: #55e868;
+  color: white;
+  border: none;
+}
+
+.confirm-apply-btn:hover {
+  background-color: #44c657;
+  transform: scale(1.05);
+}
+
+.apply-button-container {
+  display: flex;
+  align-items: center; /* Poravnava sadržaj vertikalno u sredinu */
+  gap: 15px; /* Razmak između naslova i gumba */
+  margin-top: 20px;
+  justify-content: center; /* Centriranje u horizontalnoj osi */
+  margin-bottom: 20px;
+}
+
+.buddy-upit {
+  font-size: 1.5rem;
+  color: #413f3f;
+  margin: 0; /* Uklanja dodatni razmak ispod naslova */
+}
+
+.apply-button {
+  background-color: #bd1095; /* Boja gumba */
+  color: white;
+  border: none;
+  padding: 10px 20px; /* Unutarnji razmak */
+  font-size: 1rem; /* Veličina teksta */
+  border-radius: 5px; /* Zaobljeni rubovi */
+  cursor: pointer; /* Promjena pokazivača na klik */
+  font-weight: bold;
+  text-transform: uppercase; /* Tekst velikim slovima */
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.apply-button:hover {
+  background-color: #e59400; /* Tamnija nijansa pri hoveru */
+  transform: scale(1.05); /* Lagano povećanje na hover */
+}
+
+.apply-button:active {
+  background-color: #cc8400; /* Još tamnija nijansa pri kliku */
+  transform: scale(0.98); /* Lagano smanjenje pri kliku */
+}
+
 
   @media (max-width: 600px) {
     .faculties-info-container {

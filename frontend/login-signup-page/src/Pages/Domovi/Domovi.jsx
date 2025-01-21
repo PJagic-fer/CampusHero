@@ -127,19 +127,19 @@ export default function Domovi() {
   return (
     <div className="domovi-container">
       <main className="domovi-main">
-        <h1>Studentski domovi u Zagrebu</h1>
+        <h1 className='domovi-naslov'>Studentski domovi: Središte života i zajedništva studenata</h1>
 
         <div className="carousel-container">
           <button
             onClick={() => scrollTo((activeDorm - 1 + dorms.length) % dorms.length)}
-            className="carousel-button left"
+            className="domovi-button left"
           >
             <ChevronLeft className="icon" />
           </button>
           <div ref={scrollContainerRef} className="carousel">
             {dorms.map((dorm) => (
-              <div key={dorm.id} className="dorm-card">
-                <div className="dorm-content">
+              <div key={dorm.id} className="domovi-card">
+                <div className="domovi-content">
                   <h2 className="h2D1">{dorm.name}</h2>
                   <div className="rating-container">
                     <StarRating
@@ -157,7 +157,7 @@ export default function Domovi() {
               </div>
             ))}
           </div>
-          <button onClick={() => scrollTo((activeDorm + 1) % dorms.length)} className="carousel-button right">
+          <button onClick={() => scrollTo((activeDorm + 1) % dorms.length)} className="domovi-button right">
             <ChevronRight className="icon" />
           </button>
         </div>

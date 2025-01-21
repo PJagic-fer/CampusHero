@@ -1,22 +1,18 @@
 .forum-page {
-  max-width: 1200px;
   margin: 0 auto;
-  padding: 10px;
-  padding-left: 50px;
-  padding-right: 50px;
   font-family: 'Inter', sans-serif;
 }
 
 .forum-header {
-  background-image: url('../../Components/assets/ForumSlika.jpg');
-  background-size: cover;
-  background-position: center;
-  height: 400px;
-  margin-bottom: 20px;
+  background: linear-gradient(rgba(232, 213, 149, 0.073),rgba(8,0,58,0.7)), url('../../Components/assets/dom-forum2.jpg');
+  background-size: cover; /* Prekriva cijeli prostor */
+  background-position: center; /* Centrirano */
+  background-repeat: no-repeat; /* Bez ponavljanja slike */
+  width: 100vw; /* Puna širina prikaza */
+  height: 65vh; /* Puna visina prikaza */
   position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Sakrivanje preljeva */
+  z-index: 0; /* Osigurava da je u pozadini */
 }
 
 .carousel {
@@ -131,7 +127,7 @@
 
 .star {
   font-size: 36px;
-  color: rgba(100, 100, 100, 0.6);
+  color: rgb(255, 255, 255);
   cursor: pointer;
   transition: all 0.2s ease-in-out;
 }
@@ -176,6 +172,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
+  margin-top: 20px;
 }
 
 .post-button:hover, .post-answer-button:hover {
@@ -193,6 +190,8 @@
   background-color: white;
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-right: 150px;
+  margin-left: 150px;
 }
 
 .question-item {
