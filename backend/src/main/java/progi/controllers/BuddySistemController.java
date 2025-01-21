@@ -64,7 +64,8 @@ public class BuddySistemController {
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
         contextUser.setIsBuddy(true);
-
+        applicationUserService.addNewApplicationUser(contextUser);
+        System.out.println(applicationUserService.getApplicationUserByGoogleId(contextUserId));
         return ("Postao buddy!");
     }
 
@@ -113,11 +114,13 @@ public class BuddySistemController {
     public List<ApplicationUser> getBuddySistemStudentTraziBuddyja(){
         // Vraca sve buddyje
         List<ApplicationUser> users = applicationUserService.getAllApplicationUsers();
+        System.out.println(users);
         List<ApplicationUser> buddies = new ArrayList<>();        
         for (ApplicationUser user : users)
         {
             if(user.getIsBuddy() == true)
             {
+                System.out.println("usli smo u if");
                 buddies.add(user);
             }
         }
@@ -129,7 +132,8 @@ public class BuddySistemController {
             buddy.setSurname("Prezimenovic");
             buddy.setGoogleId("0");
         }
-
+        System.out.println(users);
+        System.out.println(buddies);
         return buddies;
     }
 

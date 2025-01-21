@@ -1,51 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./BuddyWorld.css";
 import osoba1 from '../../Components/assets/avatar.jpg'
+import axios from 'axios';
+
 
 const BuddyWorld = () => {
   const [activeSection, setActiveSection] = useState(""); // Praćenje aktivnog dijela
   const [filter, setFilter] = useState({ faculty: "", city: "" }); // Filtri za fakultet i mjesto
-  // Primjer podataka o Buddyjima
-  const buddyList = [
-    {
-      id: 1,
-      name: "Ivan Horvat",
-      faculty: "FER",
-      age: 18,
-      city: "Zagreb",
-      avatar: "avatarPlaceholder",
-    },
-    {
-      id: 2,
-      name: "Ana Kovačić",
-      faculty: "EFZG",
-      age: 22,
-      city: "Split",
-      avatar: "avatarPlaceholder",
-    },
-    {
-      id: 3,
-      name: "Marko Novak",
-      faculty: "PMF",
-      age: 20,
-      city: "Osijek",
-      avatar: "avatarPlaceholder",
-    },
-    {
-      id: 4,
-      name: "Patricija Gotovac",
-      faculty: "PMF",
-      age: 20,
-      city: "Zadar",
-      avatar: "avatarPlaceholder",
-    },
-  ];
+  const [buddyList, setBuddyList] = useState([]);
+  const [buddyDivision, setBuddyDivision] = useState([]);
+  const [studentRequestList, setStudentRequestList] = useState([]);
+  const [studentRequestDivision, setStudentRequestDivision] = useState([]);
 
-  const filteredBuddyList = buddyList.filter(
-    (buddy) =>
-      (!filter.faculty || buddy.faculty === filter.faculty) &&
-      (!filter.city || buddy.city === filter.city)
-  );
+  useEffect((activeSection) => { 
+    if (activeSection = "findBuddy"){
+      fetchBuddyList();
+    } else if (activeSection = "manageStudents"){
+      fetchStudentRequestList();
+    }
+  },[activeSection])
+
+  useEffect(() => {
+    if (buddyList.length > 0) {
+      setBuddyDivision(mapBuddy(buddyList));
+    }
+  }, [buddyList])
+
+  useEffect(() => {
+    if (studentRequestList.length > 0) {
+      setStudentRequestDivision(mapBuddy(studentRequestList));
+    }
+  }, [studentRequestList])
+
+  const fetchBuddyList = async () => {
+    try {
+      // Pretpostavimo da je URL endpointa na backendu "/campus-hero/buddy-list"
+      const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/student/trazi-buddyja`, {
+        withCredentials: true, // Ako backend zahtijeva autentifikaciju putem kolačića
+      });
+  
+      if (response.status === 200) {
+        // Vraća dohvaćene podatke
+        setBuddyList(response.data);
+      } else {
+        console.error('Greška: Neočekivani status odgovora:', response.status);
+      }
+      console.log(response.data);
+    } catch (error) {
+      console.error('Greška prilikom dohvaćanja Buddy liste:', error);
+    }
+  };
+
+  const fetchStudentRequestList = async () => {
+    try {
+      const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/buddy/zahtjevi`, {
+        withCredentials: true, // Ako backend zahtijeva autentifikaciju putem kolačića
+      });
+  
+      if (response.status === 200) {
+        // Vraća dohvaćene podatke
+        setBuddyList(response.data);
+      } else {
+        console.error('Greška: Neočekivani status odgovora:', response.status);
+      }
+      console.log(response.data);
+    } catch (error) {
+      console.error('Greška prilikom dohvaćanja Buddy liste:', error);
+    }
+  };
+
+
+  const mapBuddy = (buddys) => {
+    return buddys.map((user) => (
+      <div
+        className="buddy-appuser-card"
+        key={`${user.id}`}
+        id={`user${user.id}`}
+        onClick={() => handleUserClick(user)} //ovdje se salje zahtjev buddyu, pitati patrika gdje se salje zahtjev
+      >
+        {user.name && <p className="buddy-info">Ime: {user.name}</p>}
+        {user.city?.name && <p className="buddy-info">Dolazi iz grada: {user.city.name}</p>}
+        {user.studentHome?.name && <p className="buddy-info">Stanuje u domu: {user.studentHome.name}</p>}
+        {user.faculty?.name && <p className="buddy-info">Studira na fakultetu: {user.faculty.name}</p>}
+      </div>
+    ));
+  };
+  
+  const handleUserClick = (user) => {
+    alert(`Kliknuli ste na korisnika: ${user.name}`);
+  };
+  
+
+  // filter za buddy listu- za sad ne treba
+  
 
   return (
     <div className="buddy-world-container">
@@ -103,16 +150,7 @@ const BuddyWorld = () => {
 
           {/* Prikaz filtriranih Buddyja */}
           <div className="buddy-grid">
-            {filteredBuddyList.map((buddy) => (
-              <div className="buddy-card" key={buddy.id}>
-                <img src={osoba1} alt={`${buddy.name} avatar`} className="buddy-avatar" />
-                <div className="buddy-info">
-                  <h3>{buddy.name}</h3>
-                  <p>Fakultet: {buddy.faculty}</p>
-                  <p>Mjesto: {buddy.city}</p>
-                </div>
-              </div>
-            ))}
+            {buddyDivision}
           </div>
         </div>
       )}

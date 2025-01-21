@@ -7,20 +7,18 @@ import { AppStateContext } from '../../context/AppStateProvider';
 const BuddyInfo = () => {
   const navigate = useNavigate();
   const { user } = useContext(AppStateContext); // Dohvaćamo korisnika iz konteksta
-  const [isBuddy, setIsBuddy] = useState(false); // Praćenje stanja checkboxa
   const [loading, setLoading] = useState(true); // Praćenje učitavanja stanja
   const [showModal, setShowModal] = useState(false); // Prikazivanje modala
+  const [showBuddyApplyModal, setShowBuddyApplyModal] = useState(false);
 
   // Dohvat trenutnog Buddy statusa s backenda prilikom učitavanja komponente
   useEffect(() => {
     const fetchBuddyStatus = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/campus-hero/buddy-status/${user.id}`, {
+        const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/${user.id}`, {
           withCredentials: true,
         });
-        if (response.status === 200) {
-          setIsBuddy(response.data.isBuddy); // Postavljanje trenutnog stanja
-        }
+        
       } catch (error) {
         console.error('Greška prilikom dohvaćanja Buddy statusa:', error);
       } finally {
@@ -33,26 +31,31 @@ const BuddyInfo = () => {
     }
   }, [user.id]);
 
-  const handleCheckboxChange = async () => {
-    const newBuddyStatus = !isBuddy;
-    setIsBuddy(newBuddyStatus); // Ažuriramo lokalno stanje
+  const handleBuddyApply = async () => {
+    if (!user || !user.id) {
+      alert('Morate biti prijavljeni da biste se prijavili kao Buddy.');
+      return;
+    }
 
     try {
-      // Slanje zahtjeva na backend
       const response = await axios.post(
-        'http://localhost:8080/campus-hero/buddy-status',
-        { userId: user.id, isBuddy: newBuddyStatus }, // Prosljeđujemo ID korisnika i stanje checkboxa
+        'http://localhost:8080/campus-hero/buddy-sustav/buddy/prijava',
+        {},
         { withCredentials: true }
       );
 
       if (response.status === 200) {
-        console.log('Uspješno poslano na backend:', response.data);
+        setShowBuddyApplyModal(false);
+        alert('Uspješno ste poslali Buddy prijavu!');
       }
+
     } catch (error) {
-      console.error('Greška prilikom slanja statusa na backend:', error);
-      alert('Došlo je do greške prilikom ažuriranja Buddy statusa.');
+      console.error('Greška prilikom prijave:', error);
+      alert('Došlo je do greške prilikom prijave. Pokušajte ponovno.');
     }
   };
+
+  
 
   const handleClick = () => {
     if (!user.name) {
@@ -89,21 +92,35 @@ const BuddyInfo = () => {
         <div style={{ margin: '20px 0' }}></div>
       </div>
 
-      {/* Prikaži checkbox samo ako je korisnik prijavljen */}
-      {user.name && (
-        <div className="checkbox">
+      {user.name && !user.isBuddy && (
+        <div className="apply-button-container">
           <h1 className="buddy-upit">Želiš postati Buddy?</h1>
-          <div className="styled-checkbox">
-            <input
-              type="checkbox"
-              id="buddy-checkbox"
-              checked={isBuddy}
-              onChange={handleCheckboxChange} // Povezujemo funkciju za slanje podataka
-            />
-            <label htmlFor="buddy-checkbox"></label>
+          <button className="apply-button" onClick={() => setShowBuddyApplyModal(true)}>
+            Prijavi se
+          </button>
+        </div>
+      )}
+
+      {showBuddyApplyModal && (
+        <div className="modal-apply-overlay">
+          <div className="modal-apply-content">
+            <h2 className="modal-apply-title">Postani Buddy</h2>
+            <p className="modal-apply-text">
+              Klikom na "Potvrdi" potvrđuješ da želiš postati Buddy.
+            </p>
+            <div className="modal-apply-buttons">
+              <button onClick={() => setShowBuddyApplyModal(false)} className="cancel-apply-btn">
+                Odustani
+              </button>
+              <button onClick={handleBuddyApply} className="confirm-apply-btn">
+                Potvrdi
+              </button>
+            </div>
           </div>
         </div>
       )}
+
+
 
       <p className="note">
         Napomena: Ako naiđeš na poteškoće ili imaš bilo kakvih pitanja tijekom korištenja Buddy svijeta, naš support tim je uvijek tu da ti pomogne. Slobodno nas kontaktiraj, tu smo da osiguramo da tvoje iskustvo bude glatko, ugodno i bez stresa!

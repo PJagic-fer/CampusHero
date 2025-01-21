@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import './Info.css';
+import axios from 'axios';
+
 
 const ZagrebCanteensInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showCrowdSummary, setShowCrowdSummary] = useState(false);
   const [crowdData, setCrowdData] = useState([]);
+  const [cafeterias, setCafeterias] = useState([])
+
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -13,6 +17,19 @@ const ZagrebCanteensInfo = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  useEffect(() => {
+    getAttributeValues()
+  }, [])
+
+  const getAttributeValues = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/campus-hero/menze")
+      setCafeterias(response.data)
+    } catch (error) {
+      console.error("Neuspješno dohvaćanje elemenata", error)
+    }
+  }
 
   const toggleCrowdSummary = () => {
     // Simulirani podaci o gužvama (za stvarnu aplikaciju dohvatiti podatke s backend-a)
@@ -50,7 +67,7 @@ const ZagrebCanteensInfo = () => {
           Prikaži gužve u menzama
       </button>
       </div>
-      {isModalOpen && <CrowdModal onClose={closeModal} />}
+      {isModalOpen && <CrowdModal onClose={closeModal} cafeterias={cafeterias} />}
       {showCrowdSummary && (
         <div className="canteens-crowd-summary">
           <h3>Trenutno stanje gužvi u menzama</h3>
@@ -67,25 +84,37 @@ const ZagrebCanteensInfo = () => {
   );
 };
 
-const CrowdModal = ({ onClose }) => {
-  const cafeterias = [
-    { id: '1', name: 'Savska' },
-    { id: '2', name: 'Studentski centar' },
-    { id: '3', name: 'Cvjetno naselje' },
-    { id: '4', name: 'FSB'},
-    { id: '6', name: 'PMF'},
-    { id: '7', name: 'Ekonomija' },
-    { id: '8', name: 'Laščina' },
-    { id: '9', name: 'Građevina' },
-    { id: '10', name: 'FER' },
-  ];
+
+const CrowdModal = ({ onClose, cafeterias }) => {
+  
 
   const [selectedCafeteria, setSelectedCafeteria] = useState('');
   const [crowdLevel, setCrowdLevel] = useState('');
 
+  const postCrowdLevel = async () => {
+    try {
+      const response = await axios.post(
+        'http://localhost:8080/campus-hero/menze/guzva',
+        {
+          "canteen":
+          {   
+          "id": selectedCafeteria
+          },
+          "score": crowdLevel
+        },
+        { withCredentials: true }
+      );
+
+    } catch (error) {
+      console.error('Greška prilikom djeljenja stanja gužve!', error);
+    }
+  } 
+
+  //handle submit jer ga ne vidim
   const handleSubmit = () => {
     if (selectedCafeteria && crowdLevel) {
       console.log(`Menza: ${selectedCafeteria}, Gužva: ${crowdLevel}`);
+      postCrowdLevel
       onClose();
     } else {
       alert('Molimo odaberite menzu i razinu gužve.');
@@ -118,11 +147,11 @@ const CrowdModal = ({ onClose }) => {
             onChange={(e) => setCrowdLevel(e.target.value)}
           >
             <option value="">-- Odaberite razinu gužve --</option>
-            <option value="Nema gužve">Nema gužve</option>
-            <option value="Manja gužva">Manja gužva</option>
-            <option value="Umjerena gužva">Umjerena gužva</option>
-            <option value="Veća gužva">Veća gužva</option>
-            <option value="Ogromna gužva">Ogromna gužva</option>
+            <option value="1">Nema gužve</option>
+            <option value="2">Manja gužva</option>
+            <option value="3">Umjerena gužva</option>
+            <option value="4">Veća gužva</option>
+            <option value="5">Ogromna gužva</option>
           </select>
         </div>
         <div className="canteens-modal-buttons">

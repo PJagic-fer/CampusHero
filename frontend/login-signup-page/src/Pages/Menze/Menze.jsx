@@ -47,7 +47,6 @@ export default function Menze() {
     try {
       const response = await axios.get("http://localhost:8080/campus-hero/menze")
       setCafeterias(response.data)
-      console.log(response.data)
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
     }

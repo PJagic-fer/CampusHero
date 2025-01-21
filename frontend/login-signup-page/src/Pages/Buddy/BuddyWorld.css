@@ -231,6 +231,39 @@
 }
 
   
+.buddy-appuser-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 15px;
+  margin: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.buddy-appuser-card:hover {
+  background-color: #f1f5f9;
+  transform: scale(1.05);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+}
+
+.buddy-info {
+  margin: 5px 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.buddy-appuser-container {
+  display: flex;
+  flex-wrap: wrap; /* Omogućuje karticama da se prelome u novi red */
+  gap: 15px;
+}
+
   
   /* Stilizacija za manje ekrane */
   @media (max-width: 768px) {
