@@ -46,7 +46,8 @@ export default function FacultyForum() {
   const getAttributeValues = async () => {
     let response
     try {
-      response = await axios.get("http://localhost:8080/campus-hero/fakulteti")
+      response = await axios.get("https://campus-hero.onrender.com/campus-hero/fakulteti")
+      //response = await axios.get("http://localhost:8080/campus-hero/fakulteti")
       setFaculties(response.data)
       console.log(response.data)
     } catch (error) {
@@ -57,7 +58,8 @@ export default function FacultyForum() {
   const fetchQuestions = async (facultyId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/campus-hero/forum?facultyId=${facultyId}&studentHomeId=null`,
+        `https://campus-hero.onrender.com/campus-hero/forum?facultyId=${facultyId}&studentHomeId=null`,
+        //`http://localhost:8080/campus-hero/forum?facultyId=${facultyId}&studentHomeId=null`,
       )
       setQuestions(response.data)
     } catch (error) {
@@ -67,7 +69,8 @@ export default function FacultyForum() {
 
   const fetchAnswers = async (questionId) => {
     try {
-      const response = await axios.get(`http://localhost:8080/campus-hero/forum/${questionId}`)
+      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/forum/${questionId}`)
+      //const response = await axios.get(`http://localhost:8080/campus-hero/forum/${questionId}`)
       setQuestionAnswers(response.data || [])
       console.log(allAnswers)
     } catch (error) {
@@ -78,7 +81,8 @@ export default function FacultyForum() {
   const fetchReviews = async (facultyId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
+        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
+        //`http://localhost:8080/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -90,7 +94,8 @@ export default function FacultyForum() {
     e.preventDefault()
     try {
       await axios.post(
-        "http://localhost:8080/campus-hero/forum",
+        "https://campus-hero.onrender.com/campus-hero/forum",
+        //"http://localhost:8080/campus-hero/forum",
         {
           facilityData: {
             facultyId: faculties[currentFacultyIndex].id,
@@ -116,7 +121,8 @@ export default function FacultyForum() {
     e.preventDefault()
     try {
       await axios.post(
-        `http://localhost:8080/campus-hero/recenzije`,
+        `https://campus-hero.onrender.com/campus-hero/recenzije`,
+        //`http://localhost:8080/campus-hero/recenzije`,
         {
           faculty: {
             id: faculties[currentFacultyIndex].id,
@@ -140,7 +146,8 @@ export default function FacultyForum() {
 
     try {
       await axios.post(
-        "http://localhost:8080/campus-hero/forum/odgovor",
+        "https://campus-hero.onrender.com/campus-hero/forum/odgovor",
+        //"http://localhost:8080/campus-hero/forum/odgovor",
         {
           parentPost: {
             id: selectedQuestion.id,
@@ -161,11 +168,13 @@ export default function FacultyForum() {
   const fetchAllAnswers = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/campus-hero/forum?facultyId=${faculties[currentFacultyIndex].id}&studentHomeId=null`,
+        `https://campus-hero.onrender.com/campus-hero/forum?facultyId=${faculties[currentFacultyIndex].id}&studentHomeId=null`,
+        //`http://localhost:8080/campus-hero/forum?facultyId=${faculties[currentFacultyIndex].id}&studentHomeId=null`,
       )
       const questions = response.data
       const allAnswersPromises = questions.map((question) => {
-        return axios.get(`http://localhost:8080/campus-hero/forum/${question.id}`)
+        return axios.get(`https://campus-hero.onrender.com/campus-hero/forum/${question.id}`)
+        //return axios.get(`http://localhost:8080/campus-hero/forum/${question.id}`)
       })
       const allAnswersResponses = await Promise.all(allAnswersPromises)
       const allAnswersData = allAnswersResponses.map((response) => response.data)

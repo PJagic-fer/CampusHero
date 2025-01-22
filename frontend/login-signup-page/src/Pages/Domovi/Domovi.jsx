@@ -44,7 +44,8 @@ export default function Domovi() {
 
   const getAttributeValues = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/campus-hero/domovi")
+      const response = await axios.get("https://campus-hero.onrender.com/campus-hero/domovi")
+      //const response = await axios.get("http://localhost:8080/campus-hero/domovi")
       setDorms(response.data)
       console.log(response.data)
     } catch (error) {
@@ -80,7 +81,8 @@ export default function Domovi() {
   const fetchReviews = async (dormId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
+        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
+        //`http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -92,7 +94,8 @@ export default function Domovi() {
     e.preventDefault()
     try {
       await axios.post(
-        `http://localhost:8080/campus-hero/recenzije`,
+        `https://campus-hero.onrender.com/campus-hero/recenzije`,
+        //`http://localhost:8080/campus-hero/recenzije`,
         {
           studentHome: {
             id: dorms[activeDorm].id,

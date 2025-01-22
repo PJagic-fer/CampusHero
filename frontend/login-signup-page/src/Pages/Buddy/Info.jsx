@@ -15,7 +15,8 @@ const BuddyInfo = () => {
   useEffect(() => {
     const fetchBuddyStatus = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/${user.id}`, {
+        await axios.get(`https://campus-hero.onrender.com/campus-hero/buddy-sustav/${user.id}`, {
+        //await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/${user.id}`, {
           withCredentials: true,
         });
         

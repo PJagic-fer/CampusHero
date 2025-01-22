@@ -17,8 +17,8 @@ const Admin = () => {
     const getUsers = async () => {
         try {   
             //dohvaćenje korisnika iz baze
-            //response = await axios.get("https://campus-hero.onrender.com/campus-hero/admin/korisnici");
-            let response = await axios.get("http://localhost:8080/campus-hero/admin/korisnici",
+            let response = await axios.get("https://campus-hero.onrender.com/campus-hero/admin/korisnici",
+            //let response = await axios.get("http://localhost:8080/campus-hero/admin/korisnici",
                 {withCredentials: true});
             console.log(response.data);
             return response.data;
@@ -51,8 +51,8 @@ const Admin = () => {
     const getAdminRequests = async () => {
         try {   
             //dohvaćenje admin prijava iz baze
-            //response = await axios.get("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati");
-            let response = await axios.get("http://localhost:8080/campus-hero/admin/admin-kandidati",
+            let response = await axios.get("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati",
+            //let response = await axios.get("http://localhost:8080/campus-hero/admin/admin-kandidati",
                 {withCredentials: true});
             console.log(response.data);
             return response.data;
@@ -97,8 +97,8 @@ const Admin = () => {
     const approveAdmin = async (approvedAdminRequest) => {
         try {   
             //dohvaćenje admin prijava iz baze
-            //response = await axios.post("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati/odobri");
-            await axios.post("http://localhost:8080/campus-hero/admin/admin-kandidati/odobri",
+            await axios.post("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati/odobri",
+            //await axios.post("http://localhost:8080/campus-hero/admin/admin-kandidati/odobri",
                 approvedAdminRequest,
                 {withCredentials: true});
         } catch (error) {
@@ -115,8 +115,8 @@ const Admin = () => {
     const denyAdmin = async (deniedAdminRequest) => {
         try {   
             //dohvaćenje admin prijava iz baze
-            //response = await axios.post("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati/odbij");
-            await axios.post("http://localhost:8080/campus-hero/admin/admin-kandidati/odbij",
+            await axios.post("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati/odbij",
+            //await axios.post("http://localhost:8080/campus-hero/admin/admin-kandidati/odbij",
                 deniedAdminRequest,
                 {withCredentials: true});
         } catch (error) {
@@ -184,8 +184,8 @@ const Admin = () => {
 
     const handleAdminQuit = async () => {
         try {   
-            //response = await axios.get("https://campus-hero.onrender.com/campus-hero/admin/odjava");
-            let response = await axios.post("http://localhost:8080/campus-hero/admin/odjava",
+            let response = await axios.post("https://campus-hero.onrender.com/campus-hero/admin/odjava",
+            //let response = await axios.post("http://localhost:8080/campus-hero/admin/odjava",
                 {},
                 {withCredentials: true});
             setUser({...user, isAdmin: false});

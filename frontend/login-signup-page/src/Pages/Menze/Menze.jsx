@@ -45,7 +45,8 @@ export default function Menze() {
 
   const getAttributeValues = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/campus-hero/menze")
+      const response = await axios.get("https://campus-hero.onrender.com/campus-hero/menze")
+      //const response = await axios.get("http://localhost:8080/campus-hero/menze")
       setCafeterias(response.data)
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
@@ -80,7 +81,8 @@ export default function Menze() {
   const fetchReviews = async (cafeteriaId) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=null&canteenId=${cafeteriaId}&userId=null`,
+        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=null&studentHomeId=null&canteenId=${cafeteriaId}&userId=null`,
+        //`http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=null&canteenId=${cafeteriaId}&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -92,7 +94,8 @@ export default function Menze() {
     e.preventDefault()
     try {
       await axios.post(
-        `http://localhost:8080/campus-hero/recenzije`,
+        `https://campus-hero.onrender.com/campus-hero/recenzije`,
+        //`http://localhost:8080/campus-hero/recenzije`,
         {
           canteen: {
             id: cafeterias[activeCafeteria].id,

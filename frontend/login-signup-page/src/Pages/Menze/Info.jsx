@@ -24,7 +24,8 @@ const ZagrebCanteensInfo = () => {
 
   const getAttributeValues = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/campus-hero/menze")
+      const response = await axios.get("https://campus-hero.onrender.com/campus-hero/menze")
+      //const response = await axios.get("http://localhost:8080/campus-hero/menze")
       setCafeterias(response.data)
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
@@ -94,7 +95,8 @@ const CrowdModal = ({ onClose, cafeterias }) => {
   const postCrowdLevel = async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/campus-hero/menze/guzva',
+        'https://campus-hero.onrender.com/campus-hero/menze/guzva',
+        //'http://localhost:8080/campus-hero/menze/guzva',
         {
           "canteen":
           {   

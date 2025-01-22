@@ -35,7 +35,8 @@ const BuddyWorld = () => {
   const fetchBuddyList = async () => {
     try {
       // Pretpostavimo da je URL endpointa na backendu "/campus-hero/buddy-list"
-      const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/student/trazi-buddyja`, {
+      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/buddy-sustav/student/trazi-buddyja`, {
+      //const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/student/trazi-buddyja`, {
         withCredentials: true, // Ako backend zahtijeva autentifikaciju putem kolačića
       });
   
@@ -53,7 +54,8 @@ const BuddyWorld = () => {
 
   const fetchStudentRequestList = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/buddy/zahtjevi`, {
+      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/buddy-sustav/buddy/zahtjevi`, {
+      //const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/buddy/zahtjevi`, {
         withCredentials: true, // Ako backend zahtijeva autentifikaciju putem kolačića
       });
   

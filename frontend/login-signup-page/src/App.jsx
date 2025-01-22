@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import CheckLogin from './Components/check_login/CheckLogin';
+import ScrollToTop from './Components/scroll_top/ScrollToTop';
 import Navbar from './Components/Navbar/Navbar';
 import Hero from './Components/Hero/Hero';
 import Guides from './Components/Guides/Guides';
@@ -33,6 +34,7 @@ const App = () => {
       <CheckLogin />
       <Router>
         <Navbar />
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/Profil" element={<Profil_Header />} />

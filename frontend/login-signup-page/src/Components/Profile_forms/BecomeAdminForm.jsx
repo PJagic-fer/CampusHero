@@ -19,8 +19,8 @@ const BecomeAdminForm = () => {
         console.log(adminApplication);
 
         try {
-            //const response = await axios.post('http://campus-hero.onrender.com/campus-hero/admin/prijava',
-            const response = await axios.post('http://localhost:8080/campus-hero/admin/prijava',
+            const response = await axios.post('http://campus-hero.onrender.com/campus-hero/admin/prijava',
+            //const response = await axios.post('http://localhost:8080/campus-hero/admin/prijava',
                 adminApplication,
                 {withCredentials: true}
               );
