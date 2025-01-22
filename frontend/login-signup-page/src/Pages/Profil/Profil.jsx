@@ -23,7 +23,7 @@ const Profil = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post('http://campus-hero.onrender.com/campus-hero/profil/odjava',
+            const response = await axios.post('https://campus-hero.onrender.com/campus-hero/profil/odjava',
             //const response = await axios.post('http://localhost:8080/campus-hero/profil/odjava',
                 {},
                 {withCredentials: true}
