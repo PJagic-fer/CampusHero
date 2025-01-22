@@ -12,6 +12,7 @@ import progi.data.BuddyRequest;
 import progi.data.Review;
 import progi.data.ApplicationUser;
 import progi.utils.AuthContextUtil;
+import java.util.Optional;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -63,7 +64,7 @@ public class BuddySistemController {
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
         contextUser.setIsBuddy(true);
-        applicationUserService.addNewApplicationUser(contextUser);
+
         return ("Postao buddy!");
     }
 
@@ -128,8 +129,27 @@ public class BuddySistemController {
             buddy.setSurname("Prezimenovic");
             buddy.setGoogleId("0");
         }
-        
+
         return buddies;
+    }
+
+    @PostMapping("/student/trazi-buddyja")
+    public boolean postBuddySistemStudentTraziBuddyja(HttpSession session, @RequestHeader("buddyID") Long buddyID){
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        ApplicationUser buddy = applicationUserService.getUserById(buddyID).orElse(null);
+        
+        if (buddy == null)
+        {
+            return false;
+        }
+
+        BuddyRequest buddyRequest = new BuddyRequest(contextUser, buddy);
+
+        buddyRequestService.addNewBuddyRequest(buddyRequest);
+
+        return true;
     }
 
 }
