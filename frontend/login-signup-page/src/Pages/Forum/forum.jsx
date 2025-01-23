@@ -46,7 +46,6 @@ export default function Forum() {
     try {
       response = await axios.get(`${fetch_path}/domovi`)
       setDorms(response.data)
-      console.log(response.data)
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
     }
@@ -170,6 +169,60 @@ export default function Forum() {
       setAllAnswers(filteredAnswers)
     } catch (error) {
       console.error("Error fetching all answers:", error)
+    }
+  }
+
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/review/",
+        { value: reviewId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the reviews list after successful deletion
+      fetchReviews(dorms[currentDormIndex].id)
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
+  const handleDeleteQuestion = async (questionId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/post",
+        { value: questionId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the questions list after successful deletion
+      fetchQuestions(dorms[currentDormIndex].id)
+      fetchAllAnswers()
+      // Close the question popup if it's open
+      setIsQuestionPopupOpen(false)
+    } catch (error) {
+      console.error("Error deleting a question:", error)
+    }
+  }
+
+  const handleDeleteAnswer = async (answerId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/post",
+        { value: answerId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the answers for the current question
+      if (selectedQuestion) {
+        fetchAnswers(selectedQuestion.id)
+      }
+      fetchAllAnswers()
+    } catch (error) {
+      console.error("Error deleting an answer:", error)
     }
   }
 
@@ -333,6 +386,12 @@ export default function Forum() {
                       <p>{review.message}</p>
                       <div className="review-meta">
                         <span>Recenzija: {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                        {user.isAdmin && (
+                          <button className="delete-button" onClick={() => handleDeleteReview(review.id)}>
+                            {" "}
+                            Izbriši{" "}
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -376,6 +435,17 @@ export default function Forum() {
               <div className="question-meta">
                 <span>Objavio {question.creator.name + " " + question.creator.surname || "Anonymous"}</span>
                 <span>Odgovori: {allAnswers.filter((answer) => answer.parentPost.id === question.id).length || 0}</span>
+                {user.isAdmin && (
+                  <button
+                    className="delete-button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDeleteQuestion(question.id)
+                    }}
+                  >
+                    Izbriši
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -392,7 +462,7 @@ export default function Forum() {
                 Objavio: {selectedQuestion.creator.name + " " + selectedQuestion.creator.surname || "Anonymous"}
               </span>
             </div>
-            <h3>Oddgovori:</h3>
+            <h3>Odgovori:</h3>
             <div className="answers-list">
               {questionAnswers.length > 0 ? (
                 questionAnswers.map((answer, index) => (
@@ -400,6 +470,17 @@ export default function Forum() {
                     <p>{answer.message}</p>
                     <div className="answer-meta">
                       <span>Odgovorio: {answer.creator.name + " " + answer.creator.surname || "Anonymous"}</span>
+                      {user.isAdmin && (
+                        <button
+                          className="delete-button"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDeleteAnswer(answer.id)
+                          }}
+                        >
+                          Izbriši
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))

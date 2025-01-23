@@ -432,6 +432,39 @@
   color: #64748b;
 }
 
+.delete-button {
+  background-color: #f56565;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  font-size: 0.9em;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(245, 101, 101, 0.2);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-left: 10px;
+}
+.question-meta span {
+
+  display:flex;
+  align-items: center;
+  text-align: center;
+  
+}
+
+.delete-button:hover {
+  background-color: #e53e3e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(245, 101, 101, 0.3);
+}
+
+.review-rating .star-rating {
+  margin-top: 0;
+}
+
 @media only screen and (max-width: 815px) {
   .carousel-rating {
     bottom: 100px;

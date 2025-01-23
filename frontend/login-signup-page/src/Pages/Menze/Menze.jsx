@@ -28,7 +28,6 @@ export default function Menze() {
   const { user, fetch_path } = useContext(AppStateContext);
   const [activeCafeteria, setActiveCafeteria] = useState(0)
   const [cafeterias, setCafeterias] = useState([])
-  const [activeDorm, setActiveDorm] = useState(0)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const scrollContainerRef = useRef(null)
   const [reviews, setReviews] = useState([])
@@ -124,27 +123,39 @@ export default function Menze() {
     }
   }, [activeCafeteria, cafeterias])
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/review/",
+        { value: reviewId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the reviews list after deletion
+      fetchReviews(cafeterias[activeCafeteria].id)
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
   return (
     <div className="menze-container">
       <main className="domovi-main1">
-        <h1 className='menze-naslov'>Studentske Menze: Mjesta gdje okusi spajaju studente!</h1>
-        <h2 className='h2H1'>Otkrij svog favorita među menzama i javi drugima koliko si dugo čekao u redu</h2>
+        <h1 className="menze-naslov">Studentske Menze: Mjesta gdje okusi spajaju studente!</h1>
+        <h2 className="h2H1">Otkrij svog favorita među menzama i javi drugima koliko si dugo čekao u redu</h2>
 
         <div className="carousel-container1">
-          <button 
+          <button
             onClick={() => scrollTo((activeCafeteria - 1 + cafeterias.length) % cafeterias.length)}
             className="menze-button left"
           >
             <ChevronLeft className="icon" />
           </button>
-          <div 
-            ref={scrollContainerRef}
-            className="carousel"
-          >
+          <div ref={scrollContainerRef} className="carousel">
             {cafeterias.map((cafeteria) => (
               <div key={cafeteria.id} className="dorm-card">
                 <div className="menze-content">
-                  
                   <h2 className="h2M1">{cafeteria.name}</h2>
                   <p>{cafeteria.description}</p>
                   <div className="rating-container">
@@ -152,21 +163,20 @@ export default function Menze() {
                       rating={review.rating}
                       hoveredRating={hoveredRating}
                       onRate={(rating) => {
-                        setReview(prev => ({ ...prev, rating }));
-                        setIsReviewModalOpen(true);
+                        setReview((prev) => ({ ...prev, rating }))
+                        setIsReviewModalOpen(true)
                       }}
                       onHover={setHoveredRating}
                     />
-                    <button className="ocijeni-gumb" onClick={() => setIsReviewModalOpen(true)}>Ocijeni menzu!</button>
+                    <button className="ocijeni-gumb" onClick={() => setIsReviewModalOpen(true)}>
+                      Ocijeni menzu!
+                    </button>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          <button 
-            onClick={() => scrollTo((activeCafeteria + 1) % cafeterias.length)}
-            className="menze-button right"
-          >
+          <button onClick={() => scrollTo((activeCafeteria + 1) % cafeterias.length)} className="menze-button right">
             <ChevronRight className="icon" />
           </button>
         </div>
@@ -195,6 +205,11 @@ export default function Menze() {
                     required
                   />
                 </div>
+                <div className="modal-buttons">
+                  <button type="submit" className="submit-button">
+                    Objavi Recenziju
+                  </button>
+                </div>
               </form>
             )}
             <div className="reviews-list">
@@ -206,21 +221,19 @@ export default function Menze() {
                   <p>{review.message}</p>
                   <div className="review-meta">
                     <span>Reviewed by {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                    {user.isAdmin && (
+                      <button className="delete-button" onClick={() => handleDeleteReview(review.id)}>
+                        {" "}
+                        Izbriši{" "}
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
             </div>
-            
-            
-            <div className="modal-buttons">
             <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
               Zatvori
             </button>
-              <button type="submit" className="submit-button">
-                Objavi Recenziju
-              </button>
-            </div>
-     
           </div>
         </div>
       )}

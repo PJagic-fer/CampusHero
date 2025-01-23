@@ -43,6 +43,60 @@ export default function FacultyForum() {
     }
   }, [currentFacultyIndex, faculties])
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/review/",
+        { value: reviewId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the reviews list after deletion
+      fetchReviews(faculties[currentFacultyIndex].id)
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
+  const handleDeleteQuestion = async (questionId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/post",
+        { value: questionId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the questions list after deletion
+      fetchQuestions(faculties[currentFacultyIndex].id)
+      fetchAllAnswers()
+      // Close the question popup if it's open
+      setIsQuestionPopupOpen(false)
+    } catch (error) {
+      console.error("Error deleting a question:", error)
+    }
+  }
+
+  const handleDeleteAnswer = async (answerId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/post",
+        { value: answerId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the answers for the current question
+      if (selectedQuestion) {
+        fetchAnswers(selectedQuestion.id)
+      }
+      fetchAllAnswers()
+    } catch (error) {
+      console.error("Error deleting an answer:", error)
+    }
+  }
+
   const getAttributeValues = async () => {
     let response
     try {
@@ -244,7 +298,6 @@ export default function FacultyForum() {
         <button className="faculty-selector-button" onClick={() => setIsFacultySelectorOpen(true)}>
           Odaberi Fakultet
         </button>
-        
       </header>
       {isFacultySelectorOpen && (
         <div className="faculty-selector-container" onClick={() => setIsFacultySelectorOpen(false)}>
@@ -335,6 +388,12 @@ export default function FacultyForum() {
                       <p>{review.message}</p>
                       <div className="review-meta">
                         <span>Recenzija: {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                        {user.isAdmin && (
+                          <button className="delete-button" onClick={() => handleDeleteReview(review.id)}>
+                            {" "}
+                            Izbriši{" "}
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -378,6 +437,17 @@ export default function FacultyForum() {
               <div className="question-meta">
                 <span>Objavio {question.creator.name + " " + question.creator.surname || "Anonymous"}</span>
                 <span>Odgovori: {allAnswers.filter((answer) => answer.parentPost.id === question.id).length || 0}</span>
+                {user.isAdmin && (
+                  <button
+                    className="delete-button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDeleteQuestion(question.id)
+                    }}
+                  >
+                    Izbriši
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -402,6 +472,17 @@ export default function FacultyForum() {
                     <p>{answer.message}</p>
                     <div className="answer-meta">
                       <span>Odgovorio: {answer.creator.name + " " + answer.creator.surname || "Anonymous"}</span>
+                      {user.isAdmin && (
+                        <button
+                          className="delete-button"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDeleteAnswer(answer.id)
+                          }}
+                        >
+                          Izbriši
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))

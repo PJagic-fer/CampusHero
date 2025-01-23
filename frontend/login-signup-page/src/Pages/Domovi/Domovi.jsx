@@ -1,7 +1,7 @@
 "use client"
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useRef, useEffect, useContext } from "react"
-import { ChevronLeft, ChevronRight, Star } from "lucide-react"
+import { ChevronLeft, ChevronRight, Star } from 'lucide-react'
 import "./Domovi.css"
 import axios from "axios"
 import { AppStateContext } from "../../context/AppStateProvider"
@@ -124,6 +124,19 @@ export default function Domovi() {
     }
   }, [activeDorm, dorms])
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post('http://localhost:8080/campus-hero/admin/review/', 
+      {"value":reviewId}, {
+        withCredentials: true
+      });
+      // Refresh the reviews list after deletion
+      fetchReviews(dorms[activeDorm].id);
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
   return (
     <div className="domovi-container">
       <main className="domovi-main">
@@ -202,6 +215,9 @@ export default function Domovi() {
                   <p>{review.message}</p>
                   <div className="review-meta">
                     <span>Reviewed by {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                    {user.isAdmin && (
+                      <button className="delete-button" onClick={() => handleDeleteReview(review.id)}> Izbriši </button>
+                    )}
                   </div>
                 </div>
               ))}
@@ -215,4 +231,3 @@ export default function Domovi() {
     </div>
   )
 }
-

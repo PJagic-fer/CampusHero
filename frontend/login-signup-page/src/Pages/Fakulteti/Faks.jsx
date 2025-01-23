@@ -1,5 +1,5 @@
 "use client"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"
 import React, { useState, useRef, useEffect, useContext } from "react"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import "./Faks.css"
@@ -124,13 +124,29 @@ export default function Faksevi() {
     }
   }, [activeFaculty, faculties])
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/review/",
+        { value: reviewId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the reviews list after deletion
+      fetchReviews(faculties[activeFaculty].id)
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
   return (
     <div className="faks-container">
       <main className="domovi-main">
-        <h1 className='faks-naslov'>Otkrij sve što trebaš znati o fakultetima, tvoje obrazovanje počinje ovdje</h1>
-        
+        <h1 className="faks-naslov">Otkrij sve što trebaš znati o fakultetima, tvoje obrazovanje počinje ovdje</h1>
+
         <div className="carousel-container">
-          <button 
+          <button
             onClick={() => scrollTo((activeFaculty - 1 + faculties.length) % faculties.length)}
             className="faks-button left"
           >
@@ -202,6 +218,12 @@ export default function Faksevi() {
                   <p>{review.message}</p>
                   <div className="review-meta">
                     <span>Reviewed by {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                    {user.isAdmin && (
+                      <button className="delete-button" onClick={() => handleDeleteReview(review.id)}>
+                        {" "}
+                        Izbriši{" "}
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}
