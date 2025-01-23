@@ -1,22 +1,31 @@
 package progi.data;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.Table;
 
 @Entity
 @Table
 public class BuddyRequest {
 
     @Id
-    private String id;
+    @SequenceGenerator(name = "buddy_request_sequence", sequenceName = "buddy_request_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "buddy_request_sequence")
+    private Long id;
 
     private boolean hasBuddyAccepted;
 
     private boolean isBlocked;
 
-    @OneToOne
+    @ManyToOne
     private ApplicationUser user;
 
     @ManyToOne
@@ -35,48 +44,52 @@ public class BuddyRequest {
         isBlocked = false;
     }
 
-    public boolean GetHasBuddyAccepted()
-    {
+    public boolean getHasBuddyAccepted() {
         return hasBuddyAccepted;
     }
 
-    public void SetHasBuddyAccepted(boolean hasBuddyAccepted)
-    {
+    public void setHasBuddyAccepted(boolean hasBuddyAccepted) {
         this.hasBuddyAccepted = hasBuddyAccepted;
     }
 
-    public ApplicationUser GetUser()
-    {
+    public ApplicationUser getUser() {
         return user;
     }
 
-    public void SetUser(ApplicationUser user)
-    {
+    public void setUser(ApplicationUser user) {
         this.user = user;
     }
 
-    public ApplicationUser GetBuddy()
-    {
+    public ApplicationUser getBuddy() {
         return buddy;
     }
 
-    public void SetBuddy(ApplicationUser buddy)
-    {
+    public void setBuddy(ApplicationUser buddy) {
         this.buddy = buddy;
     }
 
-    public LocalDateTime GetDateCreated()
-    {
+    public LocalDateTime getDateCreated() {
         return DateCreated;
     }
 
-    public void SetIsBlocked(Boolean isBlocked)
-    {
+    public void setIsBlocked(Boolean isBlocked) {
         this.isBlocked = isBlocked;
     }
 
-    public boolean GetIsBlocked()
-    {
+    public boolean getIsBlocked() {
         return isBlocked;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setDateCreated(LocalDateTime dateCreated) {
+        DateCreated = dateCreated;
+    }
+
 }

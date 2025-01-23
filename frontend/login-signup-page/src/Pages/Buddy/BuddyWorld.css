@@ -227,7 +227,7 @@
 }
 
 .filter-section select:focus {
-  border-color: #6a11cb; /* Promjena boje pri fokusu */
+  border-color: #d83071bc; /* Promjena boje pri fokusu */
 }
 
   
@@ -246,6 +246,10 @@
   transition: all 0.3s ease;
 }
 
+.buddy-appuser-card.requested-buddy-appuser-card {
+  border: 1px solid #0dceab;
+}
+
 .buddy-appuser-card:hover {
   background-color: #f1f5f9;
   transform: scale(1.05);
@@ -256,6 +260,11 @@
   margin: 5px 0;
   color: #333;
   font-size: 1rem;
+}
+
+.buddy-info.requested-buddy-info {
+  color: #0dceab;
+  font-size: 1.5rem;
 }
 
 .buddy-appuser-container {

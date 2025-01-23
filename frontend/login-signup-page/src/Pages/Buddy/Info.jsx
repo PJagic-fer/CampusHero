@@ -6,30 +6,10 @@ import { AppStateContext } from '../../context/AppStateProvider';
 
 const BuddyInfo = () => {
   const navigate = useNavigate();
-  const { user, fetch_path } = useContext(AppStateContext); // Dohvaćamo korisnika iz konteksta
+  const { user, setUser, fetch_path } = useContext(AppStateContext); // Dohvaćamo korisnika iz konteksta
   const [loading, setLoading] = useState(true); // Praćenje učitavanja stanja
   const [showModal, setShowModal] = useState(false); // Prikazivanje modala
   const [showBuddyApplyModal, setShowBuddyApplyModal] = useState(false);
-
-  // Dohvat trenutnog Buddy statusa s backenda prilikom učitavanja komponente
-  useEffect(() => {
-    const fetchBuddyStatus = async () => {
-      try {
-        await axios.get(`${fetch_path}/buddy-sustav/${user.id}`, {
-          withCredentials: true,
-        });
-        
-      } catch (error) {
-        console.error('Greška prilikom dohvaćanja Buddy statusa:', error);
-      } finally {
-        setLoading(false); // Učitavanje završeno
-      }
-    };
-
-    if (user.id) {
-      fetchBuddyStatus();
-    }
-  }, [user.id]);
 
   const handleBuddyApply = async () => {
     if (!user || !user.id) {
@@ -46,7 +26,7 @@ const BuddyInfo = () => {
 
       if (response.status === 200) {
         setShowBuddyApplyModal(false);
-        alert('Uspješno ste poslali Buddy prijavu!');
+        setUser({...user, isBuddy: true});
       }
 
     } catch (error) {

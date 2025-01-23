@@ -10,7 +10,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import progi.data.BuddyRequest;
 
 @Entity
 @Table
@@ -51,8 +50,6 @@ public class ApplicationUser {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @ManyToOne
-    private BuddyRequest buddyRequest;
 
     public ApplicationUser() {
     }
@@ -64,7 +61,6 @@ public class ApplicationUser {
         this.isAdmin = false;
         this.isBuddy = false;
         this.email = email;
-        this.buddyRequest = null;
     }
 
     public String getEmail() {
@@ -113,15 +109,6 @@ public class ApplicationUser {
 
     public ApplicationUser getBuddy() {
         return buddy;
-    }
-
-    public boolean hasActiveBuddyRequest()
-    {
-        if(buddyRequest != null)
-        {
-            return true;
-        }
-        return false;
     }
 
     public void setName(String name) {
@@ -176,8 +163,4 @@ public class ApplicationUser {
                 + ", isAdmin=" + isAdmin + ", isBuddy=" + isBuddy + ", buddy=" + buddy + ", email=" + email + "]";
     }
 
-    public void setNewBuddyRequest(ApplicationUser buddy)
-    {
-        buddyRequest = new BuddyRequest(this, buddy);
-    }
 }

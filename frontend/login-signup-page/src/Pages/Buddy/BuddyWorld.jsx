@@ -14,11 +14,20 @@ const BuddyWorld = () => {
   const [buddyDivision, setBuddyDivision] = useState([]);
   const [studentRequestList, setStudentRequestList] = useState([]);
   const [studentRequestDivision, setStudentRequestDivision] = useState([]);
+  const [requestedBuddy, setRequestedBuddy] = useState(null)
 
-  useEffect((activeSection) => { 
-    if (activeSection = "findBuddy"){
+  const [listCities, setListCities]  = useState([]);
+  const [listStudentHomes, setListStudentHomes]  = useState([]);
+  const [listFaculties, setListFaculties]  = useState([]);
+
+  useEffect(() => {
+    if (activeSection == "findBuddy"){
+      const getRequestedBuddy = async () => {
+        await fetchCurrentRequestForBuddy();
+      }
+      getRequestedBuddy();
       fetchBuddyList();
-    } else if (activeSection = "manageStudents"){
+    } else if (activeSection == "manageStudents"){
       fetchStudentRequestList();
     }
   },[activeSection])
@@ -27,17 +36,16 @@ const BuddyWorld = () => {
     if (buddyList.length > 0) {
       setBuddyDivision(mapBuddy(buddyList));
     }
-  }, [buddyList])
+  }, [buddyList, requestedBuddy])
 
   useEffect(() => {
     if (studentRequestList.length > 0) {
-      setStudentRequestDivision(mapBuddy(studentRequestList));
+      setStudentRequestDivision(mapStudent(studentRequestList));
     }
   }, [studentRequestList])
 
   const fetchBuddyList = async () => {
     try {
-      // Pretpostavimo da je URL endpointa na backendu "/campus-hero/buddy-list"
       const response = await axios.get(`${fetch_path}/buddy-sustav/student/trazi-buddyja`, {
         withCredentials: true, // Ako backend zahtijeva autentifikaciju putem kolačića
       });
@@ -48,7 +56,24 @@ const BuddyWorld = () => {
       } else {
         console.error('Greška: Neočekivani status odgovora:', response.status);
       }
-      console.log(response.data);
+    } catch (error) {
+      console.error('Greška prilikom dohvaćanja Buddy liste:', error);
+    }
+  };
+
+  const fetchCurrentRequestForBuddy = async () =>{
+    try {
+        // buddy kojem smo poslali zahtjev
+        const response = await axios.get(`${fetch_path}/buddy-sustav/student/trazeni-buddy`, {
+        withCredentials: true, // Ako backend zahtijeva autentifikaciju putem kolačića
+      });
+  
+      if (response.status === 200) {
+        // Vraća dohvaćene podatke
+        setRequestedBuddy(response.data);
+      } else {
+        console.error('Greška: Neočekivani status odgovora:', response.status);
+      }
     } catch (error) {
       console.error('Greška prilikom dohvaćanja Buddy liste:', error);
     }
@@ -62,39 +87,109 @@ const BuddyWorld = () => {
   
       if (response.status === 200) {
         // Vraća dohvaćene podatke
-        setBuddyList(response.data);
+        setStudentRequestList(response.data);
       } else {
         console.error('Greška: Neočekivani status odgovora:', response.status);
       }
-      console.log(response.data);
     } catch (error) {
-      console.error('Greška prilikom dohvaćanja Buddy liste:', error);
+      console.error('Greška prilikom dohvaćanja liste studenata:', error);
     }
   };
 
+  const handleRequestThisBuddyClick = async (buddy) => {
+    try {
+      const response = await axios.post(`${fetch_path}/buddy-sustav/student/trazi-buddyja`, 
+        {"value":buddy.id},
+        {withCredentials: true});
+    if (response.status === 200) {
+      setRequestedBuddy(buddy);
+    } else {
+      console.error('Greška: Neočekivani status odgovora:', response.status);
+    }
+  } catch (error) {
+    console.error('Greška prilikom dohvaćanja Buddy liste:', error);
+  }
+  };
 
   const mapBuddy = (buddys) => {
     return buddys.map((user) => (
       <div
-        className="buddy-appuser-card"
+        className= {(requestedBuddy && requestedBuddy.id == user.id) ? "buddy-appuser-card requested-buddy-appuser-card" : "buddy-appuser-card"}
         key={`${user.id}`}
         id={`user${user.id}`}
-        onClick={() => handleUserClick(user)} //ovdje se salje zahtjev buddyu, pitati patrika gdje se salje zahtjev
+        onClick={() => handleRequestThisBuddyClick(user)} 
       >
+        {(requestedBuddy && requestedBuddy.id == user.id) && <p className="buddy-info requested-buddy-info">requested buddy</p>}
         {user.name && <p className="buddy-info">Ime: {user.name}</p>}
-        {user.city?.name && <p className="buddy-info">Dolazi iz grada: {user.city.name}</p>}
-        {user.studentHome?.name && <p className="buddy-info">Stanuje u domu: {user.studentHome.name}</p>}
-        {user.faculty?.name && <p className="buddy-info">Studira na fakultetu: {user.faculty.name}</p>}
+        {user.city?.name && <p className="buddy-info">Grad: {user.city.name}</p>}
+        {user.studentHome?.name && <p className="buddy-info">Dom: {user.studentHome.name}</p>}
+        {user.faculty?.name && <p className="buddy-info">Fakultet: {user.faculty.name}</p>}
       </div>
     ));
   };
   
-  const handleUserClick = (user) => {
-    alert(`Kliknuli ste na korisnika: ${user.name}`);
+  const handleAproveThisStudetClick = async (student) => {
+    /*try {
+      const response = await axios.post(`http://localhost:8080/campus-hero/buddy-sustav/student/trazi-buddyja`, 
+        {"value":student.id},
+        {withCredentials: true});
+    if (response.status === 200) {
+      setRequestedBuddy(student);
+      alert(`Poslali ste zahtjev buddyju: ${student.name}`);
+    } else {
+      console.error('Greška: Neočekivani status odgovora:', response.status);
+    }
+  } catch (error) {
+    console.error('Greška prilikom dohvaćanja Buddy liste:', error);
+  }*/
+    alert(`Odobrili ste zahtjev studentu: ${student.name}`);
+  };
+
+  const mapStudent = (students) => {
+    return students.map((user) => (
+      <div
+        className= "buddy-appuser-card"
+        key={`${user.user.id}`}
+        id={`user${user.user.id}`}
+        onClick={() => handleAproveThisStudetClick(user.user)} 
+      >
+        {user.user.name && <p className="buddy-info">Ime: {user.user.name}</p>}
+        {user.user.city?.name && <p className="buddy-info">Grad: {user.user.city.name}</p>}
+        {user.user.studentHome?.name && <p className="buddy-info">Dom: {user.user.studentHome.name}</p>}
+        {user.user.faculty?.name && <p className="buddy-info">Fakultet: {user.user.faculty.name}</p>}
+      </div>
+    ));
   };
   
+  useEffect(() => {
+    const getFilterValues = async () => {
+      setListCities( mapAttribtesToOptions ( await getAttributeValues("gradovi")));  
+      setListStudentHomes(mapAttribtesToOptions ( await getAttributeValues("domovi")));
+      setListFaculties(mapAttribtesToOptions ( await getAttributeValues("fakulteti")));
+      };
+      
+      getFilterValues();
+    }, []);
 
   // filter za buddy listu- za sad ne treba
+  const getAttributeValues = async (attribute) => {
+    let response;
+    try {
+        //dohvaćenje atributa iz baze
+        //response = await axios.get(`https://campus-hero.onrender.com/campus-hero/${attribute}`);
+        response = await axios.get(`http://localhost:8080/campus-hero/${attribute}`);
+        return response.data;
+    } catch (error) {
+        console.error('Neuspješno dohvaćanje elemenata', error);
+      }
+  }
+
+  //pretvorba liste atributa u opcije za odabir
+  const mapAttribtesToOptions = (atributeList) =>{
+      return atributeList.map((attribute) => <option key={`${attribute.id}`} value={`${attribute.id}`}>
+                              {attribute.name}
+                          </option>)
+  }
   
 
   return (
@@ -121,21 +216,11 @@ const BuddyWorld = () => {
         <div className="buddy-section">
           <h2>Pronađi Buddyja</h2>
           <p>Ovdje možeš pregledati popis dostupnih Buddyja i odabrati onog koji ti najbolje odgovara.</p>
+          {requestedBuddy && <p style={{color: "#d83071bc"}}>Zahtjev je poslan buddyju: {requestedBuddy.name}</p>}
 
           {/* Filter sekcija */}
           <div className="filter-section">
-            <label>
-              Fakultet:
-              <select
-                value={filter.faculty}
-                onChange={(e) => setFilter({ ...filter, faculty: e.target.value })}
-              >
-                <option value="">Svi fakulteti</option>
-                <option value="FER">FER</option>
-                <option value="EFZG">EFZG</option>
-                <option value="PMF">PMF</option>
-              </select>
-            </label>
+            
             <label>
               Mjesto:
               <select
@@ -143,13 +228,33 @@ const BuddyWorld = () => {
                 onChange={(e) => setFilter({ ...filter, city: e.target.value })}
               >
                 <option value="">Sva mjesta</option>
-                <option value="Zagreb">Zagreb</option>
-                <option value="Split">Split</option>
-                <option value="Osijek">Osijek</option>
-                <option value="Zadar">Zadar</option>
+                {listCities}
+              </select>
+            </label>
+
+            <label>
+              Domovi:
+              <select
+                value={filter.faculty}
+                onChange={(e) => setFilter({ ...filter, faculty: e.target.value })}
+              >
+                <option value="">Svi domovi</option>
+                {listStudentHomes}
+              </select>
+            </label>
+
+            <label>
+              Fakultet:
+              <select
+                value={filter.faculty}
+                onChange={(e) => setFilter({ ...filter, faculty: e.target.value })}
+              >
+                <option value="">Svi fakulteti</option>
+                {listFaculties}
               </select>
             </label>
           </div>
+
 
           {/* Prikaz filtriranih Buddyja */}
           <div className="buddy-grid">
@@ -181,6 +286,10 @@ const BuddyWorld = () => {
         <div className="buddy-section">
           <h2>Upravljaj Studentima</h2>
           <p>Ovdje možeš dodavati, uređivati ili brisati studente koji koriste Buddy svijet.</p>
+
+          <div className="buddy-grid">
+            {studentRequestDivision}
+          </div>
         </div>
       )}
     </div>

@@ -128,6 +128,11 @@ public class ApplicationUserData {
 
     // pretvorba objekta korisnika u objekt koji sadrži njegove atribute (bez id)
     public static ApplicationUserData parseApplicationUserData(ApplicationUser applicationUser) {
+        ApplicationUser buddy = applicationUser.getBuddy();
+        if (buddy != null) {
+            buddy.setGoogleId(null);
+            buddy.setBuddy(null);
+        }
         return new ApplicationUserData(
                 applicationUser.getName(),
                 applicationUser.getSurname(),
@@ -137,7 +142,7 @@ public class ApplicationUserData {
                 applicationUser.getStudentHome(),
                 applicationUser.getFaculty(),
                 applicationUser.getIsBuddy(),
-                applicationUser.getBuddy(),
+                buddy,
                 applicationUser.getId(),
                 applicationUser.getIsAdmin());
 

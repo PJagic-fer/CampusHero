@@ -1,8 +1,8 @@
 package progi.services;
 
 import java.util.List;
+import java.time.LocalDateTime;
 import java.util.ArrayList; 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -11,8 +11,6 @@ import org.springframework.stereotype.Service;
 import progi.data.ApplicationUser;
 import progi.data.BuddyRequest;
 import progi.repositories.BuddyRequestRepository;
-import progi.repositories.ApplicationUserRepository;
-import progi.services.ApplicationUserService;
 
 @Service
 public class BuddyRequestService {
@@ -25,7 +23,16 @@ public class BuddyRequestService {
     }
 
     public void addNewBuddyRequest(BuddyRequest request) {
-        buddyRequestRepository.save(request);
+        BuddyRequest foundBuddyRequest = buddyRequestRepository.findByUser(request.getUser());
+        if (foundBuddyRequest == null || foundBuddyRequest.getIsBlocked()) {
+            buddyRequestRepository.save(request);
+            return;
+        }
+        foundBuddyRequest.setBuddy(request.getBuddy());
+        foundBuddyRequest.setDateCreated(LocalDateTime.now());
+        foundBuddyRequest.setHasBuddyAccepted(false);
+
+        buddyRequestRepository.save(foundBuddyRequest);
     }
 
     public String getAllBuddyRequests()
@@ -41,7 +48,7 @@ public class BuddyRequestService {
         Pair<BuddyRequest, Boolean> ret = Pair.of(null, false); // request nije naden, vrati prazno
 
         for(BuddyRequest request : requests){
-            if(request.GetUser().equals(from) && request.GetBuddy().equals(to))
+            if(request.getUser().equals(from) && request.getBuddy().equals(to))
             {
                 ret = Pair.of(request, true); // nasli request, vracamo ga
             }
@@ -59,12 +66,12 @@ public class BuddyRequestService {
         }
         for(BuddyRequest request : requests)
         {
-            if(request.GetBuddy().getId() == buddyId)
+            if(request.getBuddy().getId() == buddyId)
             {
                 ApplicationUser user = applicationUserService.getUserById(studentId).orElse(null);
                 if(!isBuddy)
                 {
-                    request.SetIsBlocked(false);
+                    request.setIsBlocked(false);
                     if(user != null)
                     {
                         user.setBuddy(null);
@@ -80,7 +87,7 @@ public class BuddyRequestService {
                         applicationUserService.updateApplicationUser(user);
                     }
                 }
-                request.SetHasBuddyAccepted(isBuddy);
+                request.setHasBuddyAccepted(isBuddy);
                 buddyRequestRepository.save(request);
                 return true;
             }
@@ -95,12 +102,20 @@ public class BuddyRequestService {
         List<BuddyRequest> ret = new ArrayList<>();
 
         for(BuddyRequest request : requests){
-            if(request.GetUser().getId() == userID)
+            if(request.getBuddy().getId() == userID)
             {
                 ret.add(request);
             }
         }
 
         return ret;
+    }
+
+    public ApplicationUser getRequestedBuddyByUser(ApplicationUser user) {
+        BuddyRequest buddyRequest = buddyRequestRepository.findByUser(user);
+        if (buddyRequest != null) {
+            return buddyRequest.getBuddy();
+        }
+        return null;
     }
 }
