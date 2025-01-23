@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from "react"
 import axios from "axios"
 import "./CanteenDetailView.css"
+import { TodayDataSection } from "./TodayDataSection"
+import { DataSection } from "./DataSection"
 
 const CanteenDetailView = ({ canteen, onClose }) => {
   const [todayData, setTodayData] = useState([])
   const [currentHourData, setCurrentHourData] = useState([])
   const [lastFewDaysData, setLastFewDaysData] = useState([])
   const [nextHourData, setNextHourData] = useState([])
+  const [showDetails, setShowDetails] = useState(false)
 
   useEffect(() => {
     fetchCanteenData()
-  }, [canteen])
+
+    const handleEscKey = (event) => {
+      if (event.key === "Escape") {
+        onClose()
+      }
+    }
+
+    document.addEventListener("keydown", handleEscKey)
+
+    return () => {
+      document.removeEventListener("keydown", handleEscKey)
+    }
+  }, [canteen, onClose])
 
   const fetchCanteenData = async () => {
     try {
@@ -47,16 +62,22 @@ const CanteenDetailView = ({ canteen, onClose }) => {
       <div className="canteen-detail-container">
         <h2>{canteen.name}</h2>
         <div className="canteen-detail-content">
-          <h3>Današnji podaci</h3>
-          <p>Prosječno vrijeme čekanja danas: {calculateAverageWaitTime(todayData)} {todayData.length > 0 && ("minuta")}</p>
-          <h3>Trenutni sat</h3>
-          <p>Prosječno vrijeme čekanja u ovom satu: {calculateAverageWaitTime(currentHourData)} {currentHourData.length > 0 && ("minuta")}</p>
-
-          <h3>Zadnja 3 dana + danas (ovaj sat)</h3>
-          <p>Prosječno vrijeme čekanja: {calculateAverageWaitTime(lastFewDaysData)} {lastFewDaysData.length > 0 && ("minuta")}</p>
-
-          <h3>Sljedeći sat (zadnja 3 dana)</h3>
-          <p>Prosječno vrijeme čekanja: {calculateAverageWaitTime(nextHourData)} {nextHourData.length > 0 && ("minuta")}</p>
+          <TodayDataSection todayData={todayData} showDetails={showDetails} setShowDetails={setShowDetails} />
+          <DataSection
+            title="Trenutni sat"
+            data={currentHourData}
+            calculateAverageWaitTime={calculateAverageWaitTime}
+          />
+          <DataSection
+            title="Zadnja 3 dana + danas (ovaj sat)"
+            data={lastFewDaysData}
+            calculateAverageWaitTime={calculateAverageWaitTime}
+          />
+          <DataSection
+            title="Sljedeći sat (zadnja 3 dana)"
+            data={nextHourData}
+            calculateAverageWaitTime={calculateAverageWaitTime}
+          />
         </div>
         <button onClick={onClose} className="canteen-detail-close-button">
           Zatvori

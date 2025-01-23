@@ -3,6 +3,7 @@ import axios from "axios"
 import "./Forum.css"
 import { Star } from "lucide-react"
 import { AppStateContext } from "../../context/AppStateProvider"
+import { ShortenedText } from "./ShortenedText"
 
 export default function Forum() {
   const { user, fetch_path } = useContext(AppStateContext)
@@ -64,7 +65,6 @@ export default function Forum() {
     try {
       const response = await axios.get(`${fetch_path}/forum/${questionId}`)
       setQuestionAnswers(response.data || [])
-      console.log(allAnswers)
     } catch (error) {
       console.error("Error fetching answers:", error)
     }
@@ -155,9 +155,7 @@ export default function Forum() {
 
   const fetchAllAnswers = async () => {
     try {
-      const response = await axios.get(
-        `${fetch_path}/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`,
-      )
+      const response = await axios.get(`${fetch_path}/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`)
       const questions = response.data
       const allAnswersPromises = questions.map((question) => {
         return axios.get(`${fetch_path}/forum/${question.id}`)
@@ -372,11 +370,16 @@ export default function Forum() {
             </div>
             {!isReviewFormVisible && (
               <>
-                {user.id && (
-                  <button className="submit-button" onClick={() => setIsReviewFormVisible(true)}>
-                    Ostavi recenziju
+                <div className="modal-buttons">
+                  {user.id && (
+                    <button className="submit-button" onClick={() => setIsReviewFormVisible(true)}>
+                      Ostavi recenziju
+                    </button>
+                  )}
+                  <button type="button" className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
+                    Zatvori
                   </button>
-                )}
+                </div>
                 <div className="reviews-list">
                   {reviews.map((review, index) => (
                     <div key={index} className="review-item">
@@ -420,9 +423,6 @@ export default function Forum() {
                 </div>
               </form>
             )}
-            <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
-              Zatvori
-            </button>
           </div>
         </div>
       )}
@@ -432,6 +432,7 @@ export default function Forum() {
           <div key={question.id} className="question-item" onClick={() => openQuestionPopup(question)}>
             <div className="question-content">
               <h3>{question.title}</h3>
+              <ShortenedText text={question.message} maxLength={100} />
               <div className="question-meta">
                 <span>Objavio {question.creator.name + " " + question.creator.surname || "Anonymous"}</span>
                 <span>Odgovori: {allAnswers.filter((answer) => answer.parentPost.id === question.id).length || 0}</span>
@@ -456,12 +457,46 @@ export default function Forum() {
         <div className="modal-overlays">
           <div className="modal question-popup">
             <h2>{selectedQuestion.title}</h2>
-            <p className="question-body">{selectedQuestion.message}</p>
+            <ShortenedText text={selectedQuestion.message} maxLength={200} />
             <div className="question-meta">
               <span>
                 Objavio: {selectedQuestion.creator.name + " " + selectedQuestion.creator.surname || "Anonymous"}
               </span>
             </div>
+            {!isAnswerFormVisible && (
+              <div className="modal-buttons">
+                <button className="cancel-button" onClick={() => setIsQuestionPopupOpen(false)}>
+                  Zatvori
+                </button>
+                {user.id && (
+                  <button className="submit-button" onClick={() => setIsAnswerFormVisible(true)}>
+                    Odgovori
+                  </button>
+                )}
+              </div>
+            )}
+            {isAnswerFormVisible && (
+              <form onSubmit={handlePostAnswer} className="answer-form">
+                <div className="form-group">
+                  <label htmlFor="answerBody">Vaš Odgobor</label>
+                  <textarea
+                    id="answerBody"
+                    value={newAnswer}
+                    onChange={(e) => setNewAnswer(e.target.value)}
+                    placeholder="Type your answer here"
+                    required
+                  />
+                </div>
+                <div className="modal-buttons">
+                  <button type="button" className="cancel-button" onClick={() => setIsAnswerFormVisible(false)}>
+                    Odustani
+                  </button>
+                  <button type="submit" className="submit-button">
+                    Objavi svoj odgovor
+                  </button>
+                </div>
+              </form>
+            )}
             <h3>Odgovori:</h3>
             <div className="answers-list">
               {questionAnswers.length > 0 ? (
@@ -488,40 +523,6 @@ export default function Forum() {
                 <p>Još nema odgovora.</p>
               )}
             </div>
-            {isAnswerFormVisible && (
-              <form onSubmit={handlePostAnswer} className="answer-form">
-                <div className="form-group">
-                  <label htmlFor="answerBody">Vaš Odgobor</label>
-                  <textarea
-                    id="answerBody"
-                    value={newAnswer}
-                    onChange={(e) => setNewAnswer(e.target.value)}
-                    placeholder="Type your answer here"
-                    required
-                  />
-                </div>
-                <div className="modal-buttons">
-                  <button type="button" className="cancel-button" onClick={() => setIsAnswerFormVisible(false)}>
-                    Odustani
-                  </button>
-                  <button type="submit" className="submit-button">
-                    Objavi svoj odgovor
-                  </button>
-                </div>
-              </form>
-            )}
-            {!isAnswerFormVisible && (
-              <div className="modal-buttons">
-                <button className="cancel-button" onClick={() => setIsQuestionPopupOpen(false)}>
-                  Zatvori
-                </button>
-                {user.id && (
-                  <button className="submit-button" onClick={() => setIsAnswerFormVisible(true)}>
-                    Odgovori
-                  </button>
-                )}
-              </div>
-            )}
           </div>
         </div>
       )}

@@ -209,6 +209,9 @@ export default function Menze() {
                   <button type="submit" className="submit-button">
                     Objavi Recenziju
                   </button>
+                  <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
+                    Zatvori
+                  </button>
                 </div>
               </form>
             )}
@@ -231,9 +234,7 @@ export default function Menze() {
                 </div>
               ))}
             </div>
-            <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
-              Zatvori
-            </button>
+            
           </div>
         </div>
       )}

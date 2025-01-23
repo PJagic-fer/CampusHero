@@ -46,6 +46,19 @@ a{
     color: white;
 }
 
+:root {
+    --scrollbar-width: 0px;
+  }
+  
+  /* Webkit browsers (Chrome, Safari, newer versions of Edge) */
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--scrollbar-track-color);
+  }
+
 /* za manje ekrane */
 @media (max-width: 1000px) {
     .container {

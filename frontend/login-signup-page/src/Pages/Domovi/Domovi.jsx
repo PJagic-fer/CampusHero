@@ -46,7 +46,7 @@ export default function Domovi() {
     try {
       const response = await axios.get(`${fetch_path}/domovi`)
       setDorms(response.data)
-      console.log(response.data)
+      
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
     }
@@ -190,18 +190,21 @@ export default function Domovi() {
             {user.id && (
               <form onSubmit={handleSubmitReview}>
                 <div className="form-group">
-                  <label htmlFor="reviewDescription">Your Review</label>
+                  <label htmlFor="reviewDescription">Recenzija</label>
                   <textarea
                     id="reviewDescription"
                     value={review.description}
                     onChange={(e) => setReview((prev) => ({ ...prev, description: e.target.value }))}
-                    placeholder="Tell us more about your experience"
+                    placeholder="Reci nam više o svom iskustvu..."
                     required
                   />
                 </div>
                 <div className="modal-buttons">
                   <button type="submit" className="submit-button">
-                    Submit Review
+                    Objavi recenziju
+                  </button>
+                  <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
+                    Zatvori
                   </button>
                 </div>
               </form>
@@ -222,9 +225,6 @@ export default function Domovi() {
                 </div>
               ))}
             </div>
-            <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
-              Close
-            </button>
           </div>
         </div>
       )}
