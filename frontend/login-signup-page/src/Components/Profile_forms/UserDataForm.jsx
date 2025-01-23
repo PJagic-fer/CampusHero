@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form';
 
 const UserDataForm = () => {
 
-    const {user, setUser} = useContext(AppStateContext);
+    const {user, setUser, fetch_path} = useContext(AppStateContext);
 
     const  {register, handleSubmit, formState:{errors}, watch, reset} = useForm();
 
@@ -22,8 +22,7 @@ const UserDataForm = () => {
         let response;
         try {
             //dohvaćenje atributa iz baze
-            response = await axios.get(`https://campus-hero.onrender.com/campus-hero/${attribute}`);
-            //response = await axios.get(`http://localhost:8080/campus-hero/${attribute}`);
+            response = await axios.get(`${fetch_path}/${attribute}`);
             return response.data;
         } catch (error) {
             console.error('Neuspješno dohvaćanje elemenata', error);
@@ -91,8 +90,7 @@ const UserDataForm = () => {
         }
         
         try {
-            const response = await axios.post('https://campus-hero.onrender.com/campus-hero/profil',
-            //const response = await axios.post('http://localhost:8080/campus-hero/profil',
+            const response = await axios.post(`${fetch_path}/profil`,
                 profileDataNoIds,
                 {withCredentials: true}
               );

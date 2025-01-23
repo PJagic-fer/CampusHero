@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import "./BuddyWorld.css";
 import osoba1 from '../../Components/assets/avatar.jpg'
 import axios from 'axios';
+import { AppStateContext } from '../../context/AppStateProvider'
 
 
 const BuddyWorld = () => {
+  const {fetch_path} = useContext(AppStateContext);
+
   const [activeSection, setActiveSection] = useState(""); // Praćenje aktivnog dijela
   const [filter, setFilter] = useState({ faculty: "", city: "" }); // Filtri za fakultet i mjesto
   const [buddyList, setBuddyList] = useState([]);
@@ -35,8 +38,7 @@ const BuddyWorld = () => {
   const fetchBuddyList = async () => {
     try {
       // Pretpostavimo da je URL endpointa na backendu "/campus-hero/buddy-list"
-      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/buddy-sustav/student/trazi-buddyja`, {
-      //const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/student/trazi-buddyja`, {
+      const response = await axios.get(`${fetch_path}/buddy-sustav/student/trazi-buddyja`, {
         withCredentials: true, // Ako backend zahtijeva autentifikaciju putem kolačića
       });
   
@@ -54,8 +56,7 @@ const BuddyWorld = () => {
 
   const fetchStudentRequestList = async () => {
     try {
-      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/buddy-sustav/buddy/zahtjevi`, {
-      //const response = await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/buddy/zahtjevi`, {
+      const response = await axios.get(`${fetch_path}/buddy-sustav/buddy/zahtjevi`, {
         withCredentials: true, // Ako backend zahtijeva autentifikaciju putem kolačića
       });
   

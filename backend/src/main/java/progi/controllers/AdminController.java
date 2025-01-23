@@ -21,6 +21,7 @@ import progi.services.ReviewService;
 import progi.utils.AdminApplication;
 import progi.utils.ApplicationUserData;
 import progi.utils.AuthContextUtil;
+import progi.utils.LongClass;
 
 @RestController
 @RequestMapping("/campus-hero/admin")
@@ -133,12 +134,12 @@ public class AdminController {
 
     // administrator briše recenziju
     @PostMapping("/review")
-    public ResponseEntity<?> deleteReview(@RequestBody String reviewId, HttpSession session) {
+    public ResponseEntity<?> deleteReview(@RequestBody LongClass reviewId, HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
         if (contextUser.getIsAdmin()) {
-            reviewService.deleteReview(Long.parseLong(reviewId));
+            reviewService.deleteReview(reviewId.getValue());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -146,15 +147,12 @@ public class AdminController {
 
     // administrator briše recenziju
     @PostMapping("/post")
-    public ResponseEntity<?> deletePost(@RequestBody String postId, HttpSession session) {
+    public ResponseEntity<?> deletePost(@RequestBody LongClass postId, HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
-        System.out.println(contextUserId);
-        System.out.println(postId);
-
         if (contextUser.getIsAdmin()) {
-            postService.deletePost(Long.parseLong(postId));
+            postService.deletePost(postId.getValue());
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

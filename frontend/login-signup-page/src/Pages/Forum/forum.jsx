@@ -5,7 +5,7 @@ import { Star } from "lucide-react"
 import { AppStateContext } from "../../context/AppStateProvider"
 
 export default function Forum() {
-  const { user } = useContext(AppStateContext)
+  const { user, fetch_path } = useContext(AppStateContext)
   const [currentDormIndex, setCurrentDormIndex] = useState(0)
   const [questions, setQuestions] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,10 +44,8 @@ export default function Forum() {
   const getAttributeValues = async () => {
     let response
     try {
-      response = await axios.get("https://campus-hero.onrender.com/campus-hero/domovi")
-      //response = await axios.get("http://localhost:8080/campus-hero/domovi")
+      response = await axios.get(`${fetch_path}/domovi`)
       setDorms(response.data)
-      console.log(response.data)
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
     }
@@ -55,8 +53,7 @@ export default function Forum() {
 
   const fetchQuestions = async (dormId) => {
     try {
-      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/forum?facultyId=null&studentHomeId=${dormId}`)
-      //const response = await axios.get(`http://localhost:8080/campus-hero/forum?facultyId=null&studentHomeId=${dormId}`)
+      const response = await axios.get(`${fetch_path}/forum?facultyId=null&studentHomeId=${dormId}`)
       setQuestions(response.data)
     } catch (error) {
       console.error("Error fetching questions:", error)
@@ -65,8 +62,7 @@ export default function Forum() {
 
   const fetchAnswers = async (questionId) => {
     try {
-      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/forum/${questionId}`)
-      //const response = await axios.get(`http://localhost:8080/campus-hero/forum/${questionId}`)
+      const response = await axios.get(`${fetch_path}/forum/${questionId}`)
       setQuestionAnswers(response.data || [])
       console.log(allAnswers)
     } catch (error) {
@@ -77,8 +73,7 @@ export default function Forum() {
   const fetchReviews = async (dormId) => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
-        //`http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
+        `${fetch_path}/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -90,8 +85,7 @@ export default function Forum() {
     e.preventDefault()
     try {
       await axios.post(
-        "https://campus-hero.onrender.com/campus-hero/forum",
-        //"http://localhost:8080/campus-hero/forum",
+        `${fetch_path}/forum`,
         {
           facilityData: {
             facultyId: null,
@@ -117,8 +111,7 @@ export default function Forum() {
     e.preventDefault()
     try {
       await axios.post(
-        `https://campus-hero.onrender.com/campus-hero/recenzije`,
-        //`http://localhost:8080/campus-hero/recenzije`,
+        `${fetch_path}/recenzije`,
         {
           studentHome: {
             id: dorms[currentDormIndex].id,
@@ -142,8 +135,7 @@ export default function Forum() {
 
     try {
       await axios.post(
-        "https://campus-hero.onrender.com/campus-hero/forum/odgovor",
-        //"http://localhost:8080/campus-hero/forum/odgovor",
+        `${fetch_path}/forum/odgovor`,
         {
           parentPost: {
             id: selectedQuestion.id,
@@ -164,12 +156,11 @@ export default function Forum() {
   const fetchAllAnswers = async () => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`,
-        //`http://localhost:8080/campus-hero/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`,
+        `${fetch_path}/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`,
       )
       const questions = response.data
       const allAnswersPromises = questions.map((question) => {
-        return axios.get(`http://localhost:8080/campus-hero/forum/${question.id}`)
+        return axios.get(`${fetch_path}/forum/${question.id}`)
       })
       const allAnswersResponses = await Promise.all(allAnswersPromises)
       const allAnswersData = allAnswersResponses.map((response) => response.data)
@@ -178,6 +169,60 @@ export default function Forum() {
       setAllAnswers(filteredAnswers)
     } catch (error) {
       console.error("Error fetching all answers:", error)
+    }
+  }
+
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/review/",
+        { value: reviewId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the reviews list after successful deletion
+      fetchReviews(dorms[currentDormIndex].id)
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
+  const handleDeleteQuestion = async (questionId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/post",
+        { value: questionId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the questions list after successful deletion
+      fetchQuestions(dorms[currentDormIndex].id)
+      fetchAllAnswers()
+      // Close the question popup if it's open
+      setIsQuestionPopupOpen(false)
+    } catch (error) {
+      console.error("Error deleting a question:", error)
+    }
+  }
+
+  const handleDeleteAnswer = async (answerId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/post",
+        { value: answerId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the answers for the current question
+      if (selectedQuestion) {
+        fetchAnswers(selectedQuestion.id)
+      }
+      fetchAllAnswers()
+    } catch (error) {
+      console.error("Error deleting an answer:", error)
     }
   }
 
@@ -341,6 +386,12 @@ export default function Forum() {
                       <p>{review.message}</p>
                       <div className="review-meta">
                         <span>Recenzija: {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                        {user.isAdmin && (
+                          <button className="delete-button" onClick={() => handleDeleteReview(review.id)}>
+                            {" "}
+                            Izbriši{" "}
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -384,6 +435,17 @@ export default function Forum() {
               <div className="question-meta">
                 <span>Objavio {question.creator.name + " " + question.creator.surname || "Anonymous"}</span>
                 <span>Odgovori: {allAnswers.filter((answer) => answer.parentPost.id === question.id).length || 0}</span>
+                {user.isAdmin && (
+                  <button
+                    className="delete-button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDeleteQuestion(question.id)
+                    }}
+                  >
+                    Izbriši
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -400,7 +462,7 @@ export default function Forum() {
                 Objavio: {selectedQuestion.creator.name + " " + selectedQuestion.creator.surname || "Anonymous"}
               </span>
             </div>
-            <h3>Oddgovori:</h3>
+            <h3>Odgovori:</h3>
             <div className="answers-list">
               {questionAnswers.length > 0 ? (
                 questionAnswers.map((answer, index) => (
@@ -408,6 +470,17 @@ export default function Forum() {
                     <p>{answer.message}</p>
                     <div className="answer-meta">
                       <span>Odgovorio: {answer.creator.name + " " + answer.creator.surname || "Anonymous"}</span>
+                      {user.isAdmin && (
+                        <button
+                          className="delete-button"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDeleteAnswer(answer.id)
+                          }}
+                        >
+                          Izbriši
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))

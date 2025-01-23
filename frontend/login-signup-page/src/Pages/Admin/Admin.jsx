@@ -8,7 +8,7 @@ import { AppStateContext } from '../../context/AppStateProvider'
 const Admin = () => {
     const navigate = useNavigate();
 
-    const {user, setUser} = useContext(AppStateContext);
+    const {user, setUser, fetch_path} = useContext(AppStateContext);
 
     const [listUsers, setListUsers] = useState();
     const [listBuddyRequests, setLisBuddyRequests] = useState();
@@ -17,8 +17,7 @@ const Admin = () => {
     const getUsers = async () => {
         try {   
             //dohvaćenje korisnika iz baze
-            let response = await axios.get("https://campus-hero.onrender.com/campus-hero/admin/korisnici",
-            //let response = await axios.get("http://localhost:8080/campus-hero/admin/korisnici",
+            let response = await axios.get(`${fetch_path}/admin/korisnici`,
                 {withCredentials: true});
             console.log(response.data);
             return response.data;
@@ -51,8 +50,7 @@ const Admin = () => {
     const getAdminRequests = async () => {
         try {   
             //dohvaćenje admin prijava iz baze
-            let response = await axios.get("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati",
-            //let response = await axios.get("http://localhost:8080/campus-hero/admin/admin-kandidati",
+            let response = await axios.get(`${fetch_path}/admin/admin-kandidati`,
                 {withCredentials: true});
             console.log(response.data);
             return response.data;
@@ -97,8 +95,7 @@ const Admin = () => {
     const approveAdmin = async (approvedAdminRequest) => {
         try {   
             //dohvaćenje admin prijava iz baze
-            await axios.post("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati/odobri",
-            //await axios.post("http://localhost:8080/campus-hero/admin/admin-kandidati/odobri",
+            await axios.post(`${fetch_path}/admin/admin-kandidati/odobri`,
                 approvedAdminRequest,
                 {withCredentials: true});
         } catch (error) {
@@ -115,8 +112,7 @@ const Admin = () => {
     const denyAdmin = async (deniedAdminRequest) => {
         try {   
             //dohvaćenje admin prijava iz baze
-            await axios.post("https://campus-hero.onrender.com/campus-hero/admin/admin-kandidati/odbij",
-            //await axios.post("http://localhost:8080/campus-hero/admin/admin-kandidati/odbij",
+            await axios.post(`${fetch_path}/admin/admin-kandidati/odbij`,
                 deniedAdminRequest,
                 {withCredentials: true});
         } catch (error) {
@@ -184,8 +180,7 @@ const Admin = () => {
 
     const handleAdminQuit = async () => {
         try {   
-            let response = await axios.post("https://campus-hero.onrender.com/campus-hero/admin/odjava",
-            //let response = await axios.post("http://localhost:8080/campus-hero/admin/odjava",
+            await axios.post(`${fetch_path}/admin/odjava`,
                 {},
                 {withCredentials: true});
             setUser({...user, isAdmin: false});

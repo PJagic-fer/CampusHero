@@ -5,7 +5,7 @@ import {useForm} from 'react-hook-form';
 
 const BecomeAdminForm = () => { 
     
-    const {user, setUser} = useContext(AppStateContext);
+    const {user, setUser, fetch_path} = useContext(AppStateContext);
 
     const  {register, handleSubmit, formState:{errors}, reset} = useForm();
 
@@ -19,8 +19,7 @@ const BecomeAdminForm = () => {
         console.log(adminApplication);
 
         try {
-            const response = await axios.post('https://campus-hero.onrender.com/campus-hero/admin/prijava',
-            //const response = await axios.post('http://localhost:8080/campus-hero/admin/prijava',
+            const response = await axios.post(`${fetch_path}/admin/prijava`,
                 adminApplication,
                 {withCredentials: true}
               );

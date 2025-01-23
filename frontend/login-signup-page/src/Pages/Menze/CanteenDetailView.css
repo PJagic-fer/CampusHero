@@ -1,0 +1,97 @@
+.canteen-detail-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .canteen-detail-container {
+    background: #ffe3f3;
+    color: #4a154b;
+    padding: 30px;
+    width: 90%;
+    max-width: 600px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.3s ease-in-out;
+    font-family: "Arial", sans-serif;
+  }
+  
+  .canteen-detail-container h2 {
+    font-size: 1.8em;
+    margin-bottom: 20px;
+    color: #c7547e;
+    text-align: center;
+  }
+  
+  .canteen-detail-content {
+    margin-bottom: 20px;
+  }
+  
+  .canteen-detail-content h3 {
+    font-size: 1.4em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #4a154b;
+  }
+  
+  .canteen-detail-content p {
+    font-size: 1.1em;
+    margin-bottom: 15px;
+  }
+  
+  .canteen-detail-close-button {
+    display: block;
+    width: 100%;
+    padding: 10px 20px;
+    font-size: 1em;
+    font-weight: bold;
+    color: white;
+    background-color: #c7547e;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .canteen-detail-close-button:hover {
+    background-color: #a13c65;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .canteen-detail-container {
+      width: 95%;
+      padding: 20px;
+    }
+  
+    .canteen-detail-container h2 {
+      font-size: 1.5em;
+    }
+  
+    .canteen-detail-content h3 {
+      font-size: 1.2em;
+    }
+  
+    .canteen-detail-content p {
+      font-size: 1em;
+    }
+  }
+  
+  

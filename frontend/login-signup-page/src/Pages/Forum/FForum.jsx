@@ -6,7 +6,7 @@ import { Star } from "lucide-react"
 import { AppStateContext } from "../../context/AppStateProvider"
 
 export default function FacultyForum() {
-  const { user } = useContext(AppStateContext)
+  const { user, fetch_path } = useContext(AppStateContext)
   const [currentFacultyIndex, setCurrentFacultyIndex] = useState(0)
   const [questions, setQuestions] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -43,11 +43,64 @@ export default function FacultyForum() {
     }
   }, [currentFacultyIndex, faculties])
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/review/",
+        { value: reviewId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the reviews list after deletion
+      fetchReviews(faculties[currentFacultyIndex].id)
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
+  const handleDeleteQuestion = async (questionId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/post",
+        { value: questionId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the questions list after deletion
+      fetchQuestions(faculties[currentFacultyIndex].id)
+      fetchAllAnswers()
+      // Close the question popup if it's open
+      setIsQuestionPopupOpen(false)
+    } catch (error) {
+      console.error("Error deleting a question:", error)
+    }
+  }
+
+  const handleDeleteAnswer = async (answerId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/post",
+        { value: answerId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the answers for the current question
+      if (selectedQuestion) {
+        fetchAnswers(selectedQuestion.id)
+      }
+      fetchAllAnswers()
+    } catch (error) {
+      console.error("Error deleting an answer:", error)
+    }
+  }
+
   const getAttributeValues = async () => {
     let response
     try {
-      response = await axios.get("https://campus-hero.onrender.com/campus-hero/fakulteti")
-      //response = await axios.get("http://localhost:8080/campus-hero/fakulteti")
+      response = await axios.get(`${fetch_path}/fakulteti`)
       setFaculties(response.data)
       console.log(response.data)
     } catch (error) {
@@ -58,8 +111,7 @@ export default function FacultyForum() {
   const fetchQuestions = async (facultyId) => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/forum?facultyId=${facultyId}&studentHomeId=null`,
-        //`http://localhost:8080/campus-hero/forum?facultyId=${facultyId}&studentHomeId=null`,
+        `${fetch_path}/forum?facultyId=${facultyId}&studentHomeId=null`,
       )
       setQuestions(response.data)
     } catch (error) {
@@ -69,8 +121,7 @@ export default function FacultyForum() {
 
   const fetchAnswers = async (questionId) => {
     try {
-      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/forum/${questionId}`)
-      //const response = await axios.get(`http://localhost:8080/campus-hero/forum/${questionId}`)
+      const response = await axios.get(`${fetch_path}/forum/${questionId}`)
       setQuestionAnswers(response.data || [])
       console.log(allAnswers)
     } catch (error) {
@@ -81,8 +132,7 @@ export default function FacultyForum() {
   const fetchReviews = async (facultyId) => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
-        //`http://localhost:8080/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
+        `${fetch_path}/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -94,8 +144,7 @@ export default function FacultyForum() {
     e.preventDefault()
     try {
       await axios.post(
-        "https://campus-hero.onrender.com/campus-hero/forum",
-        //"http://localhost:8080/campus-hero/forum",
+        `${fetch_path}/forum`,
         {
           facilityData: {
             facultyId: faculties[currentFacultyIndex].id,
@@ -121,8 +170,7 @@ export default function FacultyForum() {
     e.preventDefault()
     try {
       await axios.post(
-        `https://campus-hero.onrender.com/campus-hero/recenzije`,
-        //`http://localhost:8080/campus-hero/recenzije`,
+        `${fetch_path}/recenzije`,
         {
           faculty: {
             id: faculties[currentFacultyIndex].id,
@@ -146,8 +194,7 @@ export default function FacultyForum() {
 
     try {
       await axios.post(
-        "https://campus-hero.onrender.com/campus-hero/forum/odgovor",
-        //"http://localhost:8080/campus-hero/forum/odgovor",
+        `${fetch_path}/forum/odgovor`,
         {
           parentPost: {
             id: selectedQuestion.id,
@@ -168,13 +215,11 @@ export default function FacultyForum() {
   const fetchAllAnswers = async () => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/forum?facultyId=${faculties[currentFacultyIndex].id}&studentHomeId=null`,
-        //`http://localhost:8080/campus-hero/forum?facultyId=${faculties[currentFacultyIndex].id}&studentHomeId=null`,
+        `${fetch_path}/forum?facultyId=${faculties[currentFacultyIndex].id}&studentHomeId=null`,
       )
       const questions = response.data
       const allAnswersPromises = questions.map((question) => {
-        return axios.get(`https://campus-hero.onrender.com/campus-hero/forum/${question.id}`)
-        //return axios.get(`http://localhost:8080/campus-hero/forum/${question.id}`)
+        return axios.get(`${fetch_path}/forum/${question.id}`)
       })
       const allAnswersResponses = await Promise.all(allAnswersPromises)
       const allAnswersData = allAnswersResponses.map((response) => response.data)
@@ -253,7 +298,6 @@ export default function FacultyForum() {
         <button className="faculty-selector-button" onClick={() => setIsFacultySelectorOpen(true)}>
           Odaberi Fakultet
         </button>
-        
       </header>
       {isFacultySelectorOpen && (
         <div className="faculty-selector-container" onClick={() => setIsFacultySelectorOpen(false)}>
@@ -344,6 +388,12 @@ export default function FacultyForum() {
                       <p>{review.message}</p>
                       <div className="review-meta">
                         <span>Recenzija: {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                        {user.isAdmin && (
+                          <button className="delete-button" onClick={() => handleDeleteReview(review.id)}>
+                            {" "}
+                            Izbriši{" "}
+                          </button>
+                        )}
                       </div>
                     </div>
                   ))}
@@ -387,6 +437,17 @@ export default function FacultyForum() {
               <div className="question-meta">
                 <span>Objavio {question.creator.name + " " + question.creator.surname || "Anonymous"}</span>
                 <span>Odgovori: {allAnswers.filter((answer) => answer.parentPost.id === question.id).length || 0}</span>
+                {user.isAdmin && (
+                  <button
+                    className="delete-button"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleDeleteQuestion(question.id)
+                    }}
+                  >
+                    Izbriši
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -411,6 +472,17 @@ export default function FacultyForum() {
                     <p>{answer.message}</p>
                     <div className="answer-meta">
                       <span>Odgovorio: {answer.creator.name + " " + answer.creator.surname || "Anonymous"}</span>
+                      {user.isAdmin && (
+                        <button
+                          className="delete-button"
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            handleDeleteAnswer(answer.id)
+                          }}
+                        >
+                          Izbriši
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))

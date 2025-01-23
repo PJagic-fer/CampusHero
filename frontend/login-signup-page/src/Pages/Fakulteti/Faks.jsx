@@ -1,5 +1,5 @@
 "use client"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom"
 import React, { useState, useRef, useEffect, useContext } from "react"
 import { ChevronLeft, ChevronRight, Star } from "lucide-react"
 import "./Faks.css"
@@ -26,7 +26,7 @@ const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
 
 export default function Faksevi() {
   const navigate = useNavigate();
-  const { user } = useContext(AppStateContext)
+  const { user, fetch_path } = useContext(AppStateContext)
   const [activeFaculty, setActiveFaculty] = useState(0)
   const [faculties, setFaculties] = useState([])
   const scrollContainerRef = useRef(null)
@@ -44,8 +44,7 @@ export default function Faksevi() {
 
   const getAttributeValues = async () => {
     try {
-      const response = await axios.get("https://campus-hero.onrender.com/campus-hero/fakulteti")
-      //const response = await axios.get("http://localhost:8080/campus-hero/fakulteti")
+      const response = await axios.get(`${fetch_path}/fakulteti`)
       setFaculties(response.data)
       console.log(response.data)
     } catch (error) {
@@ -81,8 +80,7 @@ export default function Faksevi() {
   const fetchReviews = async (facultyId) => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
-        //`http://localhost:8080/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
+        `${fetch_path}/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -94,8 +92,7 @@ export default function Faksevi() {
     e.preventDefault()
     try {
       await axios.post(
-        `https://campus-hero.onrender.com/campus-hero/recenzije`,
-        //`http://localhost:8080/campus-hero/recenzije`,
+        `${fetch_path}/recenzije`,
         {
           faculty: {
             id: faculties[activeFaculty].id,
@@ -127,13 +124,29 @@ export default function Faksevi() {
     }
   }, [activeFaculty, faculties])
 
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post(
+        "http://localhost:8080/campus-hero/admin/review/",
+        { value: reviewId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the reviews list after deletion
+      fetchReviews(faculties[activeFaculty].id)
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
   return (
     <div className="faks-container">
       <main className="domovi-main">
-        <h1 className='faks-naslov'>Otkrij sve što trebaš znati o fakultetima, tvoje obrazovanje počinje ovdje</h1>
-        
+        <h1 className="faks-naslov">Otkrij sve što trebaš znati o fakultetima, tvoje obrazovanje počinje ovdje</h1>
+
         <div className="carousel-container">
-          <button 
+          <button
             onClick={() => scrollTo((activeFaculty - 1 + faculties.length) % faculties.length)}
             className="faks-button left"
           >
@@ -205,6 +218,12 @@ export default function Faksevi() {
                   <p>{review.message}</p>
                   <div className="review-meta">
                     <span>Reviewed by {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                    {user.isAdmin && (
+                      <button className="delete-button" onClick={() => handleDeleteReview(review.id)}>
+                        {" "}
+                        Izbriši{" "}
+                      </button>
+                    )}
                   </div>
                 </div>
               ))}

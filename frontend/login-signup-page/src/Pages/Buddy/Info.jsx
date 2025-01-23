@@ -6,7 +6,7 @@ import { AppStateContext } from '../../context/AppStateProvider';
 
 const BuddyInfo = () => {
   const navigate = useNavigate();
-  const { user } = useContext(AppStateContext); // Dohvaćamo korisnika iz konteksta
+  const { user, fetch_path } = useContext(AppStateContext); // Dohvaćamo korisnika iz konteksta
   const [loading, setLoading] = useState(true); // Praćenje učitavanja stanja
   const [showModal, setShowModal] = useState(false); // Prikazivanje modala
   const [showBuddyApplyModal, setShowBuddyApplyModal] = useState(false);
@@ -15,8 +15,7 @@ const BuddyInfo = () => {
   useEffect(() => {
     const fetchBuddyStatus = async () => {
       try {
-        await axios.get(`https://campus-hero.onrender.com/campus-hero/buddy-sustav/${user.id}`, {
-        //await axios.get(`http://localhost:8080/campus-hero/buddy-sustav/${user.id}`, {
+        await axios.get(`${fetch_path}/buddy-sustav/${user.id}`, {
           withCredentials: true,
         });
         
@@ -40,7 +39,7 @@ const BuddyInfo = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:8080/campus-hero/buddy-sustav/buddy/prijava',
+        `${fetch_path}/buddy-sustav/buddy/prijava`,
         {},
         { withCredentials: true }
       );
