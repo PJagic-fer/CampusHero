@@ -49,6 +49,25 @@ public class BuddyRequestService {
         return ret;
     }
 
+    public Boolean editBuddyStatus(Long studentId, Long buddyId, Boolean isBuddy)
+    {
+        List<BuddyRequest> requests = getAllRequestsForId(studentId);
+        if (requests.size() == 0)
+        {
+            return false;
+        }
+        for(BuddyRequest request : requests)
+        {
+            if(request.GetBuddy().getId() == buddyId)
+            {
+                request.SetHasBuddyAccepted(isBuddy);
+                buddyRequestRepository.save(request);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<BuddyRequest> getAllRequestsForId(Long userID)
     {
         List<BuddyRequest> requests = buddyRequestRepository.findAll();

@@ -152,4 +152,19 @@ public class BuddySistemController {
         return true;
     }
 
+    @PostMapping("/buddy/prihvati/{userId}")
+    public Boolean postPrihvatiBuddyja(@PathVariable Long userId, HttpSession session){
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        return buddyRequestService.editBuddyStatus(userId, contextUser.getId(), true);
+    }
+
+    @DeleteMapping("/buddy/prihvati/{userId}")
+    public Boolean deletePrihvatiBuddyja(@PathVariable Long userId, HttpSession session){
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        return buddyRequestService.editBuddyStatus(userId, contextUser.getId(), false);
+    }
 }
