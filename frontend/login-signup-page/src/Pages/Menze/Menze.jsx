@@ -25,7 +25,7 @@ const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
 }
 
 export default function Menze() {
-  const { user } = useContext(AppStateContext);
+  const { user, fetch_path } = useContext(AppStateContext);
   const [activeCafeteria, setActiveCafeteria] = useState(0)
   const [cafeterias, setCafeterias] = useState([])
   const [activeDorm, setActiveDorm] = useState(0)
@@ -45,8 +45,7 @@ export default function Menze() {
 
   const getAttributeValues = async () => {
     try {
-      const response = await axios.get("https://campus-hero.onrender.com/campus-hero/menze")
-      //const response = await axios.get("http://localhost:8080/campus-hero/menze")
+      const response = await axios.get(`${fetch_path}/menze`)
       setCafeterias(response.data)
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
@@ -81,8 +80,7 @@ export default function Menze() {
   const fetchReviews = async (cafeteriaId) => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=null&studentHomeId=null&canteenId=${cafeteriaId}&userId=null`,
-        //`http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=null&canteenId=${cafeteriaId}&userId=null`,
+        `${fetch_path}/recenzije?facultyId=null&studentHomeId=null&canteenId=${cafeteriaId}&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -94,8 +92,7 @@ export default function Menze() {
     e.preventDefault()
     try {
       await axios.post(
-        `https://campus-hero.onrender.com/campus-hero/recenzije`,
-        //`http://localhost:8080/campus-hero/recenzije`,
+        `${fetch_path}/recenzije`,
         {
           canteen: {
             id: cafeterias[activeCafeteria].id,

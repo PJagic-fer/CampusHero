@@ -5,7 +5,7 @@ import { Star } from "lucide-react"
 import { AppStateContext } from "../../context/AppStateProvider"
 
 export default function Forum() {
-  const { user } = useContext(AppStateContext)
+  const { user, fetch_path } = useContext(AppStateContext)
   const [currentDormIndex, setCurrentDormIndex] = useState(0)
   const [questions, setQuestions] = useState([])
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -44,8 +44,7 @@ export default function Forum() {
   const getAttributeValues = async () => {
     let response
     try {
-      response = await axios.get("https://campus-hero.onrender.com/campus-hero/domovi")
-      //response = await axios.get("http://localhost:8080/campus-hero/domovi")
+      response = await axios.get(`${fetch_path}/domovi`)
       setDorms(response.data)
       console.log(response.data)
     } catch (error) {
@@ -55,8 +54,7 @@ export default function Forum() {
 
   const fetchQuestions = async (dormId) => {
     try {
-      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/forum?facultyId=null&studentHomeId=${dormId}`)
-      //const response = await axios.get(`http://localhost:8080/campus-hero/forum?facultyId=null&studentHomeId=${dormId}`)
+      const response = await axios.get(`${fetch_path}/forum?facultyId=null&studentHomeId=${dormId}`)
       setQuestions(response.data)
     } catch (error) {
       console.error("Error fetching questions:", error)
@@ -65,8 +63,7 @@ export default function Forum() {
 
   const fetchAnswers = async (questionId) => {
     try {
-      const response = await axios.get(`https://campus-hero.onrender.com/campus-hero/forum/${questionId}`)
-      //const response = await axios.get(`http://localhost:8080/campus-hero/forum/${questionId}`)
+      const response = await axios.get(`${fetch_path}/forum/${questionId}`)
       setQuestionAnswers(response.data || [])
       console.log(allAnswers)
     } catch (error) {
@@ -77,8 +74,7 @@ export default function Forum() {
   const fetchReviews = async (dormId) => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
-        //`http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
+        `${fetch_path}/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -90,8 +86,7 @@ export default function Forum() {
     e.preventDefault()
     try {
       await axios.post(
-        "https://campus-hero.onrender.com/campus-hero/forum",
-        //"http://localhost:8080/campus-hero/forum",
+        `${fetch_path}/forum`,
         {
           facilityData: {
             facultyId: null,
@@ -117,8 +112,7 @@ export default function Forum() {
     e.preventDefault()
     try {
       await axios.post(
-        `https://campus-hero.onrender.com/campus-hero/recenzije`,
-        //`http://localhost:8080/campus-hero/recenzije`,
+        `${fetch_path}/recenzije`,
         {
           studentHome: {
             id: dorms[currentDormIndex].id,
@@ -142,8 +136,7 @@ export default function Forum() {
 
     try {
       await axios.post(
-        "https://campus-hero.onrender.com/campus-hero/forum/odgovor",
-        //"http://localhost:8080/campus-hero/forum/odgovor",
+        `${fetch_path}/forum/odgovor`,
         {
           parentPost: {
             id: selectedQuestion.id,
@@ -164,12 +157,11 @@ export default function Forum() {
   const fetchAllAnswers = async () => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`,
-        //`http://localhost:8080/campus-hero/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`,
+        `${fetch_path}/forum?facultyId=null&studentHomeId=${dorms[currentDormIndex].id}`,
       )
       const questions = response.data
       const allAnswersPromises = questions.map((question) => {
-        return axios.get(`http://localhost:8080/campus-hero/forum/${question.id}`)
+        return axios.get(`${fetch_path}/forum/${question.id}`)
       })
       const allAnswersResponses = await Promise.all(allAnswersPromises)
       const allAnswersData = allAnswersResponses.map((response) => response.data)

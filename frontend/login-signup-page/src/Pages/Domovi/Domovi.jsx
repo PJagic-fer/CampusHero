@@ -26,7 +26,7 @@ const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
 
 export default function Domovi() {
   const navigate = useNavigate();
-  const { user } = useContext(AppStateContext)
+  const { user, fetch_path } = useContext(AppStateContext)
   const [activeDorm, setActiveDorm] = useState(0)
   const [dorms, setDorms] = useState([])
   const scrollContainerRef = useRef(null)
@@ -44,8 +44,7 @@ export default function Domovi() {
 
   const getAttributeValues = async () => {
     try {
-      const response = await axios.get("https://campus-hero.onrender.com/campus-hero/domovi")
-      //const response = await axios.get("http://localhost:8080/campus-hero/domovi")
+      const response = await axios.get(`${fetch_path}/domovi`)
       setDorms(response.data)
       console.log(response.data)
     } catch (error) {
@@ -81,8 +80,7 @@ export default function Domovi() {
   const fetchReviews = async (dormId) => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
-        //`http://localhost:8080/campus-hero/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
+        `${fetch_path}/recenzije?facultyId=null&studentHomeId=${dormId}&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -94,8 +92,7 @@ export default function Domovi() {
     e.preventDefault()
     try {
       await axios.post(
-        `https://campus-hero.onrender.com/campus-hero/recenzije`,
-        //`http://localhost:8080/campus-hero/recenzije`,
+        `${fetch_path}/recenzije`,
         {
           studentHome: {
             id: dorms[activeDorm].id,

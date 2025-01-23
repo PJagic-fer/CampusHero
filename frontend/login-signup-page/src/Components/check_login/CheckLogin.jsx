@@ -5,15 +5,14 @@ import { AppStateContext } from '../../context/AppStateProvider'
 
 const CheckLogin = () => {    
 
-    const {setUser} = useContext(AppStateContext);
+    const {setUser, fetch_path} = useContext(AppStateContext);
 
     useEffect ( () => {
         const checkUserLoggedIn = async () => {
             let response;
             try {
                 //dohvaćenje korisnika sa backenda iz sessiona
-                response = await axios.get('https://campus-hero.onrender.com/campus-hero/prijava',
-                //response = await axios.get('http://localhost:8080/campus-hero/prijava',
+                response = await axios.get(`${fetch_path}/prijava`,
                     {withCredentials: true}
                 );
                 //za status 200, korisnik je prijavljen i prokazuje se njegovo ime

@@ -26,7 +26,7 @@ const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
 
 export default function Faksevi() {
   const navigate = useNavigate();
-  const { user } = useContext(AppStateContext)
+  const { user, fetch_path } = useContext(AppStateContext)
   const [activeFaculty, setActiveFaculty] = useState(0)
   const [faculties, setFaculties] = useState([])
   const scrollContainerRef = useRef(null)
@@ -44,8 +44,7 @@ export default function Faksevi() {
 
   const getAttributeValues = async () => {
     try {
-      const response = await axios.get("https://campus-hero.onrender.com/campus-hero/fakulteti")
-      //const response = await axios.get("http://localhost:8080/campus-hero/fakulteti")
+      const response = await axios.get(`${fetch_path}/fakulteti`)
       setFaculties(response.data)
       console.log(response.data)
     } catch (error) {
@@ -81,8 +80,7 @@ export default function Faksevi() {
   const fetchReviews = async (facultyId) => {
     try {
       const response = await axios.get(
-        `https://campus-hero.onrender.com/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
-        //`http://localhost:8080/campus-hero/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
+        `${fetch_path}/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
       )
       setReviews(response.data)
     } catch (error) {
@@ -94,8 +92,7 @@ export default function Faksevi() {
     e.preventDefault()
     try {
       await axios.post(
-        `https://campus-hero.onrender.com/campus-hero/recenzije`,
-        //`http://localhost:8080/campus-hero/recenzije`,
+        `${fetch_path}/recenzije`,
         {
           faculty: {
             id: faculties[activeFaculty].id,

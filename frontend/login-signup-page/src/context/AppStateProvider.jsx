@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 //korisnik se sprema u kontekst aplikacije
 export const AppStateContext = createContext({
     user : {},
-    setUser: (user) => {}
+    setUser: (user) => {},
+    fetch_path : ""
 });
 
 
@@ -21,10 +22,12 @@ export const AppStateProvider = ({children}) => {
         buddy: null,
         isAdmin: Boolean(false)
     });
+    //const fetch_path = "https://campus-hero.onrender.com/campus-hero";
+    const fetch_path = "http://localhost:8080/campus-hero";
 
     //AppState provider se omotava oko djece i predaje im korisnika u kontekstu
     return (
-        <AppStateContext.Provider value={{ user, setUser}}>
+        <AppStateContext.Provider value={{ user, setUser, fetch_path}}>
             {children}
         </AppStateContext.Provider>
     );

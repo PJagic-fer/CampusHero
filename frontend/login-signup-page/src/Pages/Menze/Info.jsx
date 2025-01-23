@@ -1,9 +1,12 @@
-import React, { useState, useEffect} from 'react';
+import React, { useContext, useState, useEffect} from 'react';
 import './Info.css';
 import axios from 'axios';
+import { AppStateContext } from '../../context/AppStateProvider'
 
 
 const ZagrebCanteensInfo = () => {
+  const {fetch_path} = useContext(AppStateContext);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showCrowdSummary, setShowCrowdSummary] = useState(false);
   const [crowdData, setCrowdData] = useState([]);
@@ -24,8 +27,7 @@ const ZagrebCanteensInfo = () => {
 
   const getAttributeValues = async () => {
     try {
-      const response = await axios.get("https://campus-hero.onrender.com/campus-hero/menze")
-      //const response = await axios.get("http://localhost:8080/campus-hero/menze")
+      const response = await axios.get(`${fetch_path}/menze`)
       setCafeterias(response.data)
     } catch (error) {
       console.error("Neuspješno dohvaćanje elemenata", error)
@@ -87,16 +89,15 @@ const ZagrebCanteensInfo = () => {
 
 
 const CrowdModal = ({ onClose, cafeterias }) => {
-  
+  const {fetch_path} = useContext(AppStateContext);
 
   const [selectedCafeteria, setSelectedCafeteria] = useState('');
   const [crowdLevel, setCrowdLevel] = useState('');
 
   const postCrowdLevel = async () => {
     try {
-      const response = await axios.post(
-        'https://campus-hero.onrender.com/campus-hero/menze/guzva',
-        //'http://localhost:8080/campus-hero/menze/guzva',
+      await axios.post(
+        `${fetch_path}/menze/guzva`,
         {
           "canteen":
           {   
