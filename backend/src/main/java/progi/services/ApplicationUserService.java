@@ -82,4 +82,9 @@ public class ApplicationUserService {
         applicationUserRepository.save(foundUser);
         return Optional.of(foundUser);
     }
+
+    public void updateApplicationUser(ApplicationUser updatedUser)
+    {
+        applicationUserRepository.save(updatedUser);
+    }
 }

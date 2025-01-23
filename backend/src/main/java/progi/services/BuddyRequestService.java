@@ -12,6 +12,7 @@ import progi.data.ApplicationUser;
 import progi.data.BuddyRequest;
 import progi.repositories.BuddyRequestRepository;
 import progi.repositories.ApplicationUserRepository;
+import progi.services.ApplicationUserService;
 
 @Service
 public class BuddyRequestService {
@@ -49,7 +50,7 @@ public class BuddyRequestService {
         return ret;
     }
 
-    public Boolean editBuddyStatus(Long studentId, Long buddyId, Boolean isBuddy)
+    public Boolean editBuddyStatus(Long studentId, Long buddyId, Boolean isBuddy, ApplicationUserService applicationUserService)
     {
         List<BuddyRequest> requests = getAllRequestsForId(studentId);
         if (requests.size() == 0)
@@ -60,6 +61,25 @@ public class BuddyRequestService {
         {
             if(request.GetBuddy().getId() == buddyId)
             {
+                ApplicationUser user = applicationUserService.getUserById(studentId).orElse(null);
+                if(!isBuddy)
+                {
+                    request.SetIsBlocked(false);
+                    if(user != null)
+                    {
+                        user.setBuddy(null);
+                        applicationUserService.updateApplicationUser(user);
+                    }
+                }
+                else
+                {
+                    if(user != null)
+                    {
+                        ApplicationUser buddy = applicationUserService.getUserById(buddyId).orElse(null);
+                        user.setBuddy(buddy);
+                        applicationUserService.updateApplicationUser(user);
+                    }
+                }
                 request.SetHasBuddyAccepted(isBuddy);
                 buddyRequestRepository.save(request);
                 return true;

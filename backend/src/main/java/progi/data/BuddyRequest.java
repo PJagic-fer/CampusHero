@@ -14,6 +14,8 @@ public class BuddyRequest {
 
     private boolean hasBuddyAccepted;
 
+    private boolean isBlocked;
+
     @OneToOne
     private ApplicationUser user;
 
@@ -30,6 +32,7 @@ public class BuddyRequest {
         this.hasBuddyAccepted = false;
         this.user = user;
         this.buddy = buddy;
+        isBlocked = false;
     }
 
     public boolean GetHasBuddyAccepted()
@@ -65,5 +68,15 @@ public class BuddyRequest {
     public LocalDateTime GetDateCreated()
     {
         return DateCreated;
+    }
+
+    public void SetIsBlocked(Boolean isBlocked)
+    {
+        this.isBlocked = isBlocked;
+    }
+
+    public boolean GetIsBlocked()
+    {
+        return isBlocked;
     }
 }

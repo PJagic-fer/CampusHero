@@ -157,7 +157,7 @@ public class BuddySistemController {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
-        return buddyRequestService.editBuddyStatus(userId, contextUser.getId(), true);
+        return buddyRequestService.editBuddyStatus(userId, contextUser.getId(), true, applicationUserService);
     }
 
     @DeleteMapping("/buddy/prihvati/{userId}")
@@ -165,6 +165,6 @@ public class BuddySistemController {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
-        return buddyRequestService.editBuddyStatus(userId, contextUser.getId(), false);
+        return buddyRequestService.editBuddyStatus(userId, contextUser.getId(), false, applicationUserService);
     }
 }
