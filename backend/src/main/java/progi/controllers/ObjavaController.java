@@ -111,10 +111,6 @@ public class ObjavaController {
          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
 
-      if (!CheckDataValidity.checkTextINputLength(post.getTitle(), 255)) {
-         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
-      }
-
       if (!CheckDataValidity.checkTextINputLength(post.getMessage(), 5000)) {
          return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
       }
