@@ -9,6 +9,7 @@ import progi.data.AdminRequest;
 import progi.data.ApplicationUser;
 import progi.repositories.AdminRequestRepository;
 import progi.repositories.ApplicationUserRepository;
+import progi.utils.ApplicationUserData;
 
 @Service
 public class AdminService {
@@ -24,6 +25,14 @@ public class AdminService {
 
     public List<ApplicationUser> getAdmins() {
         return applicationUserRepository.findByIsAdminTrue();
+    }
+
+    public List<ApplicationUser> getBuddies() {
+        return applicationUserRepository.findByIsBuddyTrue();
+    }
+
+    public List<ApplicationUserData> getSecureBuddies() {
+        return getBuddies().stream().map((buddy) -> ApplicationUserData.parseApplicationUserData(buddy)).toList();
     }
 
     public Integer getNumOfAdmins() {

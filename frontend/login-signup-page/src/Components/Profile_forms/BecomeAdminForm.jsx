@@ -15,9 +15,6 @@ const BecomeAdminForm = () => {
             experiences : applicationData.experiences,
             competencies : applicationData.competencies
         }
-        
-        console.log(adminApplication);
-
         try {
             const response = await axios.post(`${fetch_path}/admin/prijava`,
                 adminApplication,
@@ -30,13 +27,12 @@ const BecomeAdminForm = () => {
             else if (response.status === 202) {
                 //promjena podataka u kontekstu
                 setUser({...user, isAdmin: true});
-                console.log("user set to admin:  ");
             }
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 console.log('Korisnik je već administrator.');
             } else {
-                console.error('Nedruga greška na admin pijavi', error);
+                console.error('Druga greška prilikom slanja admin pijave', error);
             }
         }
 

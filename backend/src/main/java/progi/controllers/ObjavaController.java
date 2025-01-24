@@ -55,11 +55,9 @@ public class ObjavaController {
          return new ArrayList<Post>();
       }
       Forum forum = forumService.getForumByFacility(facilityData);
-      if (forum != null) {
-         System.out.println("neki tekst");
-         System.out.println(forum.getId());
-      } else {
+      if (forum == null) {
          System.out.println("nema foruma");
+         return new ArrayList<Post>();
       }
       return postService.getParentPosts(forum);
    }

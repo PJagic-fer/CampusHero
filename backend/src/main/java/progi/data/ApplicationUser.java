@@ -124,7 +124,6 @@ public class ApplicationUser {
     }
 
     public void setIsBuddy(boolean isBuddy) {
-        System.out.println("Postao buddy");
         this.isBuddy = isBuddy;
     }
 

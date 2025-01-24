@@ -54,6 +54,18 @@ public class AdminController {
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
+    @GetMapping("/buddyji")
+    public ResponseEntity<?> getBuddies(HttpSession session) {
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        if (contextUser.getIsAdmin()) {
+            List<ApplicationUserData> buddies = adminService.getSecureBuddies();
+            return new ResponseEntity<>(buddies, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+    }
+
     // trenutni korisnik podnosi prijavu za admina
     @PostMapping("/prijava")
     public ResponseEntity<?> postApplication(@RequestBody AdminApplication application, HttpSession session) {

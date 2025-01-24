@@ -19,7 +19,6 @@ const CheckLogin = () => {
                 if (response.status === 200) {
                     console.log('Korisnik je već registriran!');
                     setUser(response.data);
-                    console.log(response.data);
                     console.log(response.data.name);
                 }
                 //za status 204, korisnik nije prijavljen i prokazuje se mogućnost prijave

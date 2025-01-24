@@ -53,3 +53,77 @@
 .padding-bottom-exists {
   padding-bottom: 1px;
 }
+
+.modal-quit-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-quit-content {
+  background: #ffffff;
+  color: #333;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.modal-quit-title {
+  font-size: 1.8em;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #000;
+}
+
+.modal-quit-text {
+  font-size: 1em;
+  margin-bottom: 20px;
+  color: #555;
+}
+
+.modal-quit-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cancel-quit-btn,
+.confirm-quit-btn {
+  padding: 10px 20px;
+  font-size: 1em;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cancel-quit-btn {
+  background-color: #7f84b7cd;
+  border: none;
+}
+
+.cancel-quit-btn:hover {
+  background-color: #6c72a1;
+  transform: scale(1.05);
+}
+
+.confirm-quit-btn {
+  background-color: #e74c3c;
+  border: none;
+}
+
+.confirm-quit-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}

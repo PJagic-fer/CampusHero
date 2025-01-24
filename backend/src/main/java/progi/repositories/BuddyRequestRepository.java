@@ -8,5 +8,7 @@ import progi.data.BuddyRequest;
 
 @Repository
 public interface BuddyRequestRepository extends JpaRepository<BuddyRequest, Long> {
-    public BuddyRequest findByUser(ApplicationUser user);
+    public BuddyRequest findByUserAndIsBlocked(ApplicationUser user, boolean isBlocked);
+
+    public BuddyRequest findByUserAndBuddy(ApplicationUser user, ApplicationUser buddy);
 }

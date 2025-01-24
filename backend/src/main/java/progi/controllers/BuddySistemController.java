@@ -112,12 +112,16 @@ public class BuddySistemController {
     }
 
     @GetMapping("/student/trazi-buddyja")
-    public List<ApplicationUser> getBuddySistemStudentTraziBuddyja() {
-        // Vraca sve buddyje
+    public List<ApplicationUser> getBuddySistemStudentTraziBuddyja(HttpSession session) {
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        // Vraca sve buddyje koji nisu blokirali korisnika
         List<ApplicationUser> users = applicationUserService.getAllApplicationUsers();
         List<ApplicationUser> buddies = new ArrayList<>();
         for (ApplicationUser user : users) {
-            if (user.getIsBuddy() == true) {
+            boolean userBlocked = !buddyRequestService.hasBuddyBlockedUser(contextUser, user);
+            if (user.getIsBuddy() == true && userBlocked) {
                 buddies.add(user);
             }
         }
@@ -133,21 +137,25 @@ public class BuddySistemController {
     }
 
     @PostMapping("/student/trazi-buddyja")
-    public boolean postBuddySistemStudentTraziBuddyja(@RequestBody LongClass buddyID, HttpSession session) {
+    public ResponseEntity<?> postBuddySistemStudentTraziBuddyja(@RequestBody LongClass buddyID, HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
         ApplicationUser buddy = applicationUserService.getUserById(buddyID.getValue()).orElse(null);
 
         if (buddy == null) {
-            return false;
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // 400
         }
 
         BuddyRequest buddyRequest = new BuddyRequest(contextUser, buddy);
 
-        buddyRequestService.addNewBuddyRequest(buddyRequest);
+        boolean isntBlocked = buddyRequestService.addNewBuddyRequest(buddyRequest);
 
-        return true;
+        if (isntBlocked) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE); // 406
+
     }
 
     @GetMapping("/student/trazeni-buddy")

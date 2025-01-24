@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
 import "./BuddyWorld.css";
-import osoba1 from '../../Components/assets/avatar.jpg'
 import axios from 'axios';
 import { AppStateContext } from '../../context/AppStateProvider'
 
@@ -9,8 +8,9 @@ const BuddyWorld = () => {
   const {fetch_path} = useContext(AppStateContext);
 
   const [activeSection, setActiveSection] = useState(""); // Praćenje aktivnog dijela
-  const [filter, setFilter] = useState({ faculty: "", city: "" }); // Filtri za fakultet i mjesto
+  const [filter, setFilter] = useState({ city: "",  studentHome: "", faculty: "" }); // Filtri za fakultet i mjesto
   const [buddyList, setBuddyList] = useState([]);
+  const [filteredBuddyList, setFilteredBuddyList] = useState([]);
   const [buddyDivision, setBuddyDivision] = useState([]);
   const [studentRequestList, setStudentRequestList] = useState([]);
   const [studentRequestDivision, setStudentRequestDivision] = useState([]);
@@ -33,10 +33,19 @@ const BuddyWorld = () => {
   },[activeSection])
 
   useEffect(() => {
-    if (buddyList.length > 0) {
-      setBuddyDivision(mapBuddy(buddyList));
+    if (filteredBuddyList.length > 0) {
+      setBuddyDivision(mapBuddy(filteredBuddyList));
     }
-  }, [buddyList, requestedBuddy])
+    else {
+      setBuddyDivision(["Niti jedan Buddy ne odgovara Vašim željama"])
+    }
+  }, [filteredBuddyList, requestedBuddy])
+
+  useEffect(() => {
+    if (buddyList.length > 0) {
+      setFilteredBuddyList(filterBuddyList());
+    }
+  }, [filter, buddyList])
 
   useEffect(() => {
     if (studentRequestList.length > 0) {
@@ -57,8 +66,12 @@ const BuddyWorld = () => {
         console.error('Greška: Neočekivani status odgovora:', response.status);
       }
     } catch (error) {
+      if (error.status === 406){
+        alert("Ovaj Buddy Vas je blokirao");
+      }
+      else{
       console.error('Greška prilikom dohvaćanja Buddy liste:', error);
-    }
+    }}
   };
 
   const fetchCurrentRequestForBuddy = async () =>{
@@ -127,6 +140,50 @@ const BuddyWorld = () => {
       </div>
     ));
   };
+
+  const checkCity = (buddy) => {
+    if (filter.city == ""){
+      return true;
+    }
+    else if (buddy.city){
+      if (filter.city == buddy.city.id){
+        return true;
+      }
+    }
+    return false;
+  }
+  const checkStudentHome = (buddy) => {
+    if (filter.studentHome == ""){
+      return true;
+    }
+    else if (buddy.studentHome){
+      if (filter.studentHome == buddy.studentHome.id){
+        return true;
+      }
+    }
+    return false;
+  }
+  const checkFaculty = (buddy) => {
+    if (filter.faculty == ""){
+      return true;
+    }
+    else if (buddy.faculty){
+      if (filter.faculty == buddy.faculty.id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  const filterBuddyList = () => {
+    return buddyList.filter( (buddy) => {
+      if (checkCity(buddy) && checkStudentHome(buddy) && checkFaculty(buddy)){
+        return true;
+      }
+      return false;
+    }
+    );
+  }
   
   const handleAproveThisStudetClick = async (student) => {
     /*try {
@@ -176,8 +233,7 @@ const BuddyWorld = () => {
     let response;
     try {
         //dohvaćenje atributa iz baze
-        //response = await axios.get(`https://campus-hero.onrender.com/campus-hero/${attribute}`);
-        response = await axios.get(`http://localhost:8080/campus-hero/${attribute}`);
+        response = await axios.get(`${fetch_path}/${attribute}`);
         return response.data;
     } catch (error) {
         console.error('Neuspješno dohvaćanje elemenata', error);
@@ -235,8 +291,8 @@ const BuddyWorld = () => {
             <label>
               Domovi:
               <select
-                value={filter.faculty}
-                onChange={(e) => setFilter({ ...filter, faculty: e.target.value })}
+                value={filter.studentHome}
+                onChange={(e) => setFilter({ ...filter, studentHome: e.target.value })}
               >
                 <option value="">Svi domovi</option>
                 {listStudentHomes}

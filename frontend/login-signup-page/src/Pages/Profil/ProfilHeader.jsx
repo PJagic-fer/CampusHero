@@ -4,7 +4,7 @@ const ProfilHeader = () => {
 
     return (
         <div className="profile-header-container">
-            <h1>Korisnički podaci</h1>
+            <h1 className="profile-title">Korisnički podaci</h1>
         </div>
     )
 };

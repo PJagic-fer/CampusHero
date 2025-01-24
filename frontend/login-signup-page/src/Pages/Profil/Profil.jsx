@@ -29,7 +29,6 @@ const Profil = () => {
             );
             //brisanje informacija o prethodnom korisniku iz konteksta
             if (response.status === 200) {
-                console.log('Upješno odjavljen');
                 setUser({
                   name: null,
                   surname: null,

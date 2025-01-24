@@ -10,7 +10,6 @@ import { AppStateContext } from '../../context/AppStateProvider'
 const Modal = ({ isOpen, onClose }) => {    
 
     const {setUser, fetch_path} = useContext(AppStateContext);
-    const [tokenId, setTokenId] = useState(null);
 
     if (!isOpen) return null;
     
@@ -18,8 +17,6 @@ const Modal = ({ isOpen, onClose }) => {
     const handleGoogleLoginSuccess = async (credentialResponse) => {
         try {
             const token = credentialResponse.credential;
-            setTokenId(token); // Sprema tokenId u stanje
-            console.log("Ovo je tokenId: " + token); //Ispisuje tokenId u konzoli
             // Pošalji token ID na backend
             response = await axios.post(`${fetch_path}/prijava`, token, {
                 headers: { 'Content-Type': 'application/json' },
@@ -29,15 +26,12 @@ const Modal = ({ isOpen, onClose }) => {
             if (response.status === 200) {
                 console.log('Korisnik je već registriran!');
                 setUser(response.data);
-                console.log(response.data);
-                console.log(response.data.name);
                 onClose();
             }
         } catch (error) {
             if (error.response && error.response.status === 409) {
                 console.log('Korisnik nije pronađen, kreiranje novog korisnika.');
                 setUser(error.response.data);
-                console.log(error.response.data.name);
                 onClose();
             } else {
                 console.error('Neuspješno slanje token ID na backend', error);

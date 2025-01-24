@@ -96,10 +96,8 @@ const UserDataForm = () => {
               );
               
             if (response.status === 200) {
-                console.log("Korisnik uspješno registriran!");
                 //promjena podataka u kontekstu
                 setUser(profileDataNoIds);
-                console.log(profileDataNoIds);
             }
         } catch (error) {
             console.error("Greška prilikom registracije korisnika", error);

@@ -11,15 +11,17 @@ const Admin = () => {
     const {user, setUser, fetch_path} = useContext(AppStateContext);
 
     const [listUsers, setListUsers] = useState();
-    const [listBuddyRequests, setLisBuddyRequests] = useState();
+    const [listBuddies, setLisBuddies] = useState();
     const [listAdminRequests, setLisAdminRequests] = useState();
+
+    const [showAdminQuitModal, setShowAdminQuitModal] = useState(false);
+    
 
     const getUsers = async () => {
         try {   
             //dohvaćenje korisnika iz baze
             let response = await axios.get(`${fetch_path}/admin/korisnici`,
                 {withCredentials: true});
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error('Neuspješno dohvaćanje elemenata', error);
@@ -41,10 +43,36 @@ const Admin = () => {
 
     const handleUsers = async () => {
         setListUsers([]);
-        setLisBuddyRequests([]);
+        setLisBuddies([]);
         setLisAdminRequests([]);
         let users= await getUsers();
         setListUsers(mapUsers(users));
+    }
+
+    const getBuddies = async () => {
+        try {   
+            //dohvaćenje korisnika iz baze
+            let response = await axios.get(`${fetch_path}/admin/buddyji`,
+                {withCredentials: true});
+            return response.data;
+        } catch (error) {
+            console.error('Neuspješno dohvaćanje elemenata', error);
+        }
+    }
+
+    const handleBuddyRequests = async () => {
+        setListUsers([]);
+        setLisBuddies([]);
+        setLisAdminRequests([]);
+        let buddies= await getBuddies();
+        if (buddies.length == 0){
+            setLisBuddies(<div className="admin-appuser-container padding-bottom-exists">
+                <p>Nema aktivnih buddyja</p>
+            </div>);
+        }
+        else{
+            setListUsers(mapUsers(buddies));
+        }
     }
 
     const getAdminRequests = async () => {
@@ -52,7 +80,6 @@ const Admin = () => {
             //dohvaćenje admin prijava iz baze
             let response = await axios.get(`${fetch_path}/admin/admin-kandidati`,
                 {withCredentials: true});
-            console.log(response.data);
             return response.data;
         } catch (error) {
             console.error('Neuspješno dohvaćanje elemenata', error);
@@ -78,12 +105,11 @@ const Admin = () => {
 
     const handleAdminRequests = async () => {
         setListUsers([]);
-        setLisBuddyRequests([]);
+        setLisBuddies([]);
         setLisAdminRequests([]);
         let adminRequests = await getAdminRequests();
         if (adminRequests.length == 0){
-            console.log("nula");
-            setLisBuddyRequests(<div className="admin-appuser-container padding-bottom-exists">
+            setLisBuddies(<div className="admin-appuser-container padding-bottom-exists">
                 <p>Nitko ne želi biti admin</p>
             </div>);
         }
@@ -104,7 +130,6 @@ const Admin = () => {
     }
 
     const handleApprove = async (approvedAdminRequest) => {
-        console.log(approvedAdminRequest); 
         await approveAdmin(approvedAdminRequest);
         handleAdminRequests();
     }
@@ -121,61 +146,8 @@ const Admin = () => {
     }
 
     const handleDeny = async (deniedAdminRequest) => {
-        console.log(deniedAdminRequest); 
         await denyAdmin(deniedAdminRequest);
         handleAdminRequests();
-    }
-
-    /*
-    const getBuddyRequests = async () => {
-        try {   
-            //dohvaćenje admin prijava iz baze
-            //response = await axios.get("https://campus-hero.onrender.com/campus-hero/admin/buddy-kandidati");
-            let response = await axios.get("http://localhost:8080/campus-hero/admin/buddy-kandidati",
-                {withCredentials: true});
-            console.log(response.data);
-            return response.data;
-        } catch (error) {
-            console.error('Neuspješno dohvaćanje elemenata', error);
-        }
-    }
-    */
-
-    /*
-    const mapBuddyRequests = (addminRequestList) =>{
-        return addminRequestList.map((request) => <div className= "admin-appuser-container" key={`${request.id}`} id={`buddy_request${request.id}`}>
-                                <h3 className='h3-admin'>{request.applicant.name} {request.applicant.surname}</h3>
-                                <div className="admin-appuser-data-container">
-                                    <p>O meni... : {request.personalInfo} </p>
-                                    <p>Iskustva s Campus Hero : {request.experiences} </p>
-                                    <p>Vlastite sposobnosti : {request.competencies} </p>
-                                    <div className="admin-appuser-button-container">
-                                        <button className="admin-appuser-button">Prihvati</button>
-                                        <button className="admin-appuser-button admin-appuser-button-deny">Odbij</button>
-                                    </div>
-                                </div>
-                            </div>)
-    }
-    */
-
-    const handleBuddyRequests = async () => {
-        setListUsers([]);
-        setLisBuddyRequests([]);
-        setLisAdminRequests([]);
-        /*
-        let buddyRequests = await getBuddyRequests();
-        if (buddyRequests.length == 0){
-            console.log("nula")
-            setLisBuddyRequests("nitko ne želi biti admin");
-        }
-        else {
-            setLisBuddyRequests(mapBuddyRequests(buddyRequests));
-        }
-        */
-              
-        setLisBuddyRequests(<div className="admin-appuser-container padding-bottom-exists">
-            <p>Letovi za BuddyWorld su otkazani do daljnjega</p>
-        </div>);
     }
 
     const handleAdminQuit = async () => {
@@ -184,7 +156,6 @@ const Admin = () => {
                 {},
                 {withCredentials: true});
             setUser({...user, isAdmin: false});
-            console.log("korisnik nije više admin");
             navigate('/');
             window.scrollTo({top:0});
         } catch (error) {
@@ -198,14 +169,32 @@ const Admin = () => {
         <div className="container">
         <div className="admin-buttons-container">
             <button className="button-profile button-admin" onClick={handleUsers}>Izlistaj korisnike</button>
-            <button className="button-profile button-admin" onClick={handleBuddyRequests}>Izlistaj buddy prijave</button>
+            <button className="button-profile button-admin" onClick={handleBuddyRequests}>Izlistaj buddyje</button>
             <button className="button-profile button-admin" onClick={handleAdminRequests}>Izlistaj admin prijave</button>
-            <button className="button-profile button-logout" onClick={handleAdminQuit}>prestani biti admin</button>
+            <button className="button-profile button-logout" onClick={() => setShowAdminQuitModal(true)}>Prestani biti admin</button>
         </div>
             {listUsers}
-            {listBuddyRequests}
+            {listBuddies}
             {listAdminRequests}
         </div>
+        {showAdminQuitModal && (
+            <div className="modal-quit-overlay">
+            <div className="modal-quit-content">
+                <h2 className="modal-quit-title">Prestani biti admin</h2>
+                <p className="modal-quit-text">
+                Klikom na "Potvrdi" potvrđuješ da se želiš odeći administratorskih prava.
+                </p>
+                <div className="modal-quit-buttons">
+                <button onClick={() => setShowAdminQuitModal(false)} className="cancel-quit-btn">
+                    Odustani
+                </button>
+                <button onClick={handleAdminQuit} className="confirm-quit-btn">
+                    Potvrdi
+                </button>
+                </div>
+            </div>
+            </div>
+        )}
         </>
     );
 };

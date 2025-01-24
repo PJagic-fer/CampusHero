@@ -1,8 +1,8 @@
 package progi.services;
 
-import java.util.List;
 import java.time.LocalDateTime;
-import java.util.ArrayList; 
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -22,23 +22,39 @@ public class BuddyRequestService {
         this.buddyRequestRepository = buddyRequestRepository;
     }
 
-    public void addNewBuddyRequest(BuddyRequest request) {
-        BuddyRequest foundBuddyRequest = buddyRequestRepository.findByUser(request.getUser());
-        if (foundBuddyRequest == null || foundBuddyRequest.getIsBlocked()) {
+    public boolean hasBuddyBlockedUser(ApplicationUser user, ApplicationUser buddy) {
+        BuddyRequest foundBuddyRequest = buddyRequestRepository.findByUserAndBuddy(user, buddy);
+        if (foundBuddyRequest == null) {
+            // korisnik nikada nije poslao zahtjev ovom buddyju
+            return false;
+        }
+        if (foundBuddyRequest.getIsBlocked()) {
+            // traženi buddy je već blokirao korisnika
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addNewBuddyRequest(BuddyRequest request) {
+        if (hasBuddyBlockedUser(request.getUser(), request.getBuddy())) {
+            return false;
+        }
+        BuddyRequest foundBuddyRequest = buddyRequestRepository.findByUserAndIsBlocked(request.getUser(), false);
+        if (foundBuddyRequest == null) {
             buddyRequestRepository.save(request);
-            return;
+            return true;
         }
         foundBuddyRequest.setBuddy(request.getBuddy());
         foundBuddyRequest.setDateCreated(LocalDateTime.now());
         foundBuddyRequest.setHasBuddyAccepted(false);
 
         buddyRequestRepository.save(foundBuddyRequest);
+        return true;
     }
 
-    public String getAllBuddyRequests()
-    {
+    public String getAllBuddyRequests() {
         List<BuddyRequest> requests = buddyRequestRepository.findAll();
-        
+
         return requests.toString();
     }
 
@@ -47,9 +63,8 @@ public class BuddyRequestService {
 
         Pair<BuddyRequest, Boolean> ret = Pair.of(null, false); // request nije naden, vrati prazno
 
-        for(BuddyRequest request : requests){
-            if(request.getUser().equals(from) && request.getBuddy().equals(to))
-            {
+        for (BuddyRequest request : requests) {
+            if (request.getUser().equals(from) && request.getBuddy().equals(to)) {
                 ret = Pair.of(request, true); // nasli request, vracamo ga
             }
         }
@@ -57,31 +72,23 @@ public class BuddyRequestService {
         return ret;
     }
 
-    public Boolean editBuddyStatus(Long studentId, Long buddyId, Boolean isBuddy, ApplicationUserService applicationUserService)
-    {
+    public Boolean editBuddyStatus(Long studentId, Long buddyId, Boolean isBuddy,
+            ApplicationUserService applicationUserService) {
         List<BuddyRequest> requests = getAllRequestsForId(studentId);
-        if (requests.size() == 0)
-        {
+        if (requests.size() == 0) {
             return false;
         }
-        for(BuddyRequest request : requests)
-        {
-            if(request.getBuddy().getId() == buddyId)
-            {
+        for (BuddyRequest request : requests) {
+            if (request.getBuddy().getId() == buddyId) {
                 ApplicationUser user = applicationUserService.getUserById(studentId).orElse(null);
-                if(!isBuddy)
-                {
+                if (!isBuddy) {
                     request.setIsBlocked(false);
-                    if(user != null)
-                    {
+                    if (user != null) {
                         user.setBuddy(null);
                         applicationUserService.updateApplicationUser(user);
                     }
-                }
-                else
-                {
-                    if(user != null)
-                    {
+                } else {
+                    if (user != null) {
                         ApplicationUser buddy = applicationUserService.getUserById(buddyId).orElse(null);
                         user.setBuddy(buddy);
                         applicationUserService.updateApplicationUser(user);
@@ -95,15 +102,13 @@ public class BuddyRequestService {
         return false;
     }
 
-    public List<BuddyRequest> getAllRequestsForId(Long userID)
-    {
+    public List<BuddyRequest> getAllRequestsForId(Long userID) {
         List<BuddyRequest> requests = buddyRequestRepository.findAll();
 
         List<BuddyRequest> ret = new ArrayList<>();
 
-        for(BuddyRequest request : requests){
-            if(request.getBuddy().getId() == userID)
-            {
+        for (BuddyRequest request : requests) {
+            if (request.getBuddy().getId() == userID) {
                 ret.add(request);
             }
         }
@@ -112,7 +117,7 @@ public class BuddyRequestService {
     }
 
     public ApplicationUser getRequestedBuddyByUser(ApplicationUser user) {
-        BuddyRequest buddyRequest = buddyRequestRepository.findByUser(user);
+        BuddyRequest buddyRequest = buddyRequestRepository.findByUserAndIsBlocked(user, false);
         if (buddyRequest != null) {
             return buddyRequest.getBuddy();
         }
