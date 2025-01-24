@@ -1,10 +1,11 @@
 .forum-page {
   margin: 0 auto;
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .forum-header {
-  background: linear-gradient(rgba(232, 213, 149, 0.073),rgba(8,0,58,0.7)), url('../../Components/assets/dom-forum2.jpg');
+  background: linear-gradient(rgba(232, 213, 149, 0.073), rgba(8, 0, 58, 0.7)),
+    url("../../Components/assets/dom-forum2.jpg");
   background-size: cover; /* Prekriva cijeli prostor */
   background-position: center; /* Centrirano */
   background-repeat: no-repeat; /* Bez ponavljanja slike */
@@ -78,11 +79,11 @@
 
 .carousel-dots {
   position: absolute;
-  display:flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   width: 94px;
-  height:20px;
+  height: 20px;
   bottom: 20px;
   left: 50%;
   background-color: rgba(100, 100, 100, 0.75);
@@ -159,7 +160,8 @@
   margin-bottom: 30px;
 }
 
-.post-button, .post-answer-button {
+.post-button,
+.post-answer-button {
   background-color: #2563eb;
   color: white;
   border: none;
@@ -175,13 +177,15 @@
   margin-top: 20px;
 }
 
-.post-button:hover, .post-answer-button:hover {
+.post-button:hover,
+.post-answer-button:hover {
   background-color: #1d4ed8;
   transform: translateY(-2px);
   box-shadow: 0 6px 8px rgba(37, 99, 235, 0.3);
 }
 
-.post-button:active, .post-answer-button:active {
+.post-button:active,
+.post-answer-button:active {
   transform: translateY(0);
   box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
 }
@@ -211,10 +215,15 @@
 }
 
 .question-content h3 {
+  word-break: break-word;
   margin: 0 0 8px 0;
   font-size: 1.25em;
   color: #1e293b;
   font-weight: 600;
+}
+
+.question-content p {
+  word-break: break-word;
 }
 
 .question-body {
@@ -257,7 +266,11 @@
   overflow-y: auto;
 }
 
-.question-popup h3{
+.question-popup {
+  word-break: break-word;
+}
+
+.question-popup h3 {
   margin-top: 20px;
   color: grey;
 }
@@ -348,11 +361,12 @@
   margin-bottom: 15px;
 }
 
-.answers-list p{
-  color:gray;
+.answers-list p {
+  color: gray;
 }
 
 .answer-item p {
+  word-break: break-word;
   margin: 0 0 10px 0;
 }
 
@@ -425,6 +439,7 @@
 }
 
 .review-item p {
+  word-break: break-word;
   margin: 0 0 10px 0;
   color: #333;
 }
@@ -450,11 +465,9 @@
   margin-left: 10px;
 }
 .question-meta span {
-
-  display:flex;
+  display: flex;
   align-items: center;
   text-align: center;
-  
 }
 
 .delete-button:hover {
@@ -511,6 +524,3 @@
     bottom: 100px;
   }
 }
-
-
-

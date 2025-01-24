@@ -76,6 +76,10 @@ public class ObjavaController {
       Post post = facilityDataWithPost.getPost();
       Forum forum = forumService.getForumByFacility(facilityData);
 
+      if (!CheckDataValidity.checkTextINputLength(post.getTitle(), 255)) {
+         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
+      }
+
       if (!CheckDataValidity.checkTextINputLength(post.getMessage(), 5000)) {
          return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
       }
@@ -106,6 +110,15 @@ public class ObjavaController {
       if (contextUserId == null) {
          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
       }
+
+      if (!CheckDataValidity.checkTextINputLength(post.getTitle(), 255)) {
+         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
+      }
+
+      if (!CheckDataValidity.checkTextINputLength(post.getMessage(), 5000)) {
+         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
+      }
+
       ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
       post.setCreator(applicationUser);
 

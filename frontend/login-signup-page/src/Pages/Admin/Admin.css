@@ -20,6 +20,10 @@
   padding: 10px 40px;
 }
 
+.admin-appuser-data-container p {
+  word-break: break-word;
+}
+
 .admin-appuser-button-container {
   display: flex;
   justify-content: space-evenly;
