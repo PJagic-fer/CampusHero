@@ -85,13 +85,21 @@ public class BuddySistemController {
         return ("Vise nisi buddy!");
     }
 
+    @DeleteMapping("/student/dodjeljeni-buddy")
+    public Boolean deleteDodjeljenogBuddyja(HttpSession session) {
+        String contextUserId = AuthContextUtil.getContextUserId(session);
+        ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        return buddyRequestService.editBuddyStatus(contextUser.getId(), contextUser.getBuddy().getId(), false, applicationUserService);
+    }
+
     // Stranica sa svim zahtjevima za pojedinog buddyja
     @GetMapping("/buddy/zahtjevi")
     public List<BuddyRequest> getBuddySistemBuddyZahtjevi(HttpSession session) {
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser contextUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
-        return buddyRequestService.getAllRequestsForId(contextUser.getId())
+        return buddyRequestService.getAllRequestsForBuddyId(contextUser.getId())
                 .stream()
                 .map((request) -> {
                     request.getBuddy().setGoogleId(null);

@@ -82,7 +82,7 @@ public class BuddyRequestService {
             if (request.getBuddy().getId() == buddyId) {
                 ApplicationUser user = applicationUserService.getUserById(studentId).orElse(null);
                 if (!isBuddy) {
-                    request.setIsBlocked(false);
+                    request.setIsBlocked(true);
                     if (user != null) {
                         user.setBuddy(null);
                         applicationUserService.updateApplicationUser(user);
@@ -103,6 +103,20 @@ public class BuddyRequestService {
     }
 
     public List<BuddyRequest> getAllRequestsForId(Long userID) {
+        List<BuddyRequest> requests = buddyRequestRepository.findAll();
+
+        List<BuddyRequest> ret = new ArrayList<>();
+
+        for (BuddyRequest request : requests) {
+            if (request.getUser().getId() == userID) {
+                ret.add(request);
+            }
+        }
+
+        return ret;
+    }
+
+    public List<BuddyRequest> getAllRequestsForBuddyId(Long userID) {
         List<BuddyRequest> requests = buddyRequestRepository.findAll();
 
         List<BuddyRequest> ret = new ArrayList<>();

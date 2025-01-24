@@ -28,179 +28,175 @@
     font-size: 4rem; /* Veliki font za isticanje */
   font-family: 'Arial Black', sans-serif; /* Debeli, moderni font */
   color: #e9dab6; /* Bijela boja */
-  text-shadow: 
-    -2px -2px 0 #d9e995, /* Gornja crvena sjena */
-    2px -2px 0 #ff5c33, /* Gornja crvena sjena */
-    -2px 2px 0 #2575fc, /* Donja plava sjena */
-    2px 2px 0 #2575fc, /* Donja plava sjena */
-    0px 0px 10px rgba(0, 0, 0, 0.5); /* Suptilna sjena za dubinu */
+  text-shadow: -2px -2px 0 #d9e995, /* Gornja crvena sjena */ 2px -2px 0 #ff5c33, /* Gornja crvena sjena */ -2px 2px 0
+    #2575fc, /* Donja plava sjena */ 2px 2px 0 #2575fc, /* Donja plava sjena */ 0px 0px 10px rgba(0, 0, 0, 0.5); /* Suptilna sjena za dubinu */
   text-align: center; /* Centriran tekst */
   margin: 20px 0; /* Razmak iznad i ispod naslova */
   padding: 10px 20px; /* Unutarnji razmak za bolju čitljivost */
   letter-spacing: 2px; /* Razmak između slova */
-  }
-  
-  
-  .buddy-world-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
-    padding: 20px;
-  }
-  
-  .buddy-button {
-    position: relative;
-    display: inline-block;
-    padding: 40px 70px;
-    font-size: 1.9rem;
-    font-weight: bold;
-    color: #e9e8e4;
-    background: linear-gradient(135deg, #0dceab, #d83071bc);
-    text-align: center;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transform: skew(-20deg); /* Paralelogram oblik */
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Blaga sjena */
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .buddy-button:hover {
-    transform: skew(-20deg) scale(1.1); /* Efekt povećanja na hover */
-    background: linear-gradient(135deg, #e684c0, #2575fc); /* Obrnuti gradijent pri hoveru */
-  }
-  
-  .buddy-button span {
-    display: block;
-    transform: skew(20deg); /* Ispravljanje teksta unutar paralelograma */
-  }
-  
-  .buddy-button:active {
-    transform: skew(-20deg) scale(1);
-    background: linear-gradient(135deg, #5e0dbc, #1f4ba5);
-  }
+}
 
-  .buddy-section {
-    margin-top: 20px;
-    padding: 30px;
-    background: linear-gradient(135deg, #f3f4f6, #ffffff); /* Gradijent za dubinu */
-    border: 2px solid rgba(106, 17, 203, 0.3); /* Suptilni obrub s vibrantnom bojom */
-    border-radius: 20px; /* Više zaobljeni rubovi za moderniji izgled */
-    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2), 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slojevite sjene */
-    margin-bottom: 60px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Dodan efekt prijelaza */
-  }
-  
-  .buddy-section:hover {
-    transform: scale(1.02); /* Lagano povećanje na hover */
-    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3), 0px 6px 8px rgba(0, 0, 0, 0.1); /* Pojačana sjena na hover */
-  }
-  
-  .buddy-section h2 {
-    font-size: 2.2rem;
-    font-weight: bold;
-    color: #6a11cb; /* Vibrantna boja naslova */
-    text-align: center;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sjena za naslov */
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #2cf0ed, #6a11cb); /* Gradijent u stilu Buddy Worlda */
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .buddy-section p {
-    font-size: 1.2rem;
-    color: #555;
-    text-align: center;
-    margin-bottom: 20px;
-    line-height: 1.6;
-    padding: 0 30px;
-  }
-  
-  
-  
-  
-  .buddy-section ul {
-    margin-top: 10px;
-    padding-left: 20px;
-  }
-  
-  .buddy-section ul li {
-    font-size: 1rem;
-    margin-bottom: 5px;
-    color: #444;
-  }
-  
-  .buddy-section button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 1rem;
-    background-color: #76726d;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-  }
-  
-  .buddy-section button:hover {
-    background-color: #2575fc;
-  }
+.buddy-world-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 20px;
+}
 
-  .buddy-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dinamični stupci */
-    gap: 20px; /* Razmak između kartica */
-    padding: 20px;
-  }
-  
-  .buddy-card {
-    display: flex; /* Horizontalni raspored unutar kartice */
-    align-items: center; /* Vertikalno centriranje sadržaja */
-    background: linear-gradient(135deg, #ffffff, #f3f4f6); /* Svijetla pozadina */
-    border: 2px solid #ddd; /* Obrub za razdvajanje kartica */
-    border-radius: 15px; /* Zaobljeni rubovi */
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Blaga sjena */
-    padding: 15px;
-    text-align: left; /* Tekst poravnat lijevo */
-    gap: 15px; /* Razmak između slike i informacija */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .buddy-card:hover {
-    transform: scale(1.05); /* Efekt povećanja na hover */
-    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Pojačana sjena */
-  }
-  
-  .buddy-avatar {
-    width: 80px; /* Širina avatara */
-    height: 80px; /* Visina avatara */
-    border-radius: 50%; /* Okrugli avatar */
-    flex-shrink: 0; /* Sprječava smanjivanje slike */
-  }
-  
-  .buddy-info {
-    display: flex;
-    flex-direction: column; /* Informacije u stupcu */
-    justify-content: center; /* Vertikalno centriranje */
-    gap: 5px; /* Razmak između redova */
-  }
-  
-  .buddy-info h3 {
-    font-size: 1.2rem;
-    color: #333;
-    margin: 0; /* Uklanja zadane margine */
-  }
-  
-  .buddy-info p {
-    font-size: 1rem;
-    color: #555;
-    margin: 0; /* Uklanja zadane margine */
-  }
+.buddy-button {
+  position: relative;
+  display: inline-block;
+  padding: 40px 70px;
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: #e9e8e4;
+  background: linear-gradient(135deg, #0dceab, #d83071bc);
+  text-align: center;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transform: skew(-20deg); /* Paralelogram oblik */
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2); /* Blaga sjena */
+  transition: all 0.3s ease-in-out;
+}
 
-  .filter-section {
+.buddy-button:hover {
+  transform: skew(-20deg) scale(1.1); /* Efekt povećanja na hover */
+  background: linear-gradient(135deg, #e684c0, #2575fc); /* Obrnuti gradijent pri hoveru */
+}
+
+.buddy-button span {
+  display: block;
+  transform: skew(20deg); /* Ispravljanje teksta unutar paralelograma */
+}
+
+.buddy-button:active {
+  transform: skew(-20deg) scale(1);
+  background: linear-gradient(135deg, #5e0dbc, #1f4ba5);
+}
+
+.buddy-section {
+  margin-top: 20px;
+  padding: 30px;
+  background: linear-gradient(135deg, #f3f4f6, #ffffff); /* Gradijent za dubinu */
+  border: 2px solid rgba(106, 17, 203, 0.3); /* Suptilni obrub s vibrantnom bojom */
+  border-radius: 20px; /* Više zaobljeni rubovi za moderniji izgled */
+  box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.2), 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slojevite sjene */
+  margin-bottom: 60px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Dodan efekt prijelaza */
+}
+
+.buddy-section:hover {
+  transform: scale(1.02); /* Lagano povećanje na hover */
+  box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3), 0px 6px 8px rgba(0, 0, 0, 0.1); /* Pojačana sjena na hover */
+}
+
+.buddy-section h2 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #6a11cb; /* Vibrantna boja naslova */
+  text-align: center;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Sjena za naslov */
+  margin-bottom: 20px;
+  background: linear-gradient(135deg, #2cf0ed, #6a11cb); /* Gradijent u stilu Buddy Worlda */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.buddy-section p {
+  font-size: 1.2rem;
+  color: #555;
+  text-align: center;
+  margin-bottom: 5px;
+  line-height: 1.6;
+  padding: 0 30px;
+}
+
+.buddy-section ul {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.buddy-section ul li {
+  font-size: 1rem;
+  margin-bottom: 5px;
+  color: #444;
+}
+
+.buddy-section button {
+  margin: 5px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #76726d;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.buddy-section button:hover {
+  background: linear-gradient(135deg, #0dceab, #d83071bc);
+}
+
+.buddy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Dinamični stupci */
+  gap: 20px; /* Razmak između kartica */
+  padding: 20px;
+}
+
+.buddy-card {
+  display: flex; /* Horizontalni raspored unutar kartice */
+  align-items: center; /* Vertikalno centriranje sadržaja */
+  background: linear-gradient(135deg, #ffffff, #f3f4f6); /* Svijetla pozadina */
+  border: 2px solid #ddd; /* Obrub za razdvajanje kartica */
+  border-radius: 15px; /* Zaobljeni rubovi */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Blaga sjena */
+  padding: 15px;
+  text-align: left; /* Tekst poravnat lijevo */
+  gap: 15px; /* Razmak između slike i informacija */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.buddy-card:hover {
+  transform: scale(1.05); /* Efekt povećanja na hover */
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Pojačana sjena */
+}
+
+.buddy-avatar {
+  width: 80px; /* Širina avatara */
+  height: 80px; /* Visina avatara */
+  border-radius: 50%; /* Okrugli avatar */
+  flex-shrink: 0; /* Sprječava smanjivanje slike */
+}
+
+.buddy-info {
+  display: flex;
+  flex-direction: column; /* Informacije u stupcu */
+  justify-content: center; /* Vertikalno centriranje */
+  gap: 5px; /* Razmak između redova */
+}
+
+.buddy-info h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin: 0; /* Uklanja zadane margine */
+}
+
+.buddy-info p {
+  font-size: 1rem;
+  color: #555;
+  margin: 0; /* Uklanja zadane margine */
+}
+
+.filter-section {
   display: flex;
   gap: 20px; /* Razmak između filtera */
   justify-content: center;
@@ -229,7 +225,6 @@
   border-color: #d83071bc; /* Promjena boje pri fokusu */
 }
 
-  
 .buddy-appuser-card {
   display: flex;
   flex-direction: column;
@@ -272,17 +267,36 @@
   gap: 15px;
 }
 
-  
-  /* Stilizacija za manje ekrane */
-  @media (max-width: 768px) {
-    .buddy-world-main-title {
-      font-size: 1.8rem;
-      padding: 8px 15px;
-    }
-  
-    .buddy-button {
-      padding: 10px 20px;
-      font-size: 0.9rem;
-    }
+/* Stilizacija za manje ekrane */
+@media (max-width: 768px) {
+  .buddy-world-main-title {
+    font-size: 1.8rem;
+    padding: 8px 15px;
   }
-  
+
+  .buddy-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+  }
+}
+
+.stars {
+  color: rgb(146, 146, 146);
+  font-size: 36px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.stars:hover,
+.stars.active {
+  color: #ffd700;
+}
+
+.buddy-section .star-rating {
+  margin-top: 5px;
+  justify-content: center;
+}
+
+.buddy-section div p {
+  margin-top: 10px;
+}
