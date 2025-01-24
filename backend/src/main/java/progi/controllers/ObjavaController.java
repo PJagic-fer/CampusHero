@@ -76,12 +76,15 @@ public class ObjavaController {
       Post post = facilityDataWithPost.getPost();
       Forum forum = forumService.getForumByFacility(facilityData);
 
-      if (!CheckDataValidity.checkTextINputLength(post.getMessage(), 5000)){
-         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); //413
+      if (!CheckDataValidity.checkTextINputLength(post.getMessage(), 5000)) {
+         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
       }
 
       // dodavanje autora objave
       String contextUserId = AuthContextUtil.getContextUserId(session);
+      if (contextUserId == null) {
+         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
       ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
       post.setCreator(applicationUser);
 
@@ -100,6 +103,9 @@ public class ObjavaController {
    public ResponseEntity<?> postAnswer(@RequestBody Post post, HttpSession session) {
       // dodavanje autora objave
       String contextUserId = AuthContextUtil.getContextUserId(session);
+      if (contextUserId == null) {
+         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
       ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
       post.setCreator(applicationUser);
 

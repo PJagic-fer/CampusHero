@@ -76,11 +76,14 @@ public class RecenzijaController {
     public ResponseEntity<?> postReview(@RequestBody Review review, HttpSession session) {
         // dodavanje autora objave
         String contextUserId = AuthContextUtil.getContextUserId(session);
+        if (contextUserId == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
 
-        if (!CheckDataValidity.checkTextINputLength(review.getMessage(), 5000)){
-         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); //413
-      }
+        if (!CheckDataValidity.checkTextINputLength(review.getMessage(), 5000)) {
+            return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
+        }
 
         review.setCreator(applicationUser);
 
