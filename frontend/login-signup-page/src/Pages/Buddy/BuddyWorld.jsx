@@ -3,6 +3,7 @@ import "./BuddyWorld.css"
 import axios from "axios"
 import { AppStateContext } from "../../context/AppStateProvider"
 import { Star } from "lucide-react"
+import { set } from "react-hook-form"
 
 const BuddyWorld = () => {
   const { fetch_path, user } = useContext(AppStateContext)
@@ -117,7 +118,7 @@ const BuddyWorld = () => {
       if (response.status === 200) {
         // Vraća dohvaćene podatke
         setAllMyStudents(response.data.filter((student) => student.hasBuddyAccepted === true))
-        setStudentRequestList(response.data)
+        setStudentRequestList(response.data.filter((student) => student.hasBuddyAccepted === false && student.isBlocked === false))
       } else {
         console.error("Greška: Neočekivani status odgovora:", response.status)
       }
@@ -290,6 +291,7 @@ const BuddyWorld = () => {
     }
   }, [myBuddy])
 
+
   const handleDeleteStudent = async (studentId) => {
     try {
       const response = await axios.delete(`${fetch_path}/buddy-sustav/buddy/prihvati/${studentId}`, {
@@ -355,8 +357,8 @@ const BuddyWorld = () => {
         withCredentials: true,
       })
       if (response.status === 200) {
-        setMyStudents(myStudents.filter((student) => student.id !== studentId))
-        alert("Student successfully removed.")
+        window.location.reload()
+        alert("Buddy successfully removed.")
       }
     } catch (error) {
       console.error("Error deleting student:", error)
@@ -387,22 +389,27 @@ const BuddyWorld = () => {
         
         {!user.isBuddy && (
           <>
-            <button className="buddy-button" onClick={() => setActiveSection("findBuddy")}>
-            <span>Pronađi Buddyja</span>
-            </button>
-            <button className="buddy-button" onClick={() => setActiveSection("manageBuddy")}>
-            <span>Upravljaj Buddyjem</span>
-            </button>
+            {!user.buddy && (
+              <button className="buddy-button" onClick={() => setActiveSection("findBuddy")}>
+              <span>Pronađi Buddyja</span>
+              </button>
+            )}
+            {user.buddy && (
+              <button className="buddy-button" onClick={() => setActiveSection("manageBuddy")}>
+              <span>Upravljaj Buddyjem</span>
+              </button>
+            )}
           </>
         )}
-        <button className="buddy-button" onClick={() => setActiveSection("chat")}>
-          <span>Razgovori</span>
-        </button>
         {user.isBuddy && (
             <button className="buddy-button" onClick={() => setActiveSection("manageStudents")}>
               <span>Upravljaj Studentima</span>
             </button>
         )}
+        <button className="buddy-button" onClick={() => setActiveSection("chat")}>
+          <span>Razgovori</span>
+        </button>
+        
       </div>
 
       {activeSection === "findBuddy" && (

@@ -72,7 +72,7 @@ const BuddyInfo = () => {
         <div style={{ margin: '20px 0' }}></div>
       </div>
 
-      {user.name && !user.isBuddy && (
+      {user.name && !user.isBuddy && !user.buddy && (
         <div className="apply-button-container">
           <h1 className="buddy-upit">Želiš postati Buddy?</h1>
           <button className="apply-button" onClick={() => setShowBuddyApplyModal(true)}>
