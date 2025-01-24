@@ -11,7 +11,10 @@ import progi.data.ApplicationUser;
 public interface ApplicationUserRepository extends JpaRepository<ApplicationUser, Long> {
     public ApplicationUser findByGoogleId(String googleId);
 
+    public ApplicationUser findByJmbag(String jmbag);
+
     public List<ApplicationUser> findByIsAdminTrue();
 
     public List<ApplicationUser> findByIsBuddyTrue();
+
 }

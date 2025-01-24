@@ -24,10 +24,13 @@ public class AdminRequest {
     @OneToOne
     private ApplicationUser applicant;
 
+    @Column(length = 5000)
     private String personalInfo;
 
+    @Column(length = 5000)
     private String experiences;
 
+    @Column(length = 5000)
     private String competencies;
 
     @CreationTimestamp

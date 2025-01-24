@@ -27,6 +27,7 @@ import { AppStateProvider } from './context/AppStateProvider';
 import Profil_Header from './Pages/Profil/ProfilHeader'
 import Admin from './Pages/Admin/Admin';
 import BuddyWorld from './Pages/Buddy/BuddyWorld'
+import BuddyWorldHeader from './Pages/Buddy/BuddyWorldHeader';
 
 const App = () => {
   return (
@@ -46,7 +47,7 @@ const App = () => {
           <Route path="/Domovi/Forum" element={<Forum />} />
           <Route path="/Fakulteti/Forum" element={<FForum />} />
           <Route path="/Admin" element={<Admin />} />
-          <Route path="/BuddyWorld" element={<BuddyWorld />} />
+          <Route path="/BuddyWorld" element={<BuddyWorldHeader />} />
           </Routes>
           <div className="container">
             <Routes>
@@ -66,6 +67,7 @@ const App = () => {
               <Route path="/JavniPrijevoz" element={<Prijevoz_Info />} />
               <Route path="/Menze" element={<Menze_Info />} />
               <Route path="/Buddy" element={<Buddy_Info />} />
+              <Route path="/BuddyWorld" element={<BuddyWorld />} />
             </Routes>
             <Footer />
           </div>

@@ -98,9 +98,20 @@ const UserDataForm = () => {
             if (response.status === 200) {
                 //promjena podataka u kontekstu
                 setUser(profileDataNoIds);
+                alert("Korisnički podaci su izmjenjeni")
             }
         } catch (error) {
-            console.error("Greška prilikom registracije korisnika", error);
+            if (error.response && error.response.status === 413) {
+                alert('Vaš unos je predugačak.');
+                console.error(error)
+              }
+            else if (error.response && error.response.status === 409) {
+                alert('Već postoji student sa upisanim jmbagom.');
+                console.error(error)
+              }
+            else{
+                console.error("Greška prilikom slanja korisničkih podataka:", error)
+              }
         }
     }; 
 
@@ -111,7 +122,11 @@ const UserDataForm = () => {
                 <label className="user-data-label">Ime:</label>
                 <input
                     {...register("name",{
-                        required: "Ime je obavezno"
+                        required: "Ime je obavezno",
+                        maxLength: {
+                            value: 255,
+                            message: "Ime je predugačko"
+                        }
                     })}
                     className="user-data-input"
                     type="text"
@@ -122,7 +137,11 @@ const UserDataForm = () => {
                 <label className="user-data-label">Prezime:</label>
                 <input
                     {...register("surname",{
-                        required: "Prezime je obavezno"
+                        required: "Prezime je obavezno",
+                        maxLength: {
+                            value: 255,
+                            message: "Prezime je predugačko"
+                        }
                     })}
                     className="user-data-input"
                     type="text"
@@ -134,6 +153,10 @@ const UserDataForm = () => {
                 <input
                     {...register("email",{
                         required: "Email je obavezan",
+                        maxLength: {
+                            value: 255,
+                            message: "Email je predugačak"
+                        },
                         validate: (val) => {
                             if (!val.includes("@")){
                                 return "Email mora sadržavati @";

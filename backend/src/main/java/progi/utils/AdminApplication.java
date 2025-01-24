@@ -20,8 +20,7 @@ public class AdminApplication {
         return personalInfo;
     }
 
-    public void setPersonalInfo(String personalInfo
-    ) {
+    public void setPersonalInfo(String personalInfo) {
         this.personalInfo = personalInfo;
     }
 
@@ -39,6 +38,12 @@ public class AdminApplication {
 
     public void setCompetencies(String competencies) {
         this.competencies = competencies;
+    }
+
+    public boolean checkApplicationLength() {
+        return CheckDataValidity.checkTextINputLength(personalInfo, 5000)
+                && CheckDataValidity.checkTextINputLength(experiences, 5000)
+                && CheckDataValidity.checkTextINputLength(competencies, 5000);
     }
 
 }

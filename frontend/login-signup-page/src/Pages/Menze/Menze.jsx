@@ -105,7 +105,13 @@ export default function Menze() {
       fetchReviews(cafeterias[activeCafeteria].id)
       setReview({ rating: 0, description: "" })
     } catch (error) {
-      console.error("Error posting review:", error)
+      if (error.response && error.response.status === 413) {
+        alert('Poruka je predugačka.');
+        console.error(error)
+      }
+      else{
+        console.error("Error posting review:", error)
+      }
     }
   }
 

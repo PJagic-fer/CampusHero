@@ -34,6 +34,7 @@ public class Review {
     @Column(nullable = false)
     private Integer score;
 
+    @Column(length = 5000)
     private String message;
 
     @ManyToOne
@@ -113,6 +114,7 @@ public class Review {
     public void setCreator(ApplicationUser creator) {
         this.creator = creator;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -155,5 +157,5 @@ public class Review {
 
     public void setMessage(String message) {
         this.message = message;
-}
+    }
 }

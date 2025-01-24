@@ -45,6 +45,9 @@ const BuddyWorld = () => {
     if (buddyList.length > 0) {
       setFilteredBuddyList(filterBuddyList());
     }
+    else {
+      setBuddyDivision(["Trenutno nema aktivnih buddyja"])
+    }
   }, [filter, buddyList])
 
   useEffect(() => {
@@ -250,9 +253,6 @@ const BuddyWorld = () => {
 
   return (
     <div className="buddy-world-container">
-      <div className="buddy-world-image">
-        <h1 className="buddy-world-main-title">Odaberi dio Buddy svijeta u koji želiš zaviriti</h1>
-      </div>
       <div className="buddy-world-buttons">
         <button className="buddy-button" onClick={() => setActiveSection("findBuddy")}>
           <span>Pronađi Buddyja</span>

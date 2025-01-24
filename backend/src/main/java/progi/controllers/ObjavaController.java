@@ -22,6 +22,7 @@ import progi.services.ApplicationUserService;
 import progi.services.ForumService;
 import progi.services.PostService;
 import progi.utils.AuthContextUtil;
+import progi.utils.CheckDataValidity;
 import progi.utils.FacilityData;
 import progi.utils.FacilityDataWithPost;
 
@@ -74,6 +75,10 @@ public class ObjavaController {
       FacilityData facilityData = facilityDataWithPost.getFacilityData();
       Post post = facilityDataWithPost.getPost();
       Forum forum = forumService.getForumByFacility(facilityData);
+
+      if (!CheckDataValidity.checkTextINputLength(post.getMessage(), 5000)){
+         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); //413
+      }
 
       // dodavanje autora objave
       String contextUserId = AuthContextUtil.getContextUserId(session);

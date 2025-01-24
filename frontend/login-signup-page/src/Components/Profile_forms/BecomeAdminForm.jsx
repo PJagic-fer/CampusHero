@@ -31,7 +31,12 @@ const BecomeAdminForm = () => {
         } catch (error) {
             if (error.response && error.response.status === 401) {
                 console.log('Korisnik je već administrator.');
-            } else {
+            } 
+            else if (error.response && error.response.status === 413) {
+                console.error(error)
+                alert('Opis je predugačak.');
+            }
+            else {
                 console.error('Druga greška prilikom slanja admin pijave', error);
             }
         }
@@ -47,7 +52,11 @@ const BecomeAdminForm = () => {
                     <label className="become-admin-label">O meni...</label>
                     <textarea
                         {...register("personal_info",{
-                            required: "Ovo polje je obavezno"
+                            required: "Ovo polje je obavezno",
+                            maxLength: {
+                                value: 5000,
+                                message: "Tekst je predugačak"
+                            }
                         })}
                         placeholder='Predstavi nam se'
                         className="become-admin-textarea"
@@ -58,7 +67,11 @@ const BecomeAdminForm = () => {
                     <label className="become-admin-label">Iskustva s Campus Hero</label>
                     <textarea
                         {...register("experiences",{
-                            required: "Ovo polje je obavezno"
+                            required: "Ovo polje je obavezno",
+                            maxLength: {
+                                value: 5000,
+                                message: "Tekst je predugačak"
+                            }
                         })}
                         placeholder='Koja su tvoja dosadašnja iskustva s Campus Hero projektom'
                         className="become-admin-textarea"
@@ -69,7 +82,11 @@ const BecomeAdminForm = () => {
                     <label className="become-admin-label">Vlastite sposobnosti</label>
                     <textarea
                         {...register("competencies",{
-                            required: "Ovo polje je obavezno"
+                            required: "Ovo polje je obavezno",
+                            maxLength: {
+                                value: 5000,
+                                message: "Tekst je predugačak"
+                            }
                         })}
                         placeholder='Zašto baš ti zaslužuješ ovu ulogu'
                         className="become-admin-textarea"

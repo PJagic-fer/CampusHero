@@ -43,6 +43,11 @@ public class ApplicationUserService {
         return applicationUserRepository.findByGoogleId(googleId);
     }
 
+    public ApplicationUser getApplicationUserByJmbag(String jmbag) {
+        // pronalazak korisnika prema pohranjenom jmbagu
+        return applicationUserRepository.findByJmbag(jmbag);
+    }
+
     public Pair<ApplicationUser, Boolean> getOrCreateApplicationUser(ApplicationUser user) {
         // provjera postoji li user u bazi
         ApplicationUser foundUser = applicationUserRepository.findByGoogleId(user.getGoogleId());
@@ -82,8 +87,7 @@ public class ApplicationUserService {
         return Optional.of(foundUser);
     }
 
-    public void updateApplicationUser(ApplicationUser updatedUser)
-    {
+    public void updateApplicationUser(ApplicationUser updatedUser) {
         applicationUserRepository.save(updatedUser);
     }
 }

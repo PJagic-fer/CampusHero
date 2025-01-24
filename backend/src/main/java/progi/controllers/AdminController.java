@@ -77,6 +77,10 @@ public class AdminController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
+        if (!application.checkApplicationLength()) {
+            return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); //413
+        }
+
         AdminRequest adminRequest = new AdminRequest(contextUser, application);
         Boolean gotAdmin = adminService.addAdminRequest(adminRequest);
 

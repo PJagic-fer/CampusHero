@@ -147,8 +147,15 @@ const CrowdModal = ({ onClose, cafeterias }) => {
         },
         { withCredentials: true },
       )
+      onClose()
     } catch (error) {
-      console.error("Greška prilikom djeljenja stanja gužve!", error)
+        if (error.response && error.response.status === 413) {
+          alert('Poruka je predugačka.');
+          console.error(error)
+        }
+        else {
+        console.error("Greška prilikom djeljenja stanja gužve!", error)
+        }
     }
   }
 
@@ -156,7 +163,7 @@ const CrowdModal = ({ onClose, cafeterias }) => {
     if (selectedCafeteria && score) {
       console.log(`Menza: ${selectedCafeteria}, Čekanje: ${score} minuta, Poruka: ${message}`)
       postCrowdLevel()
-      onClose()
+      
     } else {
       alert("Molimo odaberite menzu i unesite vrijeme čekanja.")
     }

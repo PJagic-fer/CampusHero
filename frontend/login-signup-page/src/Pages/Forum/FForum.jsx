@@ -161,7 +161,13 @@ export default function FacultyForum() {
       fetchAllAnswers()
       setNewQuestion({ title: "", body: "" })
     } catch (error) {
-      console.error("Error posting question:", error)
+      if (error.response && error.response.status === 413) {
+        alert('Poruka je predugačka.');
+        console.error(error)
+      }
+      else{
+        console.error("Error posting question:", error)
+      }
     }
   }
 
@@ -183,7 +189,13 @@ export default function FacultyForum() {
       fetchReviews(faculties[currentFacultyIndex].id)
       setReview({ rating: 0, description: "" })
     } catch (error) {
-      console.error("Error posting review:", error)
+      if (error.response && error.response.status === 413) {
+        alert('Poruka je predugačka.');
+        console.error(error)
+      }
+      else{
+        console.error("Error posting review:", error)
+      }
     }
   }
 
@@ -207,7 +219,13 @@ export default function FacultyForum() {
       fetchAnswers(selectedQuestion.id)
       fetchAllAnswers()
     } catch (error) {
-      console.error("Error posting answer:", error)
+      if (error.response && error.response.status === 413) {
+        alert('Poruka je predugačka.');
+        console.error(error)
+      }
+      else{
+        console.error("Error posting question:", error)
+      }
     }
   }
 

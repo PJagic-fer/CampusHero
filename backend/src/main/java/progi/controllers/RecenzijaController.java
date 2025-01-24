@@ -25,6 +25,7 @@ import progi.services.FacultyService;
 import progi.services.ReviewService;
 import progi.services.StudentHomeService;
 import progi.utils.AuthContextUtil;
+import progi.utils.CheckDataValidity;
 
 @RestController
 @RequestMapping("/campus-hero/recenzije")
@@ -76,6 +77,11 @@ public class RecenzijaController {
         // dodavanje autora objave
         String contextUserId = AuthContextUtil.getContextUserId(session);
         ApplicationUser applicationUser = applicationUserService.getApplicationUserByGoogleId(contextUserId);
+
+        if (!CheckDataValidity.checkTextINputLength(review.getMessage(), 5000)){
+         return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); //413
+      }
+
         review.setCreator(applicationUser);
 
         reviewService.addReview(review);

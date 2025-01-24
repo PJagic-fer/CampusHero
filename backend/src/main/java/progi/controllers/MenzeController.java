@@ -16,6 +16,7 @@ import progi.data.Busyness;
 import progi.data.Canteen;
 import progi.services.BusynessService;
 import progi.services.CanteenService;
+import progi.utils.CheckDataValidity;
 
 @RestController
 @RequestMapping("/campus-hero/menze")
@@ -39,6 +40,9 @@ public class MenzeController {
     // prijava gužve
     @PostMapping("/guzva")
     public ResponseEntity<?> postBusyness(@RequestBody Busyness busyness) {
+        if (!CheckDataValidity.checkTextINputLength(busyness.getMessage(), 255)) {
+            return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE); // 413
+        }
         busyness = busynessService.addBusyness(busyness);
         return new ResponseEntity<>(HttpStatus.OK);
     }
