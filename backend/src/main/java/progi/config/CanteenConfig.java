@@ -58,7 +58,7 @@ public class CanteenConfig {
 
             Canteen TTFMenza = new Canteen(
                     "Menza - TTF",
-                    "Prilaz brauna Filipovića",
+                    "Prilaz baruna Filipovića",
                     "28a"
             );
 

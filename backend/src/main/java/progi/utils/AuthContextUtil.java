@@ -12,4 +12,7 @@ public class AuthContextUtil {
         session.setAttribute("userId", userId);
     }
 
+    public static void removeContextUserId(HttpSession session) {
+        session.invalidate();
+    }
 }

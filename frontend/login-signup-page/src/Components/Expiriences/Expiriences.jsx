@@ -26,14 +26,14 @@ const Expiriences = () => {
     }
 
   return (
-    <div className='iskustva'>
+    <div className='iskustva1' id='experiences'>
       <img src={next_icon} alt='' className='next-btn' onClick={slideForward}/>
       <img src={back_icon} alt='' className='back-btn' onClick={slideBackward}/>
-      <div className="slider">
+      <div className="slider1">
         <ul ref={slider}>
             <li>
-                <div className="slide">
-                    <div className="user-info">
+                <div className="slide1">
+                    <div className="user-info1">
                         <img src={osoba1} alt=''/>
                         <div>
                             <h3>Ivan Horvat</h3>
@@ -44,8 +44,8 @@ const Expiriences = () => {
                 </div>
             </li>
             <li>
-                <div className="slide">
-                    <div className="user-info">
+                <div className="slide1">
+                    <div className="user-info1">
                         <img src={osoba2} alt=''/>
                         <div>
                             <h3>Ana Matanić</h3>
@@ -56,8 +56,8 @@ const Expiriences = () => {
                 </div>
             </li>
             <li>
-                <div className="slide">
-                    <div className="user-info">
+                <div className="slide1">
+                    <div className="user-info1">
                         <img src={osoba3} alt=''/>
                         <div>
                             <h3>Kristijan Lovrić</h3>
@@ -68,8 +68,8 @@ const Expiriences = () => {
                 </div>
             </li>
             <li>
-                <div className="slide">
-                    <div className="user-info">
+                <div className="slide1">
+                    <div className="user-info1">
                         <img src={osoba4} alt=''/>
                         <div>
                             <h3>Patricija Gotovac</h3>

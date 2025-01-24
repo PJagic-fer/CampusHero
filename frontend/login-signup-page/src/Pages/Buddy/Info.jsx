@@ -1,74 +1,123 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Info.css';
+import axios from 'axios';
+import { AppStateContext } from '../../context/AppStateProvider';
 
-const ZagrebBuddyInfo = () => {
+const BuddyInfo = () => {
+  const navigate = useNavigate();
+  const { user, setUser, fetch_path } = useContext(AppStateContext); // Dohvaćamo korisnika iz konteksta
+  const [loading, setLoading] = useState(true); // Praćenje učitavanja stanja
+  const [showModal, setShowModal] = useState(false); // Prikazivanje modala
+  const [showBuddyApplyModal, setShowBuddyApplyModal] = useState(false);
+
+  const handleBuddyApply = async () => {
+    if (!user || !user.id) {
+      alert('Morate biti prijavljeni da biste se prijavili kao Buddy.');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        `${fetch_path}/buddy-sustav/buddy/prijava`,
+        {},
+        { withCredentials: true }
+      );
+
+      if (response.status === 200) {
+        setShowBuddyApplyModal(false);
+        setUser({...user, isBuddy: true});
+      }
+
+    } catch (error) {
+      console.error('Greška prilikom prijave:', error);
+      alert('Došlo je do greške prilikom prijave. Pokušajte ponovno.');
+    }
+  };
+
+  
+
+  const handleClick = () => {
+    if (!user.name) {
+      // Ako korisnik nije prijavljen, prikaži modal
+      setShowModal(true);
+      return;
+    }
+    // Ako je prijavljen, navigiramo na BuddyWorld
+    navigate('/BuddyWorld');
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
-    <div className="buddy-info-container">
-      <h1>Buddy sustav u Zagrebu</h1>
+    <div className="canteens-info-container1">
       <p className="introB">
-        Buddy sustav je inovativna značajka aplikacije koja povezuje nove studente s iskusnim 
-        "buddyima" koji im mogu pomoći oko svih aspekata studentskog života u Zagrebu. Ovaj 
-        sustav pruža personaliziranu podršku i olakšava prilagodbu na novi grad i akademsko okruženje.
-      </p>
-      
-      <h2 className="h2B">Što je Buddy?</h2>
-      <p>
-        Buddy je iskusni student ili lokalni stanovnik koji dobrovoljno pomaže novim studentima. 
-        Oni pružaju podršku, savjete i prijateljstvo, pomažući novim studentima da se lakše snađu 
-        u novom okruženju.
+        Buddy svijet povezuje studente kako bi olakšao prilagodbu na kampus, potaknuo nova prijateljstva i pružio podršku kroz zajedničko iskustvo studiranja.
       </p>
 
-      <h2 className="h2B">Kako pronaći Buddyja?</h2>
+      <h2 className="h2B">Tvoji prvi koraci u stvaranju nezaboravnih prijateljstava!</h2>
       <ul>
-        <li>Otvorite aplikaciju i idite na sekciju "Pronađi Buddyja"</li>
-        <li>Postavite svoje preferencije (npr. područje studija, interesi, jezik)</li>
-        <li>Pregledajte profile dostupnih Buddyja</li>
-        <li>Pošaljite zahtjev za povezivanje s odabranim Buddyjem</li>
-        <li>Čekajte potvrdu i započnite razgovor!</li>
+        Zamisli da imaš prijatelja koji je uvijek tu za tebe – vodič kroz kampus, mentor i podrška kad ti zatreba. Buddy svijet nudi ti priliku da brzo pronađeš svoje mjesto u novom okruženju, upoznaš ljude i uživaš u studentskom životu.
+        Klikni i otkrij kako Buddy svijet može učiniti tvoje studiranje jednostavnijim, zabavnijim i punim novih prilika. Tvoj savršeni početak čeka – zaronimo zajedno u Buddy World!
       </ul>
+      <div className="soft-container">
+        <div className="spacer"></div>
+        <div className="soft btn" onClick={handleClick}>
+          <div className="btn-txt soft-txt">BuddyWorld!</div>
+          <div></div>
+          <div></div>
+        </div>
+        <div style={{ margin: '20px 0' }}></div>
+      </div>
 
-      <h2 className="h2B">Kako Buddy može pomoći?</h2>
-      <ul>
-        <li>Orijentacija po gradu i kampusu</li>
-        <li>Savjeti o studentskom životu, menzama i smještaju</li>
-        <li>Pomoć oko administrativnih procedura (npr. upis, iksica)</li>
-        <li>Informacije o javnom prijevozu i snalaženju po gradu</li>
-        <li>Preporuke za društvene i kulturne događaje</li>
-        <li>Jezična podrška za međunarodne studente</li>
-      </ul>
+      {user.name && !user.isBuddy && !user.buddy && (
+        <div className="apply-button-container">
+          <h1 className="buddy-upit">Želiš postati Buddy?</h1>
+          <button className="apply-button" onClick={() => setShowBuddyApplyModal(true)}>
+            Prijavi se
+          </button>
+        </div>
+      )}
 
-      <h2 className="h2B">Prednosti Buddy sustava</h2>
-      <ul>
-        <li>Personalizirana podrška prilagođena vašim potrebama</li>
-        <li>Brža i lakša prilagodba na novi grad i akademsko okruženje</li>
-        <li>Mogućnost stvaranja novih prijateljstava</li>
-        <li>Pristup lokalnim znanjima i "insajderskim" informacijama</li>
-        <li>Poboljšanje jezičnih vještina (za međunarodne studente)</li>
-      </ul>
-      
-      <h2 className="h2B">Savjeti za uspješno Buddy iskustvo</h2>
-      <ul>
-        <li>Budite otvoreni i spremni za nova iskustva</li>
-        <li>Jasno komunicirajte svoje potrebe i očekivanja</li>
-        <li>Poštujte vrijeme i trud svog Buddyja</li>
-        <li>Budite proaktivni u postavljanju pitanja i traženju savjeta</li>
-        <li>Razmotrite mogućnost da i sami postanete Buddy u budućnosti</li>
-      </ul>
+      {showBuddyApplyModal && (
+        <div className="modal-apply-overlay">
+          <div className="modal-apply-content">
+            <h2 className="modal-apply-title">Postani Buddy</h2>
+            <p className="modal-apply-text">
+              Klikom na "Potvrdi" potvrđuješ da želiš postati Buddy.
+            </p>
+            <div className="modal-apply-buttons">
+              <button onClick={() => setShowBuddyApplyModal(false)} className="cancel-apply-btn">
+                Odustani
+              </button>
+              <button onClick={handleBuddyApply} className="confirm-apply-btn">
+                Potvrdi
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
-      <p>
-        Buddy sustav je više od samo praktične pomoći - to je prilika za stvaranje 
-        značajnih veza i obogaćivanje vašeg studentskog iskustva u Zagrebu. Bez obzira jeste 
-        li novi u gradu ili tražite način da se više povežete sa studentskom zajednicom, 
-        Buddy sustav vam može pomoći da se osjećate kao kod kuće.
-      </p>
+
 
       <p className="note">
-        Napomena: Dostupnost Buddyja može varirati ovisno o razdoblju godine i broju 
-        volontera. Preporučuje se da započnete potragu za Buddyjem što ranije, posebno 
-        ako ste novi student ili dolazite u Zagreb na početku akademske godine.
+        Napomena: Ako naiđeš na poteškoće ili imaš bilo kakvih pitanja tijekom korištenja Buddy svijeta, naš support tim je uvijek tu da ti pomogne. Slobodno nas kontaktiraj, tu smo da osiguramo da tvoje iskustvo bude glatko, ugodno i bez stresa!
       </p>
+
+      {/* Modal za korisnika koji nije prijavljen */}
+      {showModal && (
+        <div className="modal1">
+          <div className="modal-content-buddy">
+            <h2 className='modal-naslov'>Prijava potrebna</h2>
+            <p className='modal-tekst'>Morate se prijaviti da biste pristupili Buddy svijetu!</p>
+            <button onClick={closeModal} className="close-modal-btn">Zatvori</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default ZagrebBuddyInfo;
+export default BuddyInfo;

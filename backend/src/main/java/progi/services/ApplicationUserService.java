@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import progi.controllers.ProfilController.UserData;
 import progi.data.ApplicationUser;
 import progi.repositories.ApplicationUserRepository;
+import progi.utils.ApplicationUserData;
 
 @Service
 public class ApplicationUserService {
@@ -25,35 +25,58 @@ public class ApplicationUserService {
         applicationUserRepository.save(newUser);
     }
 
-    public List<String> getApplicationUsers() {
-        return applicationUserRepository.findAll().stream().map(ApplicationUser::getName).toList();
+    public List<ApplicationUser> getAllApplicationUsers() {
+        return applicationUserRepository.findAll();
+    }
 
+    public List<ApplicationUserData> getAllApplicationUsersData() {
+        return getAllApplicationUsers().stream().map((u) -> ApplicationUserData.parseApplicationUserData(u)).toList();
+    }
+
+    public ApplicationUser getApplicationUser(Long appUserId) {
+        // pronalazak korisnika prema id-ju
+        return applicationUserRepository.getReferenceById(appUserId);
+    }
+
+    public ApplicationUser getApplicationUserByGoogleId(String googleId) {
+        // pronalazak korisnika prema custom id-ju
+        return applicationUserRepository.findByGoogleId(googleId);
+    }
+
+    public ApplicationUser getApplicationUserByJmbag(String jmbag) {
+        // pronalazak korisnika prema pohranjenom jmbagu
+        return applicationUserRepository.findByJmbag(jmbag);
     }
 
     public Pair<ApplicationUser, Boolean> getOrCreateApplicationUser(ApplicationUser user) {
         // provjera postoji li user u bazi
-        Optional<ApplicationUser> foundUser = applicationUserRepository.findById(user.getId());
-        if (foundUser.isEmpty()) {
+        ApplicationUser foundUser = applicationUserRepository.findByGoogleId(user.getGoogleId());
+        if (foundUser == null) {
             // stvaranje novog ako ne postoji
             return Pair.of(applicationUserRepository.save(user), true);
         }
         // vraćanje pronađenog
-        return Pair.of(foundUser.get(), false);
+        return Pair.of(foundUser, false);
     }
 
-    public Optional<ApplicationUser> updateApplicationUser(String contextUserId, UserData userData) {
-        // čitanje trenutnog korisnika
+    public void setIsBuddy(ApplicationUser applicationUser) {
+        applicationUserRepository.save(applicationUser);
+    }
 
-        Optional<ApplicationUser> foundUserOptional = applicationUserRepository.findById(contextUserId);
-        if (foundUserOptional.isEmpty()) {
+    public Optional<ApplicationUser> getUserById(Long userId) {
+        Optional<ApplicationUser> foundUser = applicationUserRepository.findById(userId);
+        return foundUser;
+    }
+
+    public Optional<ApplicationUser> updateApplicationUserData(String contextUserId, ApplicationUserData userData) {
+        // čitanje trenutnog korisnika
+        ApplicationUser foundUser = applicationUserRepository.findByGoogleId(contextUserId);
+        if (foundUser == null) {
             return null;
         }
-
         // ažuriranje korisnikovih podataka
-        ApplicationUser foundUser = foundUserOptional.get();
-        foundUser.setName(userData.getIme());
-        foundUser.setSurname(userData.getPrezime());
-        foundUser.setBuddy(userData.isBuddy());
+        foundUser.setName(userData.getName());
+        foundUser.setSurname(userData.getSurname());
         foundUser.setJmbag(userData.getJmbag());
         foundUser.setCity(userData.getCity());
         foundUser.setStudentHome(userData.getStudentHome());
@@ -62,5 +85,9 @@ public class ApplicationUserService {
 
         applicationUserRepository.save(foundUser);
         return Optional.of(foundUser);
+    }
+
+    public void updateApplicationUser(ApplicationUser updatedUser) {
+        applicationUserRepository.save(updatedUser);
     }
 }

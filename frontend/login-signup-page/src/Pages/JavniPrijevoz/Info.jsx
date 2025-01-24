@@ -48,11 +48,6 @@ const ZagrebPublicTransportInfo = () => {
         <li>ZET nudi besplatne vožnje za starije od 65 godina i osobe s invaliditetom</li>
       </ul>
       
-      <p>
-        Korištenje javnog prijevoza u Zagrebu ne samo da je ekonomično, već i ekološki prihvatljivo. 
-        Sustav kontinuirano radi na poboljšanju usluge, uvođenju novih vozila i proširenju mreže 
-        kako bi se zadovoljile potrebe rastućeg grada.
-      </p>
 
       <p className="note">
         Napomena: Cijene karata i pokaza, kao i raspored vožnji, podložni su promjenama. 

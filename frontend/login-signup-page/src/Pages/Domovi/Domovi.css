@@ -8,12 +8,11 @@ body {
 }	
 
 .domovi-container {
-    width: 100%;
+  width: 100%;
     height: 80vh;
-    /* background-image: url('../../Components/assets/domovi_slika.png'), linear-gradient(to bottom, transparent 50%, #ffffff 50%); */
-    background-color: gray;
+    background: linear-gradient(rgba(232, 212, 149, 0.7),rgba(8,0,58,0.7)), url('../../Components/assets/dom-pozadina.jpg');
     background-blend-mode: multiply;
-    background-size: 100% 68%, 100% 100%;
+    background-size: 100% 100%, 100% 100%;
     background-repeat: no-repeat;
     background-position: top left, center;
     color: #fff;
@@ -22,35 +21,52 @@ body {
     justify-content: center;
 }
 
-.domovi-main {
-  flex-grow: 1;
-  border-radius: 15px;
-  width:100%;
-  margin-left: auto;
-  margin-top: 150px;
-  padding: 0px 2rem;
-}
-
-h1 {
-  font-size: 3.5rem;
+.domovi-naslov{
+  font-size: 3.8rem;
   font-weight: bold;
-  color: #ffffff;
+  color: #34db85;
   margin-bottom: 1.5rem;
   text-align: center;
-  text-shadow: 4px 4px 5px rgba(0, 0, 0, 0.7);
+  text-shadow: 3px 5px 5px rgba(0, 0, 0, 0.9);
 }
 
-.carousel-container {
-  position: relative;
+.carousel .slide .item{  
+  height: 100%;
+  border-radius: 20px;
+  background-position: 50% 50%;
+  background-size: cover;
+  display: inline-block;
+  transition: 0.5s;
 }
 
-.carousel-button {
+.item {
+  box-shadow: 0 30px 50px #505050;
+}
+
+.slide {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  display: flex;
+  
+}
+
+.slide .item:nth-child(2){
+  top: 0;
+  left: 0;
+}
+
+.carousel-button.right {
+  right: 0;
+}
+
+.domovi-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 10;
-  background-color: #dcc4a4;
-  color: #333;
+  z-index: 1;
+  background-color: #34db85;
+  color: #ffffff;
   padding: 0.5rem;
   border-radius: 50%;
   border: none;
@@ -59,17 +75,19 @@ h1 {
   transition: background-color 0.2s;
 }
 
-.carousel-button:hover {
-  background-color: #c0a88f;
+.domovi-button:hover {
+  background-color: #9cced6;
 }
 
-.carousel-button.left {
+.domovi-button.left {
   left: 0;
 }
 
-.carousel-button.right {
+.domovi-button.right {
   right: 0;
 }
+
+
 
 .carousel {
   display: flex;
@@ -84,16 +102,16 @@ h1 {
   display: none;
 }
 
-.dorm-card {
+.domovi-card {
   display: flex;
   flex-shrink: 0;
   width: 100%;
   scroll-snap-align: center;
 }
 
-.dorm-content {
+.domovi-content {
   background-color: #34db85 ;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 1.5rem;
   margin: 1rem;
@@ -115,8 +133,9 @@ h1 {
 .h2D1 {
   font-size: 1.5rem;
   font-weight: bold;
+  text-align: center;
   color: #333;
-  margin-bottom: 0.5rem;
+  margin-bottom: 20px;
 }
 
 .dorm-content p {
@@ -288,9 +307,15 @@ h1 {
     font-size: 2.5rem;
   }
   .dorm-content {
-    width: 60%;
+    width: fit-content;
   }
   .domovi-container {
-    height: 70%;
+    height: fit-content;
+  }
+  .domovi-main h1{
+    font-size: 2.5rem;
+  }
+  .dorm-card{
+    height: 200px;
   }
 }

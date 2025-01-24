@@ -1,45 +1,33 @@
-'use client'
-
 import React, { useState, useRef, useEffect } from 'react'
 import { ChevronLeft, ChevronRight, ChevronDown, Search } from 'lucide-react'
-import './Domovi.css'
+import './Buddy.css'
 
 const buddy = [
   {
     id: 'dorms',
-    name: 'Studentski domovi',
-    description: 'Buddy može pomoći s informacijama o studentskim domovima u Zagrebu, uključujući vrste smještaja, lokacije i posebne značajke svakog doma.'
+    name: 'Osjećaj se kao doma',
+    description: 'Pridruži se Buddy svijetu i dobit ćeš prijatelja koji će ti pomoći da se osjećaš dobrodošlo, sigurnije i opuštenije na kampusu.'
   },
   {
     id: 'faculties',
-    name: 'Fakulteti',
-    description: 'Buddy pruža informacije o zagrebačkim fakultetima, uključujući njihove glavne studijske programe i korisne informacije za studente.'
+    name: 'Ubrzaj prilagodbu',
+    description: 'Tvoj Buddy te vodi kroz sve što ti je novo, od prijava na kolegije do upoznavanja s najboljim mjestima za kavu. Brže ćeš se prilagoditi uz njegovu podršku.'
   },
   {
     id: 'publicTransport',
-    name: 'Javni prijevoz',
-    description: 'Buddy može pomoći s informacijama o javnom prijevozu u Zagrebu, poput tramvajskih i autobusnih linija, prigradskih vlakova te usluga poput javnih bicikala i taksija.'
+    name: 'Postani prijatelj za pamćenje',
+    description: 'Buddy svijet nudi priliku da ostaviš trajni trag u životima novih studenata. Kao Buddy, ti postaješ njihov vodič kroz kampus i svijet studiranja, pomažući im da se osjećaju dobrodošlo i sigurno.'
   },
   {
     id: 'cafeterias',
-    name: 'Studentske menze',
-    description: 'Buddy nudi informacije o menzama u Zagrebu, njihovim lokacijama, radnim vremenima i vrstama jela koja su dostupna studentima.'
+    name: 'Inspiriraj i budi inspiriran',
+    description: 'Pomaganje drugima može biti tvoje najveće postignuće. Kao Buddy, ne samo da pomažeš novim studentima, već ih inspiriraš da i oni postanu podrška drugima u budućnosti.'
   },
   {
     id: 'studentDiscounts',
-    name: 'Studentski popusti',
-    description: 'Buddy zna sve o raznim studentskim popustima u Zagrebu, uključujući popuste na javni prijevoz, kulturne događaje i sportske aktivnosti.'
+    name: 'Budi oslonac za nove početke',
+    description: 'Za nove studente, prvi koraci na kampusu mogu biti zbunjujući. Kao Buddy, ti si taj koji im pomaže pronaći smjer, izgraditi samopouzdanje i otkriti sve što kampus nudi.'
   },
-  {
-    id: 'cityAttractions',
-    name: 'Gradske atrakcije',
-    description: 'Buddy preporučuje atrakcije i zanimljiva mjesta u Zagrebu koja studenti mogu posjetiti, uključujući muzeje, parkove i kulturne znamenitosti.'
-  },
-  {
-    id: 'events',
-    name: 'Događanja',
-    description: 'Buddy informira o događanjima u gradu koja su popularna među studentima, kao što su festivali, koncerti i sportski događaji.'
-  }
 ];
 
 // Assume we have a list of comments
@@ -108,14 +96,14 @@ export default function Menze() {
   }, [])
 
   return (
-    <div className="domovi-container">
+    <div className="buddy-container">
       <main className="domovi-main">
-        <h1>Buddy u CampusHero aplikaciji</h1>
+        <h1 className='buddy-naslov'>Što nudi Buddy svijet u CampusHero aplikaciji?</h1>
         
         <div className="carousel-container">
           <button 
             onClick={() => scrollTo((activeDorm - 1 + buddy.length) % buddy.length)}
-            className="carousel-button left"
+            className="buddy1-button left"
           >
             <ChevronLeft className="icon" />
           </button>
@@ -125,9 +113,9 @@ export default function Menze() {
           >
             {buddy.map((dorm) => (
               <div key={dorm.id} className="dorm-card">
-                <div className="dorm-content">
+                <div className="buddy1-content">
                   
-                  <h2 className="h2B1">{dorm.name}</h2>
+                  <h2 className="h2Buddy">{dorm.name}</h2>
                   <p>{dorm.description}</p>
                 </div>
               </div>
@@ -135,7 +123,7 @@ export default function Menze() {
           </div>
           <button 
             onClick={() => scrollTo((activeDorm + 1) % buddy.length)}
-            className="carousel-button right"
+            className="buddy1-button right"
           >
             <ChevronRight className="icon" />
           </button>

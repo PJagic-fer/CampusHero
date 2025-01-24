@@ -1,21 +1,20 @@
 package progi.data;
 
-import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 
 @Entity
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Faculty {
 
     @Id
-    @SequenceGenerator(
-            name = "faculty_sequence",
-            sequenceName = "faculty_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "faculty_sequence"
-    )
+    @SequenceGenerator(name = "faculty_sequence", sequenceName = "faculty_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "faculty_sequence")
     private Long id;
 
     private String name;
@@ -24,7 +23,8 @@ public class Faculty {
 
     private String streetNumber;
 
-    public Faculty() {}
+    public Faculty() {
+    }
 
     public Faculty(String name, String street, String streetNumber) {
         this.name = name;
@@ -54,5 +54,9 @@ public class Faculty {
 
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
+    }
+
+    public Long getId() {
+        return id;
     }
 }

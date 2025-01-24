@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./frontend/login-signup-page/src",
+        "checkJs": true,
+        "jsx": "react",
+    }
+}

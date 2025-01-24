@@ -33,6 +33,8 @@
 }
 
 .guide {
+    border: 0px;
+    background-color: transparent;
     flex-basis: 31%; /* Širina svakog vodiča */
     position: relative;
 }

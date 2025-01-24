@@ -1,4 +1,4 @@
-.iskustva {
+.iskustva1 {
     margin: 80px auto;
     padding: 0  80px;
     position: relative;
@@ -20,23 +20,23 @@
     left: 0;
 }
 
-.slider {
+.slider1 {
     overflow: hidden;
 }
-.slider ul {
+.slider1 ul {
     display: flex;
     width: 200%;
     overflow-x: hidden;
     transition: 0.5s;
 }
 
-.slider ul li {
+.slider1 ul li {
     list-style: none;
     width: 50%;
     padding: 20px;
 }
 
-.slide {
+.slide1 {
     box-shadow: 0 0 20px rgba(0,0,0,0.05);
     padding: 40px;
     border-radius: 10px;
@@ -44,54 +44,58 @@
     line-height: 1.4;
 }
 
-.slide img{
+.slide1 img{
     width: 65px;
     border-radius: 50%;
     margin-right: 10px;
     border: 4px solid #7f84b7cd;
 }
 
-.user-info {
+.user-info1 {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
     font-size: 15px;
 }
 
-.user-info h3 {
+.user-info1 h3 {
     color: #7f84b7cd;
 }
 
+.slide1 p {
+    font-size: 18px;
+}
+
 @media (max-width: 800px){
-    .iskustva {
+    .iskustva1 {
         padding: 0 40px;
     }
     .next-btn, .back-btn {
         padding: 10px;
         width: 35px;
     }
-    .iskustva ul li {
+    .iskustva1 ul li {
         padding: 10px;
     }
-    .slide {
+    .slide1 {
         padding: 10px;
     }
-    .slide img {
+    .slide1 img {
         width: 50px;
         border: 3px solid #7f84b7cd;
     }
 }
 
 @media (max-width: 600px) {
-    .user-info {
+    .user-info1 {
         display: block;
         margin-bottom: 10px;
         font-size: 12px;
     }
-    .user-info h3{
+    .user-info1 h3{
         font-size: 16px;
     }
-    .slider p {
+    .slider1 p {
         font-size: 12px;
     }
 }

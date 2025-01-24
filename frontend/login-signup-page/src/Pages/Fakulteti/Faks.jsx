@@ -1,102 +1,54 @@
-'use client'
+"use client"
+import { useNavigate } from "react-router-dom"
+import React, { useState, useRef, useEffect, useContext } from "react"
+import { ChevronLeft, ChevronRight, Star } from "lucide-react"
+import "./Faks.css"
+import axios from "axios"
+import { AppStateContext } from "../../context/AppStateProvider"
 
-import React, { useState, useRef, useEffect } from 'react'
-import { ChevronLeft, ChevronRight, ChevronDown, Search } from 'lucide-react'
-import './Domovi.css'
-
-const faculties = [
-  {
-    id: 'fer',
-    name: 'Fakultet elektrotehnike i računarstva (FER)',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Vodeći tehnički fakultet u Hrvatskoj, poznat po inovacijama i visokim standardima u obrazovanju.'
-  },
-  {
-    id: 'ffzg',
-    name: 'Filozofski fakultet (FFZG)',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Najveći fakultet društvenih i humanističkih znanosti u Zagrebu, nudi široki spektar studijskih programa.'
-  },
-  {
-    id: 'pravo',
-    name: 'Pravni fakultet',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Renomirani fakultet za studij prava s dugom tradicijom i izvrsnim profesorima.'
-  },
-  {
-    id: 'fkit',
-    name: 'Fakultet kemijskog inženjerstva i tehnologije (FKIT)',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Fakultet specijaliziran za kemijsko inženjerstvo, tehnologiju i okoliš.'
-  },
-  {
-    id: 'fefzg',
-    name: 'Ekonomski fakultet (EFZG)',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Vodeći ekonomski fakultet u Hrvatskoj, pruža znanja iz ekonomije, menadžmenta i financija.'
-  },
-  {
-    id: 'arhitektura',
-    name: 'Arhitektonski fakultet',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Fakultet za studij arhitekture i urbanizma s naglaskom na dizajn i prostorno planiranje.'
-  },
-  {
-    id: 'pmf',
-    name: 'Prirodoslovno-matematički fakultet (PMF)',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Fakultet specijaliziran za prirodne znanosti i matematiku, s visokim standardima istraživanja i obrazovanja.'
-  },
-  {
-    id: 'medicina',
-    name: 'Medicinski fakultet',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Ugledan fakultet za obrazovanje u medicini i zdravstvu, poznat po istraživanjima i kliničkom radu.'
-  },
-  {
-    id: 'fpu',
-    name: 'Akademija likovnih umjetnosti (ALU)',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Fakultet umjetničkog usmjerenja s programima iz slikarstva, kiparstva i drugih umjetničkih disciplina.'
-  },
-  {
-    id: 'kif',
-    name: 'Kineziološki fakultet (KIF)',
-    image: '/placeholder.svg?height=200&width=300',
-    description: 'Fakultet za obrazovanje u sportu i tjelesnoj kulturi, nudi programe iz kineziologije i sportskog treninga.'
-  }
-];
-
-
-// Assume we have a list of comments
-const comments = Array.from({ length: 100 }, (_, i) => `Komentar ${i + 1}`)
-const commentsPerPage = 10
+const StarRating = ({ rating, onRate, onHover, hoveredRating }) => {
+  return (
+    <div className="star-rating">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span
+          key={star}
+          className={`star ${star <= (hoveredRating || rating) ? "active" : ""}`}
+          onClick={() => onRate(star)}
+          onMouseEnter={() => onHover(star)}
+          onMouseLeave={() => onHover(0)}
+        >
+          <Star size={25} fill={star <= (hoveredRating || rating) ? "gold" : "none"} />
+        </span>
+      ))}
+    </div>
+  )
+}
 
 export default function Faksevi() {
-  const [activeDorm, setActiveDorm] = useState(0)
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const navigate = useNavigate();
+  const { user, fetch_path } = useContext(AppStateContext)
+  const [activeFaculty, setActiveFaculty] = useState(0)
+  const [faculties, setFaculties] = useState([])
   const scrollContainerRef = useRef(null)
-  const [currentPage, setCurrentPage] = useState(1)
-  const [searchTerm, setSearchTerm] = useState('')
+  const [reviews, setReviews] = useState([])
+  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+  const [review, setReview] = useState({
+    rating: 0,
+    description: "",
+  })
+  const [hoveredRating, setHoveredRating] = useState(0)
 
-  const totalPages = Math.ceil(comments.length / commentsPerPage)
+  useEffect(() => {
+    getAttributeValues()
+  }, [])
 
-  const filteredComments = comments.filter(comment => 
-    comment.toLowerCase().includes(searchTerm.toLowerCase())
-  )
-
-  const paginatedComments = filteredComments.slice(
-    (currentPage - 1) * commentsPerPage,
-    currentPage * commentsPerPage
-  )
-
-  const pageNumbers = []
-  if (totalPages <= 10) {
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i)
+  const getAttributeValues = async () => {
+    try {
+      const response = await axios.get(`${fetch_path}/fakulteti`)
+      setFaculties(response.data)
+    } catch (error) {
+      console.error("Neuspješno dohvaćanje elemenata", error)
     }
-  } else {
-    pageNumbers.push(1, 2, 3, '...', totalPages - 2, totalPages - 1, totalPages)
   }
 
   const scrollTo = (index) => {
@@ -105,22 +57,60 @@ export default function Faksevi() {
       const child = container.children[index]
       container.scrollTo({
         left: child.offsetLeft - container.offsetWidth / 2 + child.offsetWidth / 2,
-        behavior: 'smooth'
+        behavior: "smooth",
       })
     }
-    setActiveDorm(index)
-    setIsDropdownOpen(false)
+    setActiveFaculty(index)
   }
 
   const handleScroll = () => {
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current
       const scrollPosition = container.scrollLeft + container.offsetWidth / 2
-      const newActiveDorm = Array.from(container.children).findIndex((child) => {
+      const newActiveFaculty = Array.from(container.children).findIndex((child) => {
         return child.offsetLeft <= scrollPosition && scrollPosition <= child.offsetLeft + child.offsetWidth
       })
-      if (newActiveDorm !== -1 && newActiveDorm !== activeDorm) {
-        setActiveDorm(newActiveDorm)
+      if (newActiveFaculty !== -1 && newActiveFaculty !== activeFaculty) {
+        setActiveFaculty(newActiveFaculty)
+      }
+    }
+  }
+
+  const fetchReviews = async (facultyId) => {
+    try {
+      const response = await axios.get(
+        `${fetch_path}/recenzije?facultyId=${facultyId}&studentHomeId=null&canteenId=null&userId=null`,
+      )
+      setReviews(response.data)
+    } catch (error) {
+      console.error("Error fetching reviews:", error)
+    }
+  }
+
+  const handleSubmitReview = async (e) => {
+    e.preventDefault()
+    try {
+      await axios.post(
+        `${fetch_path}/recenzije`,
+        {
+          faculty: {
+            id: faculties[activeFaculty].id,
+          },
+          score: review.rating,
+          message: review.description,
+        },
+        { withCredentials: true },
+      )
+      setIsReviewModalOpen(false)
+      fetchReviews(faculties[activeFaculty].id)
+      setReview({ rating: 0, description: "" })
+    } catch (error) {
+      if (error.response && error.response.status === 413) {
+        alert('Poruka je predugačka.');
+        console.error(error)
+      }
+      else{
+        console.error("Error posting review:", error)
       }
     }
   }
@@ -128,46 +118,128 @@ export default function Faksevi() {
   useEffect(() => {
     const container = scrollContainerRef.current
     if (container) {
-      container.addEventListener('scroll', handleScroll)
-      return () => container.removeEventListener('scroll', handleScroll)
+      container.addEventListener("scroll", handleScroll)
+      return () => container.removeEventListener("scroll", handleScroll)
     }
   }, [])
 
+  useEffect(() => {
+    if (faculties.length > 0) {
+      fetchReviews(faculties[activeFaculty].id)
+    }
+  }, [activeFaculty, faculties])
+
+  const handleDeleteReview = async (reviewId) => {
+    try {
+      await axios.post(
+        `${fetch_path}/admin/review/`,
+        { value: reviewId },
+        {
+          withCredentials: true,
+        },
+      )
+      // Refresh the reviews list after deletion
+      fetchReviews(faculties[activeFaculty].id)
+    } catch (error) {
+      console.error("Error deleting a review:", error)
+    }
+  }
+
   return (
-    <div className="domovi-container">
+    <div className="faks-container">
       <main className="domovi-main">
-        <h1>Fakulteti u Zagrebu</h1>
-        
+        <h1 className="faks-naslov">Otkrij sve što trebaš znati o fakultetima, tvoje obrazovanje počinje ovdje</h1>
+
         <div className="carousel-container">
-          <button 
-            onClick={() => scrollTo((activeDorm - 1 + faculties.length) % faculties.length)}
-            className="carousel-button left"
+          <button
+            onClick={() => scrollTo((activeFaculty - 1 + faculties.length) % faculties.length)}
+            className="faks-button left"
           >
             <ChevronLeft className="icon" />
           </button>
-          <div 
-            ref={scrollContainerRef}
-            className="carousel"
-          >
-            {faculties.map((dorm) => (
-              <div key={dorm.id} className="dorm-card">
-                <div className="dorm-content">
-                  
-                  <h2 className="h2F1">{dorm.name}</h2>
-                  <p>{dorm.description}</p>
+          <div ref={scrollContainerRef} className="carousel">
+            {faculties.map((faculty) => (
+              <div key={faculty.id} className="dorm-card">
+                <div className="dorm-content4">
+                  <h2 className="h2F1">{faculty.name}</h2>
+                  <div className="rating-container">
+                    <StarRating
+                      rating={review.rating}
+                      hoveredRating={hoveredRating}
+                      onRate={(rating) => {
+                        setReview((prev) => ({ ...prev, rating }))
+                        setIsReviewModalOpen(true)
+                      }}
+                      onHover={setHoveredRating}
+                    />
+                    <button onClick={() => navigate("./Forum")}>Forum</button>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
-          <button 
-            onClick={() => scrollTo((activeDorm + 1) % faculties.length)}
-            className="carousel-button right"
-          >
+          <button onClick={() => scrollTo((activeFaculty + 1) % faculties.length)} className="faks-button right">
             <ChevronRight className="icon" />
           </button>
         </div>
-        
       </main>
+      {isReviewModalOpen && faculties.length > 0 && (
+        <div className="modal-overlays">
+          <div className="modal review-popup">
+            <h2>Reviews for {faculties[activeFaculty].name}</h2>
+            <div className="review-summary">
+              <StarRating
+                rating={review.rating}
+                hoveredRating={hoveredRating}
+                onRate={(rating) => setReview((prev) => ({ ...prev, rating }))}
+                onHover={setHoveredRating}
+              />
+            </div>
+            {user.id && (
+              <form onSubmit={handleSubmitReview}>
+                <div className="form-group">
+                  <label htmlFor="reviewDescription">Recenzija</label>
+                  <textarea
+                    id="reviewDescription"
+                    value={review.description}
+                    onChange={(e) => setReview((prev) => ({ ...prev, description: e.target.value }))}
+                    placeholder="Reci nam više o svom iskustvu..."
+                    required
+                  />
+                </div>
+                <div className="modal-buttons">
+                  <button type="submit" className="submit-button">
+                    Objavi recenziju
+                  </button>
+                  <button className="cancel-button" onClick={() => setIsReviewModalOpen(false)}>
+                    Zatvori
+                  </button>
+                </div>
+              </form>
+            )}
+            <div className="reviews-list">
+              {reviews.map((review, index) => (
+                <div key={index} className="review-item">
+                  <div className="review-rating">
+                    <StarRating rating={review.score} hoveredRating={0} onRate={() => {}} onHover={() => {}} />
+                  </div>
+                  <p>{review.message}</p>
+                  <div className="review-meta">
+                    <span>Reviewed by {review.creator.name + " " + review.creator.surname || "Anonymous"}</span>
+                    {user.isAdmin && (
+                      <button className="delete-button" onClick={() => handleDeleteReview(review.id)}>
+                        {" "}
+                        Izbriši{" "}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+

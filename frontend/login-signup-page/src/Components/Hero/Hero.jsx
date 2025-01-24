@@ -1,6 +1,6 @@
 import React from 'react'
 import './Hero.css'
-import strelica from '../assets/strelica.png'
+import strelica from "../assets/strelica.png"
 import { Link } from 'react-scroll'
 
 const Hero = () => {
