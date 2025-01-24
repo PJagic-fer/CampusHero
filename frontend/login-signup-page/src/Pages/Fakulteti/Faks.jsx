@@ -132,7 +132,7 @@ export default function Faksevi() {
   const handleDeleteReview = async (reviewId) => {
     try {
       await axios.post(
-        "http://localhost:8080/campus-hero/admin/review/",
+        `${fetch_path}/admin/review/`,
         { value: reviewId },
         {
           withCredentials: true,

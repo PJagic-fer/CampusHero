@@ -47,7 +47,7 @@ export default function FacultyForum() {
   const handleDeleteReview = async (reviewId) => {
     try {
       await axios.post(
-        "http://localhost:8080/campus-hero/admin/review/",
+        `${fetch_path}/admin/review/`,
         { value: reviewId },
         {
           withCredentials: true,
@@ -63,7 +63,7 @@ export default function FacultyForum() {
   const handleDeleteQuestion = async (questionId) => {
     try {
       await axios.post(
-        "http://localhost:8080/campus-hero/admin/post",
+        `${fetch_path}/admin/post`,
         { value: questionId },
         {
           withCredentials: true,
@@ -82,7 +82,7 @@ export default function FacultyForum() {
   const handleDeleteAnswer = async (answerId) => {
     try {
       await axios.post(
-        "http://localhost:8080/campus-hero/admin/post",
+        `${fetch_path}/admin/post`,
         { value: answerId },
         {
           withCredentials: true,

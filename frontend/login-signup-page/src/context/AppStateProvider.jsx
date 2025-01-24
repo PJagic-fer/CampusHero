@@ -22,8 +22,8 @@ export const AppStateProvider = ({children}) => {
         buddy: null,
         isAdmin: Boolean(false)
     });
-    //const fetch_path = "https://campus-hero.onrender.com/campus-hero";
-    const fetch_path = "http://localhost:8080/campus-hero";
+    const fetch_path = "https://campus-hero.onrender.com/campus-hero";
+    //const fetch_path = "http://localhost:8080/campus-hero";
 
     //AppState provider se omotava oko djece i predaje im korisnika u kontekstu
     return (

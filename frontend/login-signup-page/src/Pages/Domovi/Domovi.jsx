@@ -132,7 +132,7 @@ export default function Domovi() {
 
   const handleDeleteReview = async (reviewId) => {
     try {
-      await axios.post('http://localhost:8080/campus-hero/admin/review/', 
+      await axios.post(`${fetch_path}/admin/review/`, 
       {"value":reviewId}, {
         withCredentials: true
       });

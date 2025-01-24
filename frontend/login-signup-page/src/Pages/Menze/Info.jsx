@@ -38,7 +38,7 @@ const ZagrebCanteensInfo = () => {
 
   const fetchCrowdData = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/campus-hero/menze/guzva")
+      const response = await axios.get(`${fetch_path}/menze/guzva`)
       const currentHourData = response.data.filter((entry) => {
         const entryTime = new Date(entry.time)
         const now = new Date()

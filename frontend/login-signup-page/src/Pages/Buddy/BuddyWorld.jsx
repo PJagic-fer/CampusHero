@@ -3,10 +3,9 @@ import "./BuddyWorld.css"
 import axios from "axios"
 import { AppStateContext } from "../../context/AppStateProvider"
 import { Star } from "lucide-react"
-import { set } from "react-hook-form"
 
 const BuddyWorld = () => {
-  const { fetch_path, user } = useContext(AppStateContext)
+  const { fetch_path, user, setUser } = useContext(AppStateContext)
 
   const [activeSection, setActiveSection] = useState("") // Praćenje aktivnog dijela
   const [filter, setFilter] = useState({ city: "", studentHome: "", faculty: "" }) // Filtri za fakultet i mjesto
@@ -41,8 +40,7 @@ const BuddyWorld = () => {
     } else if (activeSection == "manageStudents") {
       fetchStudentRequestList()
     } else if (activeSection === "manageBuddy") {
-      fetchStudentRequestList()
-      fetchMyBuddy()
+      setMyBuddy(user.buddy)
     }
   }, [activeSection])
 
@@ -258,19 +256,6 @@ const BuddyWorld = () => {
     ))
   }
 
-  const fetchMyBuddy = async () => {
-    try {
-      const response = await axios.get(`${fetch_path}/buddy-sustav/buddy/${user.buddy.id}`, {
-        withCredentials: true,
-      })
-      if (response.status === 200) {
-        setMyBuddy(response.data)
-      }
-    } catch (error) {
-      console.error("Error fetching my buddy:", error)
-    }
-  }
-
   const fetchBuddyReviews = async (buddyId) => {
     // Added function to fetch buddy reviews
     try {
@@ -357,7 +342,8 @@ const BuddyWorld = () => {
         withCredentials: true,
       })
       if (response.status === 200) {
-        window.location.reload()
+        setMyBuddy(null);
+        setUser((prevUser) => ({...prevUser, buddy: null}));
         alert("Buddy successfully removed.")
       }
     } catch (error) {

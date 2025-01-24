@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from "react"
+import React, { useContext, useState, useEffect } from "react"
 import axios from "axios"
 import "./CanteenDetailView.css"
 import { TodayDataSection } from "./TodayDataSection"
 import { DataSection } from "./DataSection"
+import { AppStateContext } from '../../context/AppStateProvider'
 
 const CanteenDetailView = ({ canteen, onClose }) => {
+  const {fetch_path} = useContext(AppStateContext);
+
   const [todayData, setTodayData] = useState([])
   const [currentHourData, setCurrentHourData] = useState([])
   const [lastFewDaysData, setLastFewDaysData] = useState([])
@@ -29,21 +32,21 @@ const CanteenDetailView = ({ canteen, onClose }) => {
 
   const fetchCanteenData = async () => {
     try {
-      const todayResponse = await axios.get(`http://localhost:8080/campus-hero/menze/guzva/${canteen.id}/danas`)
+      const todayResponse = await axios.get(`${fetch_path}/menze/guzva/${canteen.id}/danas`)
       setTodayData(todayResponse.data)
 
       const currentHourResponse = await axios.get(
-        `http://localhost:8080/campus-hero/menze/guzva/${canteen.id}/danas-ovaj-sat`,
+        `${fetch_path}/menze/guzva/${canteen.id}/danas-ovaj-sat`,
       )
       setCurrentHourData(currentHourResponse.data)
 
       const lastFewDaysResponse = await axios.get(
-        `http://localhost:8080/campus-hero/menze/guzva/${canteen.id}/nekoliko-dana-ovaj-sat`,
+        `${fetch_path}/menze/guzva/${canteen.id}/nekoliko-dana-ovaj-sat`,
       )
       setLastFewDaysData(lastFewDaysResponse.data)
 
       const nextHourResponse = await axios.get(
-        `http://localhost:8080/campus-hero/menze/guzva/${canteen.id}/nekoliko-dana-sljedeci-sat`,
+        `${fetch_path}/menze/guzva/${canteen.id}/nekoliko-dana-sljedeci-sat`,
       )
       setNextHourData(nextHourResponse.data)
     } catch (error) {
